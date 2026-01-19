@@ -9,87 +9,44 @@ void CameraController::Initialize()
 
 }
 
-//更新処理
 void CameraController::Update(float elapsedTime)
 {
-	/*GamePad& gamePad = Input::Instance().GetGamePad();*/
 	Mouse& mouse = Input::Instance().GetMouse();
 
-	CameraController::MouseCamera(elapsedTime);
+	float mouseDeltaX = mouse.GetDeltaPositionX();
+	float mouseDeltaY = mouse.GetDeltaPositionY();
 
-	//float mouseDeltaPosX = mouse.GetPositionX() - mouse.GetOldPositionX();
-	//float mouseDeltaPosY = mouse.GetPositionY() - mouse.GetOldPositionY();
-	float mouseDeltaPosX = mouse.GetDeltaPositionX();
-	float mouseDeltaPosY = mouse.GetDeltaPositionY();
+	// マウスで回転（Y軸のみ）
+	//angle.y += mouseDeltaX * 0.002f;
 
-	float movePower = 0.01f;
+	// 高さと距離（俯瞰用）
+	float height = 18.0f;
+	float distance = 12.0f;
 
-	float ax = mouseDeltaPosX * movePower;
-	float ay = mouseDeltaPosY * movePower;
-	
-	angle.x -= ay * 0.2f;
-	angle.y += ax * 0.2f;
+	// Y回転だけの行列
+	DirectX::XMMATRIX rotY = DirectX::XMMatrixRotationY(angle.y);
 
+	// 後ろ方向ベクトル
+	DirectX::XMVECTOR back =
+		DirectX::XMVector3TransformCoord(
+			DirectX::XMVectorSet(0, 0, -distance, 0),
+			rotY
+		);
 
-	//X軸のカメラ回転を制限
-	if (angle.x < minAngleX)
-	{
-		angle.x = minAngleX;
-	}
-	if (angle.x > maxAngleX)
-	{
-		angle.x = maxAngleX;
-	}
+	DirectX::XMFLOAT3 backDir;
+	DirectX::XMStoreFloat3(&backDir, back);
 
-	if (angle.y < minAngleY)
-	{
-		angle.y = minAngleY;
-	}
-	if (angle.y > maxAngleY)
-	{
-		angle.y = maxAngleY;
-	}
+	eye.x = target.x + backDir.x;
+	eye.y = target.y + height;
+	eye.z = target.z + backDir.z;
 
-
-	//Y軸の回転値を-3.14～3.14に収まるようにする
-	if (angle.y < -DirectX::XM_PI)
-	{
-		angle.y += DirectX::XM_2PI;
-	}
-	if (angle.y > DirectX::XM_PI)
-	{
-		angle.y -= DirectX::XM_2PI;
-	}
-
-	//カメラ回転値を回転行列に変換
-	DirectX::XMMATRIX Transform = DirectX::XMMatrixRotationRollPitchYaw(angle.x, angle.y, angle.z);
-
-	//回転行列から前方向ベクトルを取り出す
-	DirectX::XMVECTOR Front = Transform.r[2];
-	DirectX::XMFLOAT3 front;
-	DirectX::XMStoreFloat3(&front, Front);
-
-	//注視点から後ろベクトル方向に一定距離離れたカメラ視点を求める
-	
-	eye.x = target.x - front.x;// *range;
-	eye.y = target.y + front.y;// *range;
-	eye.z = target.z - front.z;// *range;
-
-	//向いている方向のベクトルを計算で出す
-	dir.x = target.x - eye.x;
-	dir.y = target.y - eye.y;
-	dir.z = target.z - eye.z;
-	float len = sqrt(dir.x * dir.x + dir.y * dir.y + dir.z * dir.z);
-	dir.x /= len;
-	dir.y /= len;
-	dir.z /= len;
-
-	//カメラの視点と注視点を設定
-	Camera::Instance().SetLookAt(eye, target, DirectX::XMFLOAT3(0, 1, 0));
-
-	//SetCursorPos(Graphics::Instance().GetScreenWidth() / 2.0f, Graphics::Instance().GetScreenHeight() / 2.0f);
-	//mouse.Update();
+	Camera::Instance().SetLookAt(
+		eye,
+		target,
+		DirectX::XMFLOAT3(0, 1, 0)
+	);
 }
+
 
 void CameraController::MouseCamera(float elapsedTime)
 {
