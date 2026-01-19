@@ -25,7 +25,7 @@ public:
 	//GUI•`‰æ
 	void DrawGUI() override;
 
-	void answerCheck();
+	//void answerCheck();
 
 private:
 	Sprite* sprite = nullptr;

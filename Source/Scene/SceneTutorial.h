@@ -6,8 +6,6 @@
 #include "DirectXMath.h"
 #include "System/Sprite.h"
 #include "Scene.h"
-#include "../Game/Balloon.h"
-#include "../Game/Board.h"
 #include "../Game/Box.h"
 
 // ÉQÅ[ÉÄÉVÅ[Éì
@@ -31,31 +29,6 @@ public:
 
 	// GUIï`âÊ
 	void DrawGUI() override;
-
-private:
-	Stage* stage = nullptr;
-
-	Player* player = nullptr;
-
-	Sprite* sprite = nullptr;
-
-	Balloon* balloon = nullptr;
-
-	Board* board = nullptr;
-
-	Box* box = nullptr;
-
-	Sprite* sprite2 = nullptr;
-	Sprite* sprite3 = nullptr;
-
-	CameraController* cameraController = nullptr;
-	int change = 0;
-	
-public:
 	
 
-	SceneTutorial(Stage* stage, Player* player, CameraController* cameraController)
-		: stage(stage), player(player), cameraController(cameraController)
-	{
-	}
 };

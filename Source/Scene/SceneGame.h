@@ -60,9 +60,9 @@ public:
 		models[3] = new Model("Data/Model/Target/target_4.mdl");
 
 		//ñ‚ëËï∂ÇÃÉçÅ[Éh
-		extern Model* model_boad[21];
+		//extern Model* model_boad[21];
 
-		model_boad[0] = new Model("Data/Model/Boad/boad_tutorial.mdl");
+		/*model_boad[0] = new Model("Data/Model/Boad/boad_tutorial.mdl");
 		model_boad[1] = new Model("Data/Model/Boad/boad_1.mdl");
 		model_boad[2] = new Model("Data/Model/Boad/boad_2.mdl");
 		model_boad[3] = new Model("Data/Model/Boad/boad_3.mdl");
@@ -82,7 +82,7 @@ public:
 		model_boad[17] = new Model("Data/Model/Boad/boad_17.mdl");
 		model_boad[18] = new Model("Data/Model/Boad/boad_18.mdl");
 		model_boad[19] = new Model("Data/Model/Boad/boad_19.mdl");
-		model_boad[20] = new Model("Data/Model/Boad/boad_20.mdl");
+		model_boad[20] = new Model("Data/Model/Boad/boad_20.mdl");*/
 
 	};
 

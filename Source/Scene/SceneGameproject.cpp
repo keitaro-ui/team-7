@@ -62,11 +62,9 @@ void SceneGameproject::Initialize()
 	for (int i = 0; i < 20; i++)
 	{
 		//EnemySlime* target = new EnemySlime();
-		balloon = new Balloon();
 		/*target->setobjnum(i);*/
 
 		//Board* board = new Board();
-		board = new Board();
 
 		//Box* box = new Box();
 		box = new Box();
@@ -80,23 +78,13 @@ void SceneGameproject::Initialize()
 		std::uniform_real_distribution<float>dist2(0.5f, 4.0f);
 		std::uniform_real_distribution<float>dist3(5.0f, 10.0f);
 
-		balloon->SetPosition(DirectX::XMFLOAT3(dist(gen), dist2(gen), dist3(gen)));
-		balloon->SetAngle(DirectX::XMFLOAT3(0, DirectX::XM_PI, 0));
-		
-
-		board->SetPosition(DirectX::XMFLOAT3(0, 4.0f, 14));
-		board->SetAngle(DirectX::XMFLOAT3(0, DirectX::XM_PI, 0));
-
 		if (i % 5 == 0) { num = 0; hei++; }
 		
 		box->SetPosition(DirectX::XMFLOAT3(-4.6f+2.3f*num, 1.45f*hei, 12));
 
 		num++;
 		
-		enemyManager.Register(balloon);
-		enemyManager.Register(board);
 		enemyManager.Register(box);
-		balloon->box = box;
 	}
 
 	//マウス位置の取得とロック

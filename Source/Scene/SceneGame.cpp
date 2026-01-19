@@ -4,7 +4,6 @@
 #include "Camera.h"
 #include "../Game/EnemyManager.h"
 #include "../Game/EnemySlime.h"
-#include "../Game/Board.h"
 #include "time.h"
 #include "random"
 #include "algorithm"
@@ -57,7 +56,6 @@ void SceneGame::Initialize()
 	{
 		EnemySlime* target = new EnemySlime();
 
-		Board* board = new Board();
 
 		//エネミー位置
 		std::random_device rd;
@@ -69,9 +67,6 @@ void SceneGame::Initialize()
 		target->SetPosition(DirectX::XMFLOAT3(dist(gen), dist2(gen), dist3(gen)));
 		target->SetAngle(DirectX::XMFLOAT3(0, DirectX::XM_PI, 0));
 		
-
-		board->SetPosition(DirectX::XMFLOAT3(0, 1.0f, 3));
-		board->SetAngle(DirectX::XMFLOAT3(0, DirectX::XM_PI, 0));
 		
 		enemyManager.Register(target);
 		//enemyManager.Register(board);

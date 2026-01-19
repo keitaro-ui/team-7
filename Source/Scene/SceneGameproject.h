@@ -6,8 +6,6 @@
 #include "DirectXMath.h"
 #include "System/Sprite.h"
 #include "Scene.h"
-#include "../Game/Balloon.h"
-#include "../Game/Board.h"
 #include "../Game/Box.h"
 
 // ÉQÅ[ÉÄÉVÅ[Éì
@@ -42,10 +40,6 @@ private:
 	Sprite* sprite = nullptr;
 	Sprite* sprite_number = nullptr;
 	Sprite* sprite_text = nullptr;
-
-	Balloon* balloon = nullptr;
-	
-	Board* board = nullptr;
 
 	Box* box = nullptr;
 

@@ -275,12 +275,6 @@ void Player::Render(const RenderContext& rc, ModelRenderer* renderer)
 	DirectX::XMMATRIX projectileMATRIX = DirectX::XMLoadFloat4x4(&projectileTransform);
 	DirectX::XMMATRIX worldMatrix = DirectX::XMLoadFloat4x4(&transform);
 	DirectX::XMStoreFloat4x4(&projectileTransform, projectileMATRIX * worldMatrix);
-
-	//弾丸射出箇所の可視化
-	/*Graphics::Instance().GetShapeRenderer()->RenderSphere(rc,
-		{ projectileTransform._41,projectileTransform._42,projectileTransform._43 },
-		0.1f,
-		{ 1.0f,1.0f,1.0f,1.0f });*/
 }
 
 //デバッグプリミティブ描画
