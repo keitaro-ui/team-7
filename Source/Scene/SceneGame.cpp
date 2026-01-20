@@ -12,9 +12,6 @@
 #include "SceneLoading.h"
 #include "SceneResult.h"
 
-//float game_timer;
-extern int answer, count_1, count_2, count_3, count_4;
-
 // 初期化
 void SceneGame::Initialize()
 {
@@ -29,9 +26,9 @@ void SceneGame::Initialize()
 	sprite = new Sprite("Data/Sprite/レティクル.png");
 	sprite_number = new Sprite("Data/Sprite/number.png");
 	sprite_text = new Sprite("Data/Sprite/残り時間.png");
-	RoadModel();
-	
 
+	models[0] = std::make_unique<Model>("Data/Model/Boad/box.fbx");
+	
 	//カメラ初期設定
 	Graphics& graphics = Graphics::Instance();
 	Camera& camera = Camera::Instance();
@@ -69,7 +66,6 @@ void SceneGame::Initialize()
 		
 		
 		enemyManager.Register(target);
-		//enemyManager.Register(board);
 	}
 
 	//マウス位置の取得とロック
@@ -116,13 +112,11 @@ void SceneGame::Update(float elapsedTime)
 	cameraController->SetTarget(target);
 	cameraController->Update(elapsedTime);
 
+	//プレイヤー更新処理
 	player->Update(elapsedTime);
-	targetCheck();
-
+	
 	//ステージ更新処理
 	stage->Update(elapsedTime);
-
-	//プレイヤー更新処理
 
 	//エネミー更新処理
 	EnemyManager::Instance().Update(elapsedTime);
@@ -133,9 +127,7 @@ void SceneGame::Update(float elapsedTime)
 	const GamePadButton anyButton =
 		GamePad::BTN_B;
 
-	//game_timer++;
-
-	game_timer -= elapsedTime;
+	//game_timer -= elapsedTime;
 
 	if (game_timer < 0)
 	//if (gamePad.GetButtonDown() & anyButton)
@@ -227,18 +219,4 @@ void SceneGame::DrawGUI()
 	//player->DrawDebugGUI();
 
 	
-}
-void SceneGame::targetCheck()
-{
-	if (answer == 0)
-		count_1++;
-	else if (answer == 1)
-		count_2++;
-	else if (answer == 2)
-		count_3++;
-	else if (answer == 3)
-		count_4++;
-
-	answer = -1;
-
 }

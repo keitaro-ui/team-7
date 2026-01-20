@@ -33,7 +33,7 @@ void SceneGameproject::Initialize()
 	sprite_text = new Sprite("Data/Sprite/残り時間.png");
 
 	//レティクル関数
-	SceneGame::RoadModel();
+	//SceneGame::RoadModel();
 
 	//カメラ初期設定
 	Graphics& graphics = Graphics::Instance();

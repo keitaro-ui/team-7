@@ -138,12 +138,6 @@
     <ClInclude Include="Source\ProjectileStraight.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\Balloon.h">
-      <Filter>Source\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\Board.h">
-      <Filter>Source\Game</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Game\Box.h">
       <Filter>Source\Game</Filter>
     </ClInclude>
@@ -283,12 +277,6 @@
     </ClCompile>
     <ClCompile Include="Source\CameraController.cpp">
       <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\Balloon.cpp">
-      <Filter>Source\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\Board.cpp">
-      <Filter>Source\Game</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\Box.cpp">
       <Filter>Source\Game</Filter>

@@ -123,8 +123,6 @@
     <ClInclude Include="Source\CameraController.h" />
     <ClInclude Include="Source\Collision.h" />
     <ClInclude Include="Source\Framework.h" />
-    <ClInclude Include="Source\Game\Balloon.h" />
-    <ClInclude Include="Source\Game\Board.h" />
     <ClInclude Include="Source\Game\Box.h" />
     <ClInclude Include="Source\Game\Character.h" />
     <ClInclude Include="Source\Game\Enemy.h" />
@@ -177,8 +175,6 @@
     <ClCompile Include="Source\CameraController.cpp" />
     <ClCompile Include="Source\Collision.cpp" />
     <ClCompile Include="Source\Framework.cpp" />
-    <ClCompile Include="Source\Game\Balloon.cpp" />
-    <ClCompile Include="Source\Game\Board.cpp" />
     <ClCompile Include="Source\Game\Box.cpp" />
     <ClCompile Include="Source\Game\Character.cpp" />
     <ClCompile Include="Source\Game\Enemy.cpp" />
