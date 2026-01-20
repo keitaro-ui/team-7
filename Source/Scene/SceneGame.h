@@ -1,11 +1,12 @@
-//#pragma once
+#pragma once
 
-#include "../Source/Game/Stage.h"
-#include "../Source/Game/Player.h"
+#include "../Game/Stage.h"
+#include "../Game/Player.h"
 #include "CameraController.h"
 #include "DirectXMath.h"
-#include "Scene.h"
 #include "System/Sprite.h"
+#include "Scene.h"
+#include "../Game/Box.h"
 
 // ゲームシーン
 class SceneGame : public Scene
@@ -32,19 +33,22 @@ public:
 private:
 	float game_timer;
 
-	Stage* stage = nullptr;
+	std::unique_ptr<Stage> stage = nullptr;
 
-	Player* player = nullptr;
+	std::unique_ptr<Player> player = nullptr;
 
-	//レティクル関数
 	Sprite* sprite = nullptr;
 	Sprite* sprite_number = nullptr;
 	Sprite* sprite_text = nullptr;
 
+	Box* box = nullptr;
+
 	CameraController* cameraController = nullptr;
 
 	// tile
-	std::unique_ptr<Model> models[10];
-	int map[4][4] = { 0 };
+	//map->world座標変換関数
+	DirectX::XMFLOAT3 CalcTilePosition(int x, int y);
 
+	std::unique_ptr<Box> boxes[10];
+	int map[4][4] = { 0 };
 };

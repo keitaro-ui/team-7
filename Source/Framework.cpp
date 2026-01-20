@@ -34,7 +34,7 @@ Framework::Framework(HWND hWnd)
 	ImGuiRenderer::Initialize(hWnd, Graphics::Instance().GetDevice(), Graphics::Instance().GetDeviceContext());
 
 	// シーン初期化
-	SceneManager::Instance().ChangeScene(new SceneTitle);
+	SceneManager::Instance().ChangeScene(new SceneGame);
 }
 
 // デストラクタ

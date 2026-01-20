@@ -136,7 +136,6 @@
     <ClInclude Include="Source\ProjectileStraight.h" />
     <ClInclude Include="Source\Scene\Scene.h" />
     <ClInclude Include="Source\Scene\SceneGame.h" />
-    <ClInclude Include="Source\Scene\SceneGameproject.h" />
     <ClInclude Include="Source\Scene\SceneLoading.h" />
     <ClInclude Include="Source\Scene\SceneManager.h" />
     <ClInclude Include="Source\Scene\SceneResult.h" />
@@ -188,7 +187,6 @@
     <ClCompile Include="Source\ProjectileStraight.cpp" />
     <ClCompile Include="Source\Scene\Main.cpp" />
     <ClCompile Include="Source\Scene\SceneGame.cpp" />
-    <ClCompile Include="Source\Scene\SceneGameproject.cpp" />
     <ClCompile Include="Source\Scene\SceneLoading.cpp" />
     <ClCompile Include="Source\Scene\SceneManager.cpp" />
     <ClCompile Include="Source\Scene\SceneResult.cpp" />

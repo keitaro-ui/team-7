@@ -3,7 +3,6 @@
 #include "System/Input.h"
 #include "SceneGame.h"
 #include "SceneManager.h"
-#include "SceneGameproject.h"
 #include "SceneLoading.h"
 #include "System/Mouse.h"
 #include "../Game/Player.h"
@@ -55,7 +54,7 @@ void SceneTitle::Update(float elapsedTime)
         {
             if (cursorPos.y >= 520 && cursorPos.y <= 585)
             {
-                SceneManager::Instance().ChangeScene(new SceneLoading(new SceneGameproject));
+                SceneManager::Instance().ChangeScene(new SceneLoading(new SceneGame));
             }
         }
     }

@@ -3,32 +3,35 @@
 #include "SceneGame.h"
 #include "Camera.h"
 #include "../Game/EnemyManager.h"
-#include "../Game/EnemySlime.h"
 #include "time.h"
 #include "random"
 #include "algorithm"
 #include "SceneManager.h"
 #include "SceneTitle.h"
 #include "SceneLoading.h"
-#include "SceneResult.h"
+
+//float game_timer;
 
 // 初期化
 void SceneGame::Initialize()
 {
 	//ステージ初期化
-	stage = new Stage();
-	game_timer = 15;
+	stage = std::make_unique<Stage>();
+
+	//時間
+	game_timer = 30;
 
 	//プレイヤー初期化
-	player = new Player();
+	player = std::make_unique<Player>();
 
-	//モデル読み込み
+	//レティクル関数
 	sprite = new Sprite("Data/Sprite/レティクル.png");
 	sprite_number = new Sprite("Data/Sprite/number.png");
 	sprite_text = new Sprite("Data/Sprite/残り時間.png");
 
-	models[0] = std::make_unique<Model>("Data/Model/Boad/box.fbx");
-	
+	//モデル読み込み
+	boxes[0] = std::make_unique<Box>();
+
 	//カメラ初期設定
 	Graphics& graphics = Graphics::Instance();
 	Camera& camera = Camera::Instance();
@@ -43,29 +46,27 @@ void SceneGame::Initialize()
 		0.1f,//クリップ距離（近）
 		1000.0f//クリップ距離（遠）
 	);
+	
+
 	//カメラコントローラー初期化
 	cameraController = new CameraController();
 	player->cameraController = cameraController;
 
 	//エネミー初期化
+	int num = 0;		
+	int hei = 0;
 	EnemyManager& enemyManager = EnemyManager::Instance();
-	for (int i = 0; i < 35; i++)
+	for (int i = 0; i < 20; i++)
 	{
-		EnemySlime* target = new EnemySlime();
-
-
 		//エネミー位置
 		std::random_device rd;
 		std::mt19937 gen(rd());
-		std::uniform_real_distribution<float>dist (-4.0f, 4.0f);
-		std::uniform_real_distribution<float>dist2(0.5f, 4.0f);
-		std::uniform_real_distribution<float>dist3(5.0f, 10.0f);
+		std::uniform_int_distribution<int>distX (0, 4);
+		std::uniform_real_distribution<float>distY(0.5f, 4.0f);
+		std::uniform_int_distribution<int>distZ(0, 4);
 
-		target->SetPosition(DirectX::XMFLOAT3(dist(gen), dist2(gen), dist3(gen)));
-		target->SetAngle(DirectX::XMFLOAT3(0, DirectX::XM_PI, 0));
-		
-		
-		enemyManager.Register(target);
+		map[0][0] = 1;
+		map[0][3] = 1;
 	}
 
 	//マウス位置の取得とロック
@@ -84,39 +85,29 @@ void SceneGame::Finalize()
 		cameraController = nullptr;
 	}
 
-	//ステージ終了化
-	if (stage != nullptr)
-	{
-		delete stage;
-		stage = nullptr;
-	}
+	delete sprite;
+	delete sprite_number;
+	delete sprite_text;
 
-	//プレイヤー終了化
-	if (player != nullptr)
-	{
-		delete player;
-		player = nullptr;
-	}
 	//エネミー終了化
 	EnemyManager::Instance().Clear();
-
-	game_timer = 0;
 }
 
 // 更新処理
 void SceneGame::Update(float elapsedTime)
 {
+
 	//カメラコントローラー更新処理
 	DirectX::XMFLOAT3 target = player->GetPosition();
 	target.y += 0.5f;
 	cameraController->SetTarget(target);
 	cameraController->Update(elapsedTime);
 
-	//プレイヤー更新処理
-	player->Update(elapsedTime);
-	
 	//ステージ更新処理
 	stage->Update(elapsedTime);
+
+	//プレイヤー更新処理
+	player->Update(elapsedTime);
 
 	//エネミー更新処理
 	EnemyManager::Instance().Update(elapsedTime);
@@ -125,16 +116,21 @@ void SceneGame::Update(float elapsedTime)
 	GamePad& gamePad = Input::Instance().GetGamePad();
 
 	const GamePadButton anyButton =
-		GamePad::BTN_B;
+		GamePad::BTN_START;
 
 	//game_timer -= elapsedTime;
 
-	if (game_timer < 0)
 	//if (gamePad.GetButtonDown() & anyButton)
+	if(game_timer < 0)
 	{
-		SceneManager::Instance().ChangeScene(new SceneLoading(new SceneResult));
+		//SceneManager::Instance().ChangeScene(new SceneLoading(new SceneGame));
+		player->finish = true;
 	}
 
+	if (gamePad.GetButtonDown() & anyButton&&player->finish==true)
+	{
+		//SceneManager::Instance().ChangeScene(new SceneLoading(new SceneGame));
+	}
 }
 
 // 描画処理
@@ -171,52 +167,88 @@ void SceneGame::Render()
 		EnemyManager::Instance().Render(rc, modelRenderer);
 
 		player->RenderDebugPrimitive(rc, shapeRenderer);
-	}
 
-	// 3Dデバッグ描画
-	{
-		//プレイヤーデバッグプリミティブ描画
-		//player->RenderDebugPrimitive(rc, shapeRenderer);
-
-		//エネミーデバッグプリミティブ描画
-		EnemyManager::Instance();
-			//.RenderDebugPrimitive(rc, shapeRenderer);
-	}
-
-	// 2Dスプライト描画
-	{
-		sprite->Render(rc,
-			610, 335, 0, 64.0f, 64.0f,
-			0,
-			1, 1, 1, 1);
-
-		sprite_text->Render(rc,
-			950, 0, 0, 120, 80, 0, 1, 1, 1, 1);
-
-		int n[2]{};
-		//n[0] = static_cast<int>(game_timer) / 100 % 10;
-		n[0] = static_cast<int>(game_timer) / 10 % 10;
-		n[1] = static_cast<int>(game_timer) % 10;
-
-		for (int i = 0; i < 2; i++)
+		for (int y = 0; y < 4; y++)
 		{
-			sprite_number->Render(rc,
-				32 * 2 * i + 1100, 00,
-				0,
-				32 * 2, 32 * 2,
-				372.5 * n[i], 0,
-				372.5, 514,
+			for (int x = 0; x < 4; x++)
+			{
+				int v = map[y][x];
+
+				//空のマスはスキップ
+				if (v == 0) continue;
+
+				// map=1 → models[0]
+				int modelIndex = v - 1; 
+
+				// model存在するかチェック
+				if (!boxes[modelIndex]) continue;
+
+				DirectX::XMFLOAT3 pos = CalcTilePosition(x, y);
+
+				boxes[modelIndex]->SetPosition(pos);
+				boxes[modelIndex]->Render(rc, modelRenderer);
+			}
+		}
+
+		// 3Dデバッグ描画
+		{
+			//プレイヤーデバッグプリミティブ描画
+			//player->RenderDebugPrimitive(rc, shapeRenderer);
+
+			//エネミーデバッグプリミティブ描画
+			EnemyManager::Instance();
+			//.RenderDebugPrimitive(rc, shapeRenderer);
+		}
+
+		// 2Dスプライト描画
+		{
+			sprite->Render(rc,
+				610, 335, 0, 64.0f, 64.0f,
 				0,
 				1, 1, 1, 1);
+
+			sprite_text->Render(rc,
+				950, 0, 0, 120, 80, 0, 1, 1, 1, 1);
+
+			int n[2]{};
+			//n[0] = static_cast<int>(game_timer) / 100 % 10;
+			n[0] = static_cast<int>(game_timer) / 10 % 10;
+			n[1] = static_cast<int>(game_timer) % 10;
+
+			for (int i = 0; i < 2; i++)
+			{
+				sprite_number->Render(rc,
+					32 * 2 * i + 1100, 10,
+					0,
+					32 * 2, 32 * 2,
+					372.5 * n[i], 0,
+					372.5, 514,
+					0,
+					1, 1, 1, 1);
+			}
 		}
 	}
 }
 
-// GUI描画
+//GUI描画
 void SceneGame::DrawGUI()
 {
 	//プレーヤーデバッグ処理
-	//player->DrawDebugGUI();
+	player->DrawDebugGUI();
+}
 
-	
+//map->world座標変換関数
+DirectX::XMFLOAT3 SceneGame::CalcTilePosition(int x, int y)
+{
+	//タイル間隔
+	float tileSize = 20.0f;
+
+	float startX = -30.0f;
+	float startZ = -30.0f;
+
+	return DirectX::XMFLOAT3(
+		startX + x * tileSize,
+		0.0f,
+		startZ + y * tileSize
+	);
 }

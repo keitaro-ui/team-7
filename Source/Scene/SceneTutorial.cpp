@@ -7,7 +7,6 @@
 #include "SceneTitle.h"
 #include "SceneGame.h"
 #include "SceneLoading.h"
-#include "SceneGameproject.h"
 
 
 // ‰Šú‰»

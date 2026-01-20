@@ -162,9 +162,6 @@
     <ClInclude Include="Source\Scene\SceneGame.h">
       <Filter>Source\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Scene\SceneGameproject.h">
-      <Filter>Source\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Scene\SceneLoading.h">
       <Filter>Source\Scene</Filter>
     </ClInclude>
@@ -300,9 +297,6 @@
       <Filter>Source\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Source\Scene\SceneGame.cpp">
-      <Filter>Source\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Scene\SceneGameproject.cpp">
       <Filter>Source\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Source\Scene\SceneLoading.cpp">

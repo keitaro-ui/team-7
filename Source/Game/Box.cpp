@@ -11,8 +11,6 @@ Box::Box()
 	//幅、高さ設定
 	radius = 0.2f;
 	height = 0.0f;
-	
-
 }
 
 //デストラクタ
@@ -41,13 +39,4 @@ void Box::Update(float elapsedTime)
 void Box::Render(const RenderContext& rc, ModelRenderer* renderer)
 {
 	renderer->Render(rc, transform, model, ShaderId::Lambert);
-}
-
-void Box::OnDead()
-{
-	//自信を破棄
-	/*if (getdes() == true)
-	{
-		Destroy();
-	}*/
 }

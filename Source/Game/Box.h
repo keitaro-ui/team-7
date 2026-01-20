@@ -3,7 +3,6 @@
 #include "System/Model.h"
 #include "Enemy.h"
 
-//ƒXƒ‰ƒCƒ€
 class Box : public Enemy
 {
 public:
@@ -16,11 +15,8 @@ public:
 	//•`‰æˆ—
 	void Render(const RenderContext& rc, ModelRenderer* renderer) override;
 
-protected:
-	//€–S‚µ‚½‚Æ‚«‚ÉŒÄ‚Î‚ê‚é
-	void OnDead() override;
-
 private:
 	Model* model = nullptr;
-
+	float radius = 0.0f;
+	int num = 0;
 };
