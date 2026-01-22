@@ -45,10 +45,27 @@ private:
 
 	CameraController* cameraController = nullptr;
 
-	// tile
-	//map->world座標変換関数
-	DirectX::XMFLOAT3 CalcTilePosition(int x, int y);
+	//使う箱の種類
+	std::unique_ptr<Box> boxes[11];
 
-	std::unique_ptr<Box> boxes[10];
-	int map[4][4] = { 0 };
+	//マス目の数
+	enum { GRID_MAX = 4 };
+
+	//マス目の設定
+	int map[GRID_MAX][GRID_MAX] = { 0 };
+
+	//
+
+	//mapの1マスの間隔
+	float tileSize = 2.0f;
+
+	//map[0][0]の位置
+	DirectX::XMFLOAT3 startPos = { -4.0f, 0.0f, -4.0f };
+
+	//方向キーでBox動かす関数
+	bool pushUp();
+	bool pushDown();
+	bool pushLeft();
+	bool pushRight();
+
 };
