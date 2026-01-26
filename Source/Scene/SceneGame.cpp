@@ -9,6 +9,7 @@
 #include "SceneManager.h"
 #include "SceneTitle.h"
 #include "SceneLoading.h"
+#include <imgui.h>
 
 //float game_timer;
 
@@ -56,19 +57,15 @@ void SceneGame::Initialize()
 	cameraController = new CameraController();
 	player->cameraController = cameraController;
 
-	//エネミー初期化
-		//箱の初期位置をランダムで決定
-		std::random_device rd;
-		std::mt19937 gen(rd());
-		std::uniform_int_distribution<int>distX (0, 3);
-		std::uniform_int_distribution<int>distZ(0, 3);
+	//箱の初期位置をランダムで決定
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_int_distribution<int>distX (0, GRID_MAX - 1);
+	std::uniform_int_distribution<int>distZ(0, GRID_MAX - 1);
 
-		map[distX(gen)][distZ(gen)] = 1;
-		map[distZ(gen)][distX(gen)] = 1;
-	for (int i = 0; i < 20; i++)
-	{
-	}
-
+	map[distX(gen)][distZ(gen)] = 1;
+	map[distZ(gen)][distX(gen)] = 1;
+	
 	//debug
 	{
 		/*map[0][0] = 1;
@@ -133,8 +130,8 @@ void SceneGame::Update(float elapsedTime)
 		{
 			std::random_device rd;
 			std::mt19937 gen(rd());
-			std::uniform_int_distribution<int>distX(0, 3);
-			std::uniform_int_distribution<int>distY(0, 3);
+			std::uniform_int_distribution<int>distX(0, GRID_MAX - 1);
+			std::uniform_int_distribution<int>distY(0, GRID_MAX - 1);
 			while (true)
 			{
 				int x = distX(gen);
@@ -204,9 +201,9 @@ void SceneGame::Render()
 		player->RenderDebugPrimitive(rc, shapeRenderer);
 
 		// box
-		for (int y = 0; y < 4; y++)
+		for (int y = 0; y < GRID_MAX; y++)
 		{
-			for (int x = 0; x < 4; x++)
+			for (int x = 0; x < GRID_MAX; x++)
 			{
 				int v = map[y][x];
 
@@ -274,158 +271,201 @@ void SceneGame::DrawGUI()
 {
 	//プレーヤーデバッグ処理
 	player->DrawDebugGUI();
+
+	// ImGui
+	ImGui::Begin("Map Settings");
+
+	// mapの1マスの間隔
+	ImGui::DragFloat(
+		"Tile Size",
+		&tileSize,
+		0.1f,   // 変化量
+		0.1f,   // 最小
+		10.0f   // 最大
+	);
+
+	// map[0][0]の位置
+	ImGui::DragFloat3(
+		"Start Position",
+		&startPos.x,
+		0.1f    // 変化量
+	);
+
+	ImGui::End();
+
 }
 
 //方向キーでBox動かす関数
 bool SceneGame::pushUp()
 {
+	moved = false;
+
 	if (GetAsyncKeyState('I') & 0x8000)
 	{
-		for (int y = 1; y < 4; y++)
+		for (int x = 0; x < GRID_MAX; x++)
 		{
-			for (int x = 0; x < 4; x++)
+			for (int y = 1; y < GRID_MAX; y++)
 			{
 				if (map[y][x] != 0)
 				{
 					int cy = y;
 					while (cy > 0)
 					{
+						//一個上が0なら移動させる
 						if (map[cy - 1][x] == 0)
 						{
 							map[cy - 1][x] = map[cy][x];
 							map[cy][x] = 0;
 							cy--;
+							moved = true;
 						}
+						//一個上と一緒なら合体
 						else if (map[cy - 1][x] == map[cy][x]
 							&& !merged[cy - 1][x])
 						{
 							map[cy - 1][x]++;
 							map[cy][x] = 0;
 							merged[cy - 1][x] = true;
+							moved = true;
 							break;
 						}
+						// 一個上が0じゃなくて、違う数字ならそのまま
 						else break;
 					}
 				}
 			}
 		}
-		return true;
 	}
-	return false;
+	return moved;
 }
-
 
 bool SceneGame::pushDown()
 {
+	moved = false;
+
 	if (GetAsyncKeyState('K') & 0x8000)
 	{
-		for (int y = 2; y >= 0; y--)
+		for (int x = 0; x < GRID_MAX; x++)
 		{
-			for (int x = 0; x < 4; x++)
+			for (int y = GRID_MAX - 2; y >= 0; y--)
 			{
 				if (map[y][x] != 0)
 				{
 					int cy = y;
-					while (cy < 3)
+					while (cy < GRID_MAX - 1)
 					{
+						//一個下が0なら移動させる
 						if (map[cy + 1][x] == 0)
 						{
 							map[cy + 1][x] = map[cy][x];
 							map[cy][x] = 0;
 							cy++;
+							moved = true;
 						}
+						//一個下と一緒なら合体
 						else if (map[cy + 1][x] == map[cy][x]
 							&& !merged[cy + 1][x])
 						{
 							map[cy + 1][x]++;
 							map[cy][x] = 0;
 							merged[cy + 1][x] = true;
+							moved = true;
 							break;
 						}
+						// 一個下が0じゃなくて、違う数字ならそのまま
 						else break;
 					}
 				}
 			}
 		}
-		return true;
 	}
-	return false;
+	return moved;
 }
-
 
 bool SceneGame::pushLeft()
 {
+	moved = false;
+
 	if (GetAsyncKeyState('J') & 0x8000)
 	{
-		for (int y = 0; y < 4; y++)
+		for (int y = 0; y < GRID_MAX; y++)
 		{
-			for (int x = 1; x < 4; x++)
+			for (int x = 1; x < GRID_MAX; x++)
 			{
 				if (map[y][x] != 0)
 				{
 					int cx = x;
 					while (cx > 0)
 					{
+						//一個左が0なら移動させる
 						if (map[y][cx - 1] == 0)
 						{
 							map[y][cx - 1] = map[y][cx];
 							map[y][cx] = 0;
 							cx--;
+							moved = true;
 						}
+						//一個左と一緒なら合体
 						else if (map[y][cx - 1] == map[y][cx]
 							&& !merged[y][cx - 1])
 						{
 							map[y][cx - 1]++;
 							map[y][cx] = 0;
 							merged[y][cx - 1] = true;
+							moved = true;
 							break;
 						}
+						// 一個左が0じゃなくて、違う数字ならそのまま
 						else break;
 					}
 				}
 			}
 		}
-		return true;
 	}
-	return false;
+	return moved;
 }
-
 
 bool SceneGame::pushRight()
 {
+	moved = false;
+
 	if (GetAsyncKeyState('L') & 0x8000)
 	{
-		for (int y = 0; y < 4; y++)
+		for (int y = 0; y < GRID_MAX; y++)
 		{
-			for (int x = 2; x >= 0; x--)
+			for (int x = GRID_MAX - 2; x >= 0; x--)
 			{
 				if (map[y][x] != 0)
 				{
 					int cx = x;
-					while (cx < 3)
+					while (cx < GRID_MAX - 1)
 					{
+						//一個右が0なら移動させる
 						if (map[y][cx + 1] == 0)
 						{
 							map[y][cx + 1] = map[y][cx];
 							map[y][cx] = 0;
 							cx++;
+							moved = true;
 						}
+						//一個右と一緒なら合体
 						else if (map[y][cx + 1] == map[y][cx]
 							&& !merged[y][cx + 1])
 						{
 							map[y][cx + 1]++;
 							map[y][cx] = 0;
 							merged[y][cx + 1] = true;
+							moved = true;
 							break;
 						}
+						// 一個右が0じゃなくて、違う数字ならそのまま
 						else break;
 					}
 				}
 			}
 		}
-		return true;
 	}
-	return false;
+	return moved;
 }
 
 void SceneGame::UpdateCursorToggle()

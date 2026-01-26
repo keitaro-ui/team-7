@@ -48,13 +48,16 @@ private:
 	std::unique_ptr<Box> boxes[11];
 
 	//マス目の数
-	enum { GRID_MAX = 4 };
+	enum { GRID_MAX = 5 };
 
-	//マス目の設定
+	//ステージデータ
 	int map[GRID_MAX][GRID_MAX] = { 0 };
 
-	//
+	//移動後のデータいれて、比較するステージデータ
 	bool merged[GRID_MAX][GRID_MAX] = { 0 };
+
+	//移動しているかを判断
+	bool moved = false;
 
 	//重なったらtrue
 	bool overlap = false;
@@ -62,10 +65,10 @@ private:
 	bool up = false;
 
 	//mapの1マスの間隔
-	float tileSize = 2.0f;
+	float tileSize = 4.4f;
 
 	//map[0][0]の位置
-	DirectX::XMFLOAT3 startPos = { -4.0f, 0.0f, -4.0f };
+	DirectX::XMFLOAT3 startPos = { -8.8f, 0.0f, -13.0f };
 
 	//方向キーでBox動かす関数
 	bool pushUp();
