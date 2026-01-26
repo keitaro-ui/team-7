@@ -54,7 +54,8 @@ private:
 	//マス目の設定
 	int map[GRID_MAX][GRID_MAX] = { 0 };
 
-	//
+	//重なったらtrue
+	bool overlap = false;
 
 	//mapの1マスの間隔
 	float tileSize = 2.0f;

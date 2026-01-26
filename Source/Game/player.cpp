@@ -10,7 +10,7 @@
 #include "../System/Graphics.h"
 #include "Camera.h"
 #include "System/Audio.h"
-#include "PlayerManager.h"
+//#include "PlayerManager.h"
 
 int answer = -1, count_1, count_2, count_3, count_4;
 
@@ -77,10 +77,15 @@ void Player::InputMove(float elapsedTime)
 	//ˆÚ“®ˆ—
 	//MoveD(elapsedTime, moveVec.x, moveVec.z, moveSpeed);
 
-	if (GetAsyncKeyState('W') & 0x8000) moveVec.z += 1.0f;
-	if (GetAsyncKeyState('S') & 0x8000) moveVec.z -= 1.0f;
-	if (GetAsyncKeyState('D') & 0x8000) moveVec.x += 1.0f;
-	if (GetAsyncKeyState('A') & 0x8000) moveVec.x -= 1.0f;
+	//if (GetAsyncKeyState('W') & 0x8000) moveVec.z += 1.0f;
+	//if (GetAsyncKeyState('S') & 0x8000) moveVec.z -= 1.0f;
+	//if (GetAsyncKeyState('D') & 0x8000) moveVec.x += 1.0f;
+	//if (GetAsyncKeyState('A') & 0x8000) moveVec.x -= 1.0f;
+
+	if (GetAsyncKeyState(0x57) & 0x8000) moveVec.z += 1.0f; // W
+	if (GetAsyncKeyState(0x53) & 0x8000) moveVec.z -= 1.0f; // S
+	if (GetAsyncKeyState(0x44) & 0x8000) moveVec.x += 1.0f; // D
+	if (GetAsyncKeyState(0x41) & 0x8000) moveVec.x -= 1.0f; // A
 
 	DirectX::XMVECTOR v = DirectX::XMLoadFloat3(&moveVec);
 	if (DirectX::XMVectorGetX(DirectX::XMVector3LengthSq(v)) > 0.0f)

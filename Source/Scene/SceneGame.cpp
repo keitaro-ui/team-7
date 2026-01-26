@@ -217,7 +217,6 @@ void SceneGame::Render()
 				//map->worldÀ•W‚É•ÏŠ·‚µ‚ÄposŒˆ’è
 				DirectX::XMFLOAT3 pos = 
 				{ startPos.x + x * tileSize, startPos.y, -(startPos.z + y * tileSize) };
-
 				boxes[modelIndex]->SetPosition(pos);
 				boxes[modelIndex]->UpdateTransform();
 				boxes[modelIndex]->Render(rc, modelRenderer);

@@ -18,7 +18,7 @@ Box::Box(int num)
 	if(num == 10) model = new Model("Data/Model/Boad/box_2048.mdl");
 
 	//モデルが大きいのでスケーリング
-	scale.x = scale.y = scale.z = 0.000001f;
+	scale.x = scale.y = scale.z = 0.01f;
 
 	//幅、高さ設定
 	radius = 1.0f;
