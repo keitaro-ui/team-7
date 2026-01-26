@@ -124,7 +124,10 @@ void SceneGame::Update(float elapsedTime)
 	game_timer += elapsedTime;
 
 	//方向キーでBox動かす関数
-	if ((pushUp() || pushDown() || pushLeft() || pushRight()) && game_timer > 2.0f)
+
+	if(game_timer > 2.0f)
+	if ((pushUp() || pushDown() || pushLeft() || pushRight()) )
+	//if ((pushUp() || pushDown() || pushLeft() || pushRight()) && game_timer > 2.0f)
 	{
 		std::random_device rd;
 		std::mt19937 gen(rd());
@@ -140,6 +143,7 @@ void SceneGame::Update(float elapsedTime)
 				//2の箱だす
 				map[y][x] = 1; 
 				game_timer = 0.0f;
+				up = false;
 				break;
 			}
 		}
@@ -271,7 +275,7 @@ void SceneGame::DrawGUI()
 //方向キーでBox動かす関数
 bool SceneGame::pushUp()
 {
-	if (GetAsyncKeyState(VK_UP))
+	if (GetAsyncKeyState('I') & 0x8000)
 	{
 		for (int y = 1; y < 4; y++)
 		{
@@ -302,7 +306,7 @@ bool SceneGame::pushUp()
 
 bool SceneGame::pushDown()
 {
-	if (GetAsyncKeyState(VK_DOWN))
+	if (GetAsyncKeyState('K') & 0x8000)
 	{
 		for (int y = 2; y >= 0; y--)
 		{
@@ -333,7 +337,7 @@ bool SceneGame::pushDown()
 
 bool SceneGame::pushLeft()
 {
-	if (GetAsyncKeyState(VK_LEFT))
+	if (GetAsyncKeyState('J') & 0x8000)
 	{
 		for (int y = 0; y < 4; y++)
 		{
@@ -364,7 +368,7 @@ bool SceneGame::pushLeft()
 
 bool SceneGame::pushRight()
 {
-	if (GetAsyncKeyState(VK_RIGHT))
+	if (GetAsyncKeyState('L') & 0x8000)
 	{
 		// 合体済みフラグをリセット
 		/*std::memset(merged, false, sizeof(merged));*/

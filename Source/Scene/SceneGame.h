@@ -58,6 +58,8 @@ private:
 	//d‚È‚Á‚½‚çtrue
 	bool overlap = false;
 
+	bool up = false;
+
 	//map‚Ì1ƒ}ƒX‚ÌŠÔŠu
 	float tileSize = 2.0f;
 
