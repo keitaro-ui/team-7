@@ -49,6 +49,8 @@ private:
 	//map->worldÀ•W•ÏŠ·ŠÖ”
 	DirectX::XMFLOAT3 CalcTilePosition(int x, int y);
 
+	void UpdateCursorToggle();
+
 	std::unique_ptr<Box> boxes[10];
 	int map[4][4] = { 0 };
 };

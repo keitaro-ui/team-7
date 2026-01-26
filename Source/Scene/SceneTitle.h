@@ -29,5 +29,6 @@ private:
 	Sprite* sprite = nullptr;
 	Sprite* sprite2 = nullptr;
 	Sprite* sprite3 = nullptr;
+	POINT cursorPos;
 	
 };

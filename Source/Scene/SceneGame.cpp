@@ -69,14 +69,14 @@ void SceneGame::Initialize()
 		map[0][3] = 1;
 	}
 
-	//マウス位置の取得とロック
-	Input::Instance().GetMouse().Lock();
+	////マウス位置の取得とロック
+	//Input::Instance().GetMouse().Lock();
 }
 
 // 終了化
 void SceneGame::Finalize()
 {
-	Input::Instance().GetMouse().Unlock();
+	/*Input::Instance().GetMouse().Unlock();*/
 
 	//カメラコントローラー終了化
 	if (cameraController != nullptr)
@@ -98,9 +98,9 @@ void SceneGame::Update(float elapsedTime)
 {
 
 	//カメラコントローラー更新処理
-	DirectX::XMFLOAT3 target = player->GetPosition();
+	/*DirectX::XMFLOAT3 target = player->GetPosition();
 	target.y += 0.5f;
-	cameraController->SetTarget(target);
+	cameraController->SetTarget(target);*/
 	cameraController->Update(elapsedTime);
 
 	//ステージ更新処理
@@ -112,11 +112,16 @@ void SceneGame::Update(float elapsedTime)
 	//エネミー更新処理
 	EnemyManager::Instance().Update(elapsedTime);
 
+	UpdateCursorToggle();
+
 	//シーン遷移
 	GamePad& gamePad = Input::Instance().GetGamePad();
 
 	const GamePadButton anyButton =
 		GamePad::BTN_START;
+
+	//マウス位置の取得とロック
+	//Input::Instance().GetMouse().Lock();
 
 	//game_timer -= elapsedTime;
 
@@ -251,4 +256,21 @@ DirectX::XMFLOAT3 SceneGame::CalcTilePosition(int x, int y)
 		0.0f,
 		startZ + y * tileSize
 	);
+}
+
+void SceneGame::UpdateCursorToggle()
+{
+	static bool cursorVisible = false;
+	static bool prevRight = false;
+
+	bool nowRight = (GetAsyncKeyState(VK_RBUTTON) & 0x8000) != 0;
+
+	// 押した瞬間だけ判定
+	if (nowRight && !prevRight)
+	{
+		cursorVisible = !cursorVisible;
+		ShowCursor(cursorVisible ? TRUE : FALSE);
+	}
+
+	prevRight = nowRight;
 }
