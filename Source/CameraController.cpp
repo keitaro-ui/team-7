@@ -40,6 +40,10 @@ void CameraController::Update(float elapsedTime)
 	eye.y = target.y + height;
 	eye.z = target.z + backDir.z;
 
+	/*target.x = eye.x;
+	target.y = eye.y - 10.0f;
+	target.z = eye.z + 2.0f; // ‚í‚¸‚©‚É‘O‚ðŒ©‚é*/
+
 	Camera::Instance().SetLookAt(
 		eye,
 		target,

@@ -20,7 +20,7 @@ void SceneTitle::Initialize()
     //extern int count_1=0,count_2=0,count_3=0,count_4=0
 }
 
-extern POINT cursorPos;
+
 
 //èIóπâª
 void SceneTitle::Finalize()

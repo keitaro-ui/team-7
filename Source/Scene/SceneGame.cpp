@@ -72,14 +72,14 @@ void SceneGame::Initialize()
 		map[0][3] = 1;
 	}
 
-	//マウス位置の取得とロック
-	Input::Instance().GetMouse().Lock();
+	////マウス位置の取得とロック
+	//Input::Instance().GetMouse().Lock();
 }
 
 // 終了化
 void SceneGame::Finalize()
 {
-	Input::Instance().GetMouse().Unlock();
+	/*Input::Instance().GetMouse().Unlock();*/
 
 	//カメラコントローラー終了化
 	if (cameraController != nullptr)
@@ -100,9 +100,9 @@ void SceneGame::Finalize()
 void SceneGame::Update(float elapsedTime)
 {
 	//カメラコントローラー更新処理
-	DirectX::XMFLOAT3 target = player->GetPosition();
+	/*DirectX::XMFLOAT3 target = player->GetPosition();
 	target.y += 0.5f;
-	cameraController->SetTarget(target);
+	cameraController->SetTarget(target);*/
 	cameraController->Update(elapsedTime);
 
 	//ステージ更新処理
@@ -113,6 +113,8 @@ void SceneGame::Update(float elapsedTime)
 
 	//エネミー更新処理
 	EnemyManager::Instance().Update(elapsedTime);
+
+	UpdateCursorToggle();
 
 	//シーン遷移
 	GamePad& gamePad = Input::Instance().GetGamePad();
@@ -183,6 +185,8 @@ void SceneGame::Render()
 	// 3Dモデル描画
 	{
 		//ステージ描画
+		stage->SetPosition({ 0.0f, -3.0f, 0.0f });
+		stage->UpdateTransform();
 		stage->Render(rc, modelRenderer);
 
 		player->Render(rc, modelRenderer);
@@ -210,8 +214,8 @@ void SceneGame::Render()
 				//map->world座標に変換してpos決定
 				DirectX::XMFLOAT3 pos = 
 				{ startPos.x + x * tileSize, startPos.y, -(startPos.z + y * tileSize) };
-
 				boxes[modelIndex]->SetPosition(pos);
+				boxes[modelIndex]->SetScale({ 1.0f, 1.0f, 1.0f });
 				boxes[modelIndex]->UpdateTransform();
 				boxes[modelIndex]->Render(rc, modelRenderer);
 			}
@@ -399,4 +403,21 @@ bool SceneGame::pushRight()
 		return true;
 	}
 	return false;
+}
+
+void SceneGame::UpdateCursorToggle()
+{
+	static bool cursorVisible = false;
+	static bool prevRight = false;
+
+	bool nowRight = (GetAsyncKeyState(VK_RBUTTON) & 0x8000) != 0;
+
+	// 押した瞬間だけ判定
+	if (nowRight && !prevRight)
+	{
+		cursorVisible = !cursorVisible;
+		ShowCursor(cursorVisible ? TRUE : FALSE);
+	}
+
+	prevRight = nowRight;
 }

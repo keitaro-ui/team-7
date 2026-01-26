@@ -41,8 +41,6 @@ private:
 	Sprite* sprite_number = nullptr;
 	Sprite* sprite_text = nullptr;
 
-	Box* box = nullptr;
-
 	CameraController* cameraController = nullptr;
 
 	//使う箱の種類
@@ -57,6 +55,9 @@ private:
 	//
 	bool merged[GRID_MAX][GRID_MAX] = { 0 };
 
+	//重なったらtrue
+	bool overlap = false;
+
 	//mapの1マスの間隔
 	float tileSize = 2.0f;
 
@@ -68,4 +69,6 @@ private:
 	bool pushDown();
 	bool pushLeft();
 	bool pushRight();
+
+	void UpdateCursorToggle();
 };

@@ -1,4 +1,5 @@
 #include "Box.h"
+#include<imgui.h>
 
 //コンストラクタ
 Box::Box(int num)
@@ -17,11 +18,11 @@ Box::Box(int num)
 	if(num == 10) model = new Model("Data/Model/Boad/box_2048.mdl");
 
 	//モデルが大きいのでスケーリング
-	scale.x = scale.y = scale.z = 0.8f;
+	scale.x = scale.y = scale.z = 0.01f;
 
 	//幅、高さ設定
-	radius = 0.2f;
-	height = 0.0f;
+	radius = 1.0f;
+	height = 1.0f;
 }
 
 //デストラクタ
@@ -44,6 +45,24 @@ void Box::Update(float elapsedTime)
 
 	//無敵時間更新
 	UpdateInvincibleTimer(elapsedTime);
+
+	ImGui::Begin("Model Scale");
+
+	// 等方スケール用の1変数
+	static float modelScale = 0.01f;
+
+	if (ImGui::DragFloat(
+		"Scale",
+		&modelScale,
+		0.001f,   // 変化量
+		0.0f,
+		1.0f,
+		"%.7f"))
+	{
+		scale.x = scale.y = scale.z = modelScale;
+	}
+
+	ImGui::End();
 }
 
 //描画処理
