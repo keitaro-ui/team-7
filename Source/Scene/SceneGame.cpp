@@ -1,5 +1,5 @@
 #include "System/Graphics.h"
-#include"System/Input.h"
+#include "System/Input.h"
 #include "SceneGame.h"
 #include "Camera.h"
 #include "../Game/EnemyManager.h"
@@ -15,11 +15,11 @@
 // 初期化
 void SceneGame::Initialize()
 {
+	//時間
+	game_timer = 0;
+
 	//ステージ初期化
 	stage = std::make_unique<Stage>();
-
-	//時間
-	game_timer = 30;
 
 	//プレイヤー初期化
 	player = std::make_unique<Player>();
@@ -29,8 +29,12 @@ void SceneGame::Initialize()
 	sprite_number = new Sprite("Data/Sprite/number.png");
 	sprite_text = new Sprite("Data/Sprite/残り時間.png");
 
-	//モデル読み込み
-	boxes[0] = std::make_unique<Box>();
+	//BOXモデル読み込み
+	for (int i = 0; i < 11; i++)
+	{
+		boxes[i] = std::make_unique<Box>(i);
+	}
+	//boxes[0] = std::make_unique<Box>(0);
 
 	//カメラ初期設定
 	Graphics& graphics = Graphics::Instance();
@@ -53,19 +57,18 @@ void SceneGame::Initialize()
 	player->cameraController = cameraController;
 
 	//エネミー初期化
-	int num = 0;		
-	int hei = 0;
-	EnemyManager& enemyManager = EnemyManager::Instance();
 	for (int i = 0; i < 20; i++)
 	{
-		//エネミー位置
+		//箱の初期位置をランダムで決定
 		std::random_device rd;
 		std::mt19937 gen(rd());
-		std::uniform_int_distribution<int>distX (0, 4);
+		std::uniform_int_distribution<int>distX (0, 3);
 		std::uniform_real_distribution<float>distY(0.5f, 4.0f);
-		std::uniform_int_distribution<int>distZ(0, 4);
+		std::uniform_int_distribution<int>distZ(0, 3);
 
 		map[0][0] = 1;
+		map[0][1] = 1;
+		map[0][2] = 1;
 		map[0][3] = 1;
 	}
 
@@ -96,7 +99,6 @@ void SceneGame::Finalize()
 // 更新処理
 void SceneGame::Update(float elapsedTime)
 {
-
 	//カメラコントローラー更新処理
 	/*DirectX::XMFLOAT3 target = player->GetPosition();
 	target.y += 0.5f;
@@ -117,15 +119,38 @@ void SceneGame::Update(float elapsedTime)
 	//シーン遷移
 	GamePad& gamePad = Input::Instance().GetGamePad();
 
-	const GamePadButton anyButton =
-		GamePad::BTN_START;
+	const GamePadButton anyButton = GamePad::BTN_START;
+
 
 	//マウス位置の取得とロック
 	//Input::Instance().GetMouse().Lock();
 
 	//game_timer -= elapsedTime;
 
-	//if (gamePad.GetButtonDown() & anyButton)
+	game_timer -= elapsedTime;
+
+	//方向キーでBox動かす関数
+	if ((pushUp() || pushDown() || pushLeft() || pushRight()) && game_timer > 2.0f)
+	{
+		std::random_device rd;
+		std::mt19937 gen(rd());
+		std::uniform_int_distribution<int>distX(0, 3);
+		std::uniform_int_distribution<int>distY(0, 3);
+		while (true)
+		{
+			int x = distX(gen);
+			int y = distY(gen);
+
+			if (map[y][x] == 0)
+			{
+				//2の箱だす
+				map[y][x] = 1; 
+				game_timer = 0.0f;
+				break;
+			}
+		}
+	}
+
 	if(game_timer < 0)
 	{
 		//SceneManager::Instance().ChangeScene(new SceneLoading(new SceneGame));
@@ -173,6 +198,7 @@ void SceneGame::Render()
 
 		player->RenderDebugPrimitive(rc, shapeRenderer);
 
+		// box
 		for (int y = 0; y < 4; y++)
 		{
 			for (int x = 0; x < 4; x++)
@@ -182,15 +208,18 @@ void SceneGame::Render()
 				//空のマスはスキップ
 				if (v == 0) continue;
 
-				// map=1 → models[0]
+				// map=1 -> models[0]
 				int modelIndex = v - 1; 
 
 				// model存在するかチェック
 				if (!boxes[modelIndex]) continue;
 
-				DirectX::XMFLOAT3 pos = CalcTilePosition(x, y);
+				//map->world座標に変換してpos決定
+				DirectX::XMFLOAT3 pos = 
+				{ startPos.x + x * tileSize, startPos.y, -(startPos.z + y * tileSize) };
 
 				boxes[modelIndex]->SetPosition(pos);
+				boxes[modelIndex]->UpdateTransform();
 				boxes[modelIndex]->Render(rc, modelRenderer);
 			}
 		}
@@ -215,12 +244,12 @@ void SceneGame::Render()
 			sprite_text->Render(rc,
 				950, 0, 0, 120, 80, 0, 1, 1, 1, 1);
 
-			int n[2]{};
+			//int n[2]{};
 			//n[0] = static_cast<int>(game_timer) / 100 % 10;
-			n[0] = static_cast<int>(game_timer) / 10 % 10;
-			n[1] = static_cast<int>(game_timer) % 10;
+			//n[0] = static_cast<int>(game_timer) / 10 % 10;
+			//n[1] = static_cast<int>(game_timer) % 10;
 
-			for (int i = 0; i < 2; i++)
+			/*for (int i = 0; i < 2; i++)
 			{
 				sprite_number->Render(rc,
 					32 * 2 * i + 1100, 10,
@@ -230,7 +259,7 @@ void SceneGame::Render()
 					372.5, 514,
 					0,
 					1, 1, 1, 1);
-			}
+			}*/
 		}
 	}
 }
@@ -242,20 +271,138 @@ void SceneGame::DrawGUI()
 	player->DrawDebugGUI();
 }
 
-//map->world座標変換関数
-DirectX::XMFLOAT3 SceneGame::CalcTilePosition(int x, int y)
+//方向キーでBox動かす関数
+bool SceneGame::pushUp()
 {
-	//タイル間隔
-	float tileSize = 20.0f;
+	if (GetAsyncKeyState(VK_UP))
+	{
+		for (int y = 1; y < 4; y++)
+		{
+			for (int x = 0; x < 4; x++)
+			{
+				if (map[y][x] != 0)
+				{
+					//一個上と一緒なら合体
+					if (map[y - 1][x] == map[y][x])
+					{
+						map[y - 1][x]++;
+						map[y][x] = 0;
+					}
+					//一個上が0なら移動させる
+					else if (map[y - 1][x] == 0)
+					{
+						map[y - 1][x] = map[y][x];
+						map[y][x] = 0;
+					}
+					//一個上が0じゃなくて、違う数字ならそのまま
+				}
+			}
+		}
+		return true;
+	}
+	else return false;
+}
 
-	float startX = -30.0f;
-	float startZ = -30.0f;
+bool SceneGame::pushDown()
+{
+	if (GetAsyncKeyState(VK_DOWN))
+	{
+		for (int y = 2; y >= 0; y--)
+		{
+			for (int x = 0; x < 4; x++)
+			{
+				if (map[y][x] != 0)
+				{
+					//一個下と一緒なら合体
+					if (map[y + 1][x] == map[y][x])
+					{
+						map[y + 1][x]++;
+						map[y][x] = 0;
+					}
+					//一個下が0なら移動させる
+					else if (map[y + 1][x] == 0)
+					{
+						map[y + 1][x] = map[y][x];
+						map[y][x] = 0;
+					}
+					//一個下が0じゃなくて、違う数字ならそのまま
+				}
+			}
+		}
+		return true;
+	}
+	return false;
+}
 
-	return DirectX::XMFLOAT3(
-		startX + x * tileSize,
-		0.0f,
-		startZ + y * tileSize
-	);
+bool SceneGame::pushLeft()
+{
+	if (GetAsyncKeyState(VK_LEFT))
+	{
+		for (int y = 0; y < 4; y++)
+		{
+			for (int x = 1; x < 4; x++)
+			{
+				if (map[y][x] != 0)
+				{
+					//一個左と一緒なら合体
+					if (map[y][x - 1] == map[y][x])
+					{
+						map[y][x - 1]++;
+						map[y][x] = 0;
+					}
+					//一個左が0なら移動させる
+					else if (map[y][x - 1] == 0)
+					{
+						map[y][x - 1] = map[y][x];
+						map[y][x] = 0;
+					}
+					//一個左が0じゃなくて、違う数字ならそのまま
+				}
+			}
+		}
+		return true;
+	}
+	return false;
+}
+
+bool SceneGame::pushRight()
+{
+	if (GetAsyncKeyState(VK_RIGHT))
+	{
+		bool merged[GRID_MAX][GRID_MAX];
+		for (int y = 0; y < 4; y++)
+		{
+			for (int x = 2; x >= 0; x--)
+			{
+				if (map[y][x] != 0)
+				{
+					int cx = x;
+					while (cx < 3)
+					{
+						//一個右が0なら移動させる
+						if (map[y][cx + 1] == 0)
+						{
+							map[y][cx + 1] = map[y][cx];
+							map[y][cx] = 0;
+							cx++;
+						}
+						//一個右と一緒なら合体
+						else if (map[y][cx + 1] == map[y][cx]
+							&& !merged[y][cx + 1])
+						{
+							map[y][cx + 1]++;
+							map[y][cx] = 0;
+							break;
+						}
+						//一個右が0じゃなくて、違う数字ならそのまま
+						else break;
+					}
+				}
+			}
+		}
+		return true;
+	}
+	return false;
 }
 
 void SceneGame::UpdateCursorToggle()

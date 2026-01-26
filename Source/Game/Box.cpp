@@ -2,9 +2,20 @@
 #include<imgui.h>
 
 //コンストラクタ
-Box::Box()
+Box::Box(int num)
 {
-	model = new Model("Data/Model/Boad/Box_2.mdl");
+	//if(num == 0) model = new Model("Data/Model/Boad/Box.mdl");
+	if(num == 0) model = new Model("Data/Model/Boad/box_2.mdl");
+	if(num == 1) model = new Model("Data/Model/Boad/box_4.mdl");
+	if(num == 2) model = new Model("Data/Model/Boad/box_8.mdl");
+	if(num == 3) model = new Model("Data/Model/Boad/box_16.mdl");
+	if(num == 4) model = new Model("Data/Model/Boad/box_32.mdl");
+	if(num == 5) model = new Model("Data/Model/Boad/box_64.mdl");
+	if(num == 6) model = new Model("Data/Model/Boad/box_128.mdl");
+	if(num == 7) model = new Model("Data/Model/Boad/box_256.mdl");
+	if(num == 8) model = new Model("Data/Model/Boad/box_512.mdl");
+	if(num == 9) model = new Model("Data/Model/Boad/box_1024.mdl");
+	if(num == 10) model = new Model("Data/Model/Boad/box_2048.mdl");
 
 	//モデルが大きいのでスケーリング
 	scale.x = scale.y = scale.z = 0.000001f;
