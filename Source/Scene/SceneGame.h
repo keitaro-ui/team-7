@@ -32,6 +32,7 @@ public:
 
 private:
 	float game_timer;
+	const float coolTime = 1.0f;
 
 	std::unique_ptr<Stage> stage = nullptr;
 

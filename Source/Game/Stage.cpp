@@ -6,7 +6,7 @@ Stage::Stage()
 {
 	//ステージモデルを読み込み
 	model = new Model("Data/Model/Stage/stage.mdl");
-	scale.x = scale.y = scale.z = 0.012f;
+	scale.x = scale.y = scale.z = 1.2f;
 
 }
 
