@@ -55,6 +55,7 @@ private:
 	int map[GRID_MAX][GRID_MAX] = { 0 };
 
 	//
+	bool merged[GRID_MAX][GRID_MAX] = { 0 };
 
 	//map‚Ì1ƒ}ƒX‚ÌŠÔŠu
 	float tileSize = 2.0f;
@@ -67,5 +68,4 @@ private:
 	bool pushDown();
 	bool pushLeft();
 	bool pushRight();
-
 };

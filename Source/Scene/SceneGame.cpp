@@ -119,7 +119,7 @@ void SceneGame::Update(float elapsedTime)
 
 	const GamePadButton anyButton = GamePad::BTN_START;
 
-	game_timer -= elapsedTime;
+	game_timer += elapsedTime;
 
 	//方向キーでBox動かす関数
 	if ((pushUp() || pushDown() || pushLeft() || pushRight()) && game_timer > 2.0f)
@@ -141,6 +141,7 @@ void SceneGame::Update(float elapsedTime)
 				break;
 			}
 		}
+		std::memset(merged, false, sizeof(merged));
 	}
 
 	if(game_timer < 0)
@@ -361,7 +362,9 @@ bool SceneGame::pushRight()
 {
 	if (GetAsyncKeyState(VK_RIGHT))
 	{
-		bool merged[GRID_MAX][GRID_MAX];
+		// 合体済みフラグをリセット
+		/*std::memset(merged, false, sizeof(merged));*/
+
 		for (int y = 0; y < 4; y++)
 		{
 			for (int x = 2; x >= 0; x--)
@@ -384,6 +387,7 @@ bool SceneGame::pushRight()
 						{
 							map[y][cx + 1]++;
 							map[y][cx] = 0;
+							merged[y][cx + 1] = true;
 							break;
 						}
 						//一個右が0じゃなくて、違う数字ならそのまま
