@@ -7,6 +7,7 @@
 #include "System/Sprite.h"
 #include "Scene.h"
 #include "../Game/Box.h"
+#include "../Game/Grid.h"
 
 // ゲームシーン
 class SceneGame : public Scene
@@ -31,6 +32,8 @@ public:
 	void DrawGUI() override;
 
 private:
+	Grid grid;
+
 	float game_timer;
 	const float coolTime = 1.0f;
 
@@ -47,18 +50,6 @@ private:
 	//使う箱の種類
 	std::unique_ptr<Box> boxes[11];
 
-	//マス目の数
-	enum { GRID_MAX = 5 };
-
-	//ステージデータ
-	int map[GRID_MAX][GRID_MAX] = { 0 };
-
-	//移動後のデータいれて、比較するステージデータ
-	bool merged[GRID_MAX][GRID_MAX] = { 0 };
-
-	//移動しているかを判断
-	bool moved = false;
-
 	//重なったらtrue
 	bool overlap = false;
 
@@ -68,13 +59,7 @@ private:
 	float tileSize = 4.4f;
 
 	//map[0][0]の位置
-	DirectX::XMFLOAT3 startPos = { -8.8f, 0.0f, -13.0f };
-
-	//方向キーでBox動かす関数
-	bool pushUp();
-	bool pushDown();
-	bool pushLeft();
-	bool pushRight();
+	DirectX::XMFLOAT3 startPos = { -8.8f, 0.0f, -10.8f };
 
 	void UpdateCursorToggle();
 };
