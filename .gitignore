@@ -433,4 +433,5 @@ FodyWeavers.xsd
 *.app
 
 External/DirectXTex/
+imgui.ini
 
