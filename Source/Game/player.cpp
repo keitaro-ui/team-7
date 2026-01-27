@@ -10,6 +10,7 @@
 #include "../System/Graphics.h"
 #include "Camera.h"
 #include "System/Audio.h"
+#include "random"
 //#include "PlayerManager.h"
 
 int answer = -1, count_1, count_2, count_3, count_4;
@@ -63,6 +64,9 @@ void Player::Update(float elapsedTime)
 	UpdateTransform();
 	model->UpdateTransform();
 
+	game_timer += elapsedTime;
+
+
 	//mouse.Update();
 }
 
@@ -74,26 +78,24 @@ void Player::InputMove(float elapsedTime)
 
 	float speed = 2.9f;
 
-	//ˆÚ“®ˆ—
-	//MoveD(elapsedTime, moveVec.x, moveVec.z, moveSpeed);
 
-	//if (GetAsyncKeyState('W') & 0x8000) moveVec.z += 1.0f;
-	//if (GetAsyncKeyState('S') & 0x8000) moveVec.z -= 1.0f;
-	//if (GetAsyncKeyState('D') & 0x8000) moveVec.x += 1.0f;
-	//if (GetAsyncKeyState('A') & 0x8000) moveVec.x -= 1.0f;
-
-	if (GetAsyncKeyState(0x57) & 0x8000) moveVec.z += 1.0f; // W
-	if (GetAsyncKeyState(0x53) & 0x8000) moveVec.z -= 1.0f; // S
-	if (GetAsyncKeyState(0x44) & 0x8000) moveVec.x += 1.0f; // D
-	if (GetAsyncKeyState(0x41) & 0x8000) moveVec.x -= 1.0f; // A
-
-	DirectX::XMVECTOR v = DirectX::XMLoadFloat3(&moveVec);
+	/*DirectX::XMVECTOR v = DirectX::XMLoadFloat3(&moveVec);
 	if (DirectX::XMVectorGetX(DirectX::XMVector3LengthSq(v)) > 0.0f)
 		v = DirectX::XMVector3Normalize(v);
-	DirectX::XMStoreFloat3(&moveVec, v);
+	DirectX::XMStoreFloat3(&moveVec, v);*/
 
-	position.x += moveVec.x * speed * elapsedTime;
-	position.z += moveVec.z * speed * elapsedTime;
+	DirectX::XMFLOAT3 pos =
+	{
+		startPos.x + playerX * tileSize,
+		startPos.y,
+		-(startPos.z + playerY * tileSize)  // Z”½“]‚Í‚ ‚È‚½‚ÌÀ•WŒn—p
+	};
+
+	MoveGrid();
+	position=pos;
+	//scale.x=scale.y=scale.z= 1.0f,1.0f,1.0f ;
+	//model->UpdateTransform();
+
 
 	//ù‰ñˆ—
 	Turn(elapsedTime, moveVec.x, moveVec.z, turnSpeed);
@@ -269,3 +271,39 @@ void Player::CollisionPlayerVsEnemies()
 		}
 	}
 }
+
+void Player::MoveGrid()
+{
+	if (GetAsyncKeyState('W') & 0x8000)
+	{
+		if (!isWPush && playerY > 0)
+			playerY--;
+		isWPush = true;
+	}
+	else isWPush = false;
+
+	if (GetAsyncKeyState('S') & 0x8000)
+	{
+		if (!isSPush && playerY < MAP_H - 1)
+			playerY++;
+		isSPush = true;
+	}
+	else isSPush = false;
+
+	if (GetAsyncKeyState('A') & 0x8000)
+	{
+		if (!isAPush && playerX > 0)
+			playerX--;
+		isAPush = true;
+	}
+	else isAPush = false;
+
+	if (GetAsyncKeyState('D') & 0x8000)
+	{
+		if (!isDPush && playerX < MAP_W - 1)
+			playerX++;
+		isDPush = true;
+	}
+	else isDPush = false;
+}
+

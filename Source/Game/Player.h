@@ -25,8 +25,7 @@ public:
     //デバッグプリミティブ描画
     void RenderDebugPrimitive(const RenderContext& rc, ShapeRenderer* renderer) override;
 
-
-
+    void MoveGrid();
 
 private:
     Model* model = nullptr;
@@ -44,6 +43,15 @@ private:
     //プレイヤーとエネミーとの衝突処理
     void CollisionPlayerVsEnemies();
 
+    //マス目の数
+    enum { GRID_MAX = 6 };
+
+    //マス目の設定
+    //int map[GRID_MAX][GRID_MAX] = { 0 };
+
+    float game_timer;
+    const float coolTime = 1.0f;
+
 
     float moveSpeed = 5.0f;
 
@@ -54,11 +62,24 @@ private:
     int                    jumpCount = 0;
     int                    jumpLimit = 2;
 
+    const int MAP_W = GRID_MAX;
+    const int MAP_H = GRID_MAX;
+
+    bool isWPush = false;
+    bool isSPush = false;
+    bool isAPush = false;
+    bool isDPush = false;
 
 
     ProjectileManager    projectileManager;
     DirectX::XMFLOAT3 pposition = {};
 
+
+    int playerX = 2;
+    int playerY = 2;    
+    
+    float tileSize = 2.0f;
+    DirectX::XMFLOAT3 startPos = { 0,3,-10 };
 
 public:
     CameraController* cameraController = nullptr;
