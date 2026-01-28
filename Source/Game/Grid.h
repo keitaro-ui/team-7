@@ -7,6 +7,7 @@ private:
 public:
     //ƒ}ƒX–Ú‚Ì”
     enum { GRID_MAX = 5 };
+
     //ˆÚ“®‚µ‚Ä‚¢‚é‚©‚ğ”»’f
     bool moved = false;
 
