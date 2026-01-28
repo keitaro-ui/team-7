@@ -9,6 +9,7 @@
 #include "SceneManager.h"
 #include "SceneTitle.h"
 #include "SceneLoading.h"
+#include"../Game/PlayerManager.h"
 #include <imgui.h>
 
 //float game_timer;
@@ -25,6 +26,8 @@ void SceneGame::Initialize()
 
 	//プレイヤー初期化
 	player = std::make_unique<Player>();
+
+	PlayerManager::Instance().Register(player.get());
 
 	//レティクル関数
 	sprite = new Sprite("Data/Sprite/レティクル.png");
@@ -281,6 +284,9 @@ void SceneGame::DrawGUI()
 		&startPos.x,
 		0.1f    // 変化量
 	);
+
+	//ImGui::Text("player ptr : %p", player);
+	ImGui::Text("X %d", PlayerManager::Instance().GetPlayer()->GetPlayerX());
 
 	ImGui::End();
 

@@ -1,9 +1,8 @@
 #pragma once
-#pragma once
 
 #include <set>
 #include<vector>
-#include"Player.h"
+#include"./Game/Player.h"
 
 //エネミーマネージャー
 class PlayerManager

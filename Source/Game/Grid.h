@@ -12,6 +12,7 @@ public:
 
     int map[GRID_MAX][GRID_MAX];
     bool merged[GRID_MAX][GRID_MAX];
+    int pmap[GRID_MAX][GRID_MAX];
 
     //•ûŒüƒL[‚ÅBox“®‚©‚·ŠÖ”
     bool MoveRight();

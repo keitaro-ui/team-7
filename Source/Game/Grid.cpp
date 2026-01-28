@@ -1,4 +1,6 @@
 #include "Grid.h"
+#include "Player.h"
+#include "./Game/PlayerManager.h"
 
 //•ûŒüƒL[‚ÅBox“®‚©‚·ŠÖ”
 bool Grid::MoveRight()
@@ -176,11 +178,17 @@ void Grid::Spawn()
 		int x = distX(gen);
 		int	y = distY(gen);
 
-		if (map[y][x] == 0)
+		if (map[y][x]==0)
 		{
-			//2‚Ì” ‚¾‚·
-			map[y][x] = 1;
-			break;
+			int playerX = PlayerManager::Instance().GetPlayer()->GetPlayerX();
+			int playerY = PlayerManager::Instance().GetPlayer()->GetPlayerY();
+			//if (pmap[playerY][playerX] != map[y][x])
+			if (playerY != y&& playerX!=x)
+			{
+				//2‚Ì” ‚¾‚·
+				map[y][x] = 1;
+				break;
+			}
 		}
 	}
 }

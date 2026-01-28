@@ -22,11 +22,6 @@ Player::Player()
 
 	//モデルが大きいのでスケーリング
 	scale.x = scale.y = scale.z = 0.01f;
-
-
-	position = {0,0,10.0f};
-
-	//ヒットSE読み込み
 	
 }
 
@@ -90,9 +85,11 @@ void Player::InputMove(float elapsedTime)
 		startPos.y,
 		-(startPos.z + playerY * tileSize)  // Z反転はあなたの座標系用
 	};
+	//map[mapy][mapx]=map[MAP_H][MAP_W];
 
 	MoveGrid();
 	position=pos;
+
 	//scale.x=scale.y=scale.z= 1.0f,1.0f,1.0f ;
 	//model->UpdateTransform();
 
@@ -163,6 +160,9 @@ void Player::DrawDebugGUI()
 			{
 				scale.x = scale.y = scale.z = uniformScale;
 			}
+
+			ImGui::Text("playerX : %d", playerX);
+			ImGui::Text("playerY : %d", playerY);
 		}
 	}
 	ImGui::End();
@@ -173,16 +173,6 @@ void Player::DrawDebugGUI()
 void Player::Render(const RenderContext& rc, ModelRenderer* renderer)
 {
 	renderer->Render(rc, transform, model, ShaderId::Lambert);
-
-	//renderer->Render(rc, transform, model, ShaderId::Lambert);
-	//projectileManager.Render(rc, renderer);
-
-	//弾丸描画処理
-	//projectileManager.Render(rc, renderer);
-	//DirectX::XMFLOAT4X4 projectileTransform = model->GetNode("tipofPistol")->globalTransform;
-	//DirectX::XMMATRIX projectileMATRIX = DirectX::XMLoadFloat4x4(&projectileTransform);
-	//DirectX::XMMATRIX worldMatrix = DirectX::XMLoadFloat4x4(&transform);
-	//DirectX::XMStoreFloat4x4(&projectileTransform, projectileMATRIX * worldMatrix);
 }
 
 //デバッグプリミティブ描画
@@ -305,5 +295,7 @@ void Player::MoveGrid()
 		isDPush = true;
 	}
 	else isDPush = false;
+
+	//map[playerY][playerX];
 }
 
