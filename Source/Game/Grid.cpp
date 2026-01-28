@@ -195,6 +195,10 @@ void Grid::Spawn()
 
 bool Grid::IsGameOver()
 {
+	//
+	if (PlayerDie())
+		return true;
+
 	// 空きマスがあればまだ終わらない
 	if (HasEmptyCell())
 		return false;
@@ -204,6 +208,23 @@ bool Grid::IsGameOver()
 		return false;
 
 	// 空きなし＆合体不可 → ゲームオーバー
+	return true;
+}
+
+bool Grid::PlayerDie()
+{
+	int playerX = PlayerManager::Instance().GetPlayer()->GetPlayerX();
+	int playerY = PlayerManager::Instance().GetPlayer()->GetPlayerY();
+	for (int y = 0; y < GRID_MAX; y++)
+	{
+		for (int x = 0; x < GRID_MAX; x++)
+		{
+			if (playerY == y && playerX == x)
+			{
+				return false;
+			}
+		}
+	}
 	return true;
 }
 

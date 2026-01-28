@@ -24,6 +24,8 @@ public:
     void Spawn();
     bool IsGameOver();
 
+    bool PlayerDie();
+
     //空きマスチェック
     bool HasEmptyCell();
 
