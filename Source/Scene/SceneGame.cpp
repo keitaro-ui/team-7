@@ -42,7 +42,7 @@ void SceneGame::Initialize()
 	Graphics& graphics = Graphics::Instance();
 	Camera& camera = Camera::Instance();
 	camera.SetLookAt(
-		DirectX::XMFLOAT3(0, 10, -10),//視点
+		DirectX::XMFLOAT3(0, 10, -5),//視点
 		DirectX::XMFLOAT3(0, 0, 0),//注視点
 		DirectX::XMFLOAT3(0, 1, 0)//上方向
 		);
@@ -58,19 +58,14 @@ void SceneGame::Initialize()
 	cameraController = new CameraController();
 	player->cameraController = cameraController;
 
-	//箱の初期位置をランダムで決定
+	//game情報を初期化し、ランダム二か所に描画
 	std::memset(grid.map, 0, sizeof(grid.map));
 	std::memset(grid.merged, false, sizeof(grid.merged));
 	grid.moved = false;
 
-	std::random_device rd;
-	std::mt19937 gen(rd());
-	std::uniform_int_distribution<int>distX (0, grid.GRID_MAX - 1);
-	std::uniform_int_distribution<int>distZ(0, grid.GRID_MAX - 1);
+	grid.Spawn();
+	grid.Spawn();
 
-	grid.map[distX(gen)][distZ(gen)] = 1;
-	grid.map[distZ(gen)][distX(gen)] = 1;
-	
 	//debug
 	{
 		/*map[0][0] = 1;
@@ -118,7 +113,7 @@ void SceneGame::Update(float elapsedTime)
 	//エネミー更新処理
 	EnemyManager::Instance().Update(elapsedTime);
 
-	//
+	//カーソル出すやつ
 	UpdateCursorToggle();
 
 	//シーン遷移
@@ -144,15 +139,10 @@ void SceneGame::Update(float elapsedTime)
 		}
 	}
 
-	if(game_timer < 0)
+	//ゲームオーバー処理
+	if (grid.IsGameOver())
 	{
-		//SceneManager::Instance().ChangeScene(new SceneLoading(new SceneGame));
-		player->finish = true;
-	}
-
-	if (gamePad.GetButtonDown() & anyButton&&player->finish==true)
-	{
-		//SceneManager::Instance().ChangeScene(new SceneLoading(new SceneGame));
+		SceneManager::Instance().ChangeScene(new SceneLoading(new SceneGame));
 	}
 }
 
@@ -223,19 +213,19 @@ void SceneGame::Render()
 			//player->RenderDebugPrimitive(rc, shapeRenderer);
 
 			//エネミーデバッグプリミティブ描画
-			EnemyManager::Instance();
+			//EnemyManager::Instance()
 			//.RenderDebugPrimitive(rc, shapeRenderer);
 		}
 
 		// 2Dスプライト描画
 		{
-			sprite->Render(rc,
+			/*sprite->Render(rc,
 				610, 335, 0, 64.0f, 64.0f,
 				0,
 				1, 1, 1, 1);
 
 			sprite_text->Render(rc,
-				950, 0, 0, 120, 80, 0, 1, 1, 1, 1);
+				950, 0, 0, 120, 80, 0, 1, 1, 1, 1);*/
 
 			//int n[2]{};
 			//n[0] = static_cast<int>(game_timer) / 100 % 10;
@@ -354,6 +344,7 @@ void SceneGame::DrawGUI()
 	}
 
 	ImGui::End();
+
 
 }
 

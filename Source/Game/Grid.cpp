@@ -185,6 +185,19 @@ void Grid::Spawn()
 	}
 }
 
+bool Grid::IsGameOver()
+{
+	// 空きマスがあればまだ終わらない
+	if (HasEmptyCell())
+		return false;
+
+	// 合体できるならまだ終わらない
+	if (CanMerge())
+		return false;
+
+	// 空きなし＆合体不可 → ゲームオーバー
+	return true;
+}
 
 bool Grid::HasEmptyCell()
 {
