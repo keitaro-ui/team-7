@@ -4,7 +4,7 @@
 #include "System/ModelRenderer.h";
 
 //ステージ
-class Stage:public Character
+class Stage : public Character
 {
 public:
 	Stage();

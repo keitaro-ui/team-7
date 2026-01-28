@@ -19,30 +19,47 @@ void CameraController::Update(float elapsedTime)
 	// マウスで回転（Y軸のみ）
 	//angle.y += mouseDeltaX * 0.002f;
 
-	// 高さと距離（俯瞰用）
-	float height = 18.0f;
-	float distance = 12.0f;
-
 	// Y回転だけの行列
+	DirectX::XMMATRIX rotX = DirectX::XMMatrixRotationX(angle.x);
 	DirectX::XMMATRIX rotY = DirectX::XMMatrixRotationY(angle.y);
+	DirectX::XMMATRIX rot = rotX * rotY;
 
-	// 後ろ方向ベクトル
-	DirectX::XMVECTOR back =
+	//// 後ろ方向ベクトル
+	//DirectX::XMVECTOR back =
+	//	DirectX::XMVector3TransformCoord(
+	//		DirectX::XMVectorSet(0, 0, -distance, 0),
+	//		rotY
+	//	);
+
+	//DirectX::XMFLOAT3 backDir;
+	//DirectX::XMStoreFloat3(&backDir, back);
+
+	//eye.x = target.x + backDir.x;
+	//eye.y = target.y + height;
+	//eye.z = target.z + backDir.z;
+
+	//// わずかに前を見る
+	///*target.x = eye.x;
+	//target.y = eye.y - 10.0f;
+	//target.z = eye.z + 2.0f; */
+
+	//Camera::Instance().SetLookAt(
+	//	eye,
+	//	target,
+	//	DirectX::XMFLOAT3(0, 1, 0)
+	//);
+	DirectX::XMVECTOR offset =
 		DirectX::XMVector3TransformCoord(
 			DirectX::XMVectorSet(0, 0, -distance, 0),
-			rotY
+			rot
 		);
 
-	DirectX::XMFLOAT3 backDir;
-	DirectX::XMStoreFloat3(&backDir, back);
+	DirectX::XMFLOAT3 off;
+	DirectX::XMStoreFloat3(&off, offset);
 
-	eye.x = target.x + backDir.x;
-	eye.y = target.y + height;
-	eye.z = target.z + backDir.z;
-
-	/*target.x = eye.x;
-	target.y = eye.y - 10.0f;
-	target.z = eye.z + 2.0f; // わずかに前を見る*/
+	eye.x = target.x + off.x;
+	eye.y = target.y + off.y;
+	eye.z = target.z + off.z;
 
 	Camera::Instance().SetLookAt(
 		eye,
