@@ -15,6 +15,8 @@ public:
 	//•`‰æˆ—
 	void Render(const RenderContext& rc, ModelRenderer* renderer) override;
 
+	void DrawGUI();
+
 private:
 	Model* model = nullptr;
 	float radius = 0.0f;
