@@ -1,5 +1,6 @@
 #pragma once
 #include <random>
+#include<memory>
 
 class Grid
 {
@@ -24,7 +25,7 @@ public:
     void Spawn();
     bool IsGameOver();
 
-    bool PlayerDie();
+    void PlayerDie(int x,int y);
 
     //空きマスチェック
     bool HasEmptyCell();
@@ -32,4 +33,5 @@ public:
     //合体できるかチェック
     bool CanMerge();
 
+    void CanSlideW();
 };
