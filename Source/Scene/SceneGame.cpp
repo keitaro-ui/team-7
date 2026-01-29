@@ -26,6 +26,8 @@ void SceneGame::Initialize()
 	//ƒvƒŒƒCƒ„[‰Šú‰»
 	player = std::make_unique<Player>();
 
+	GridManager::Instance().Register(&grid);
+
 	PlayerManager::Instance().Register(player.get());
 	//GridManager::Instance().Register(grid.)
 	

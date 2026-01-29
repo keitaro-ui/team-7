@@ -1,5 +1,10 @@
 #include "GridManager.h"
 
+GridManager::GridManager()
+{
+	
+}
+
 void GridManager::Update(float elapsedTime)
 {
 	
