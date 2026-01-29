@@ -187,6 +187,10 @@
       <Filter>Source\Game</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\GridManager.h">
+    <ClInclude Include="Source\SoundManager.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\item.h">
       <Filter>Source\Game</Filter>
     </ClInclude>
   </ItemGroup>
@@ -333,6 +337,10 @@
       <Filter>Source\Game</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\GridManager.cpp">
+    <ClCompile Include="Source\SoundManager.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\item.cpp">
       <Filter>Source\Game</Filter>
     </ClCompile>
   </ItemGroup>

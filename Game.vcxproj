@@ -129,7 +129,11 @@
     <ClInclude Include="Source\Game\EnemyManager.h" />
     <ClInclude Include="Source\Game\EnemySlime.h" />
     <ClInclude Include="Source\Game\Grid.h" />
+
     <ClInclude Include="Source\Game\GridManager.h" />
+
+    <ClInclude Include="Source\Game\item.h" />
+
     <ClInclude Include="Source\Game\Player.h" />
     <ClInclude Include="Source\Game\PlayerManager.h" />
     <ClInclude Include="Source\Game\Stage.h" />
@@ -144,6 +148,7 @@
     <ClInclude Include="Source\Scene\SceneResult.h" />
     <ClInclude Include="Source\Scene\SceneTitle.h" />
     <ClInclude Include="Source\Scene\SceneTutorial.h" />
+    <ClInclude Include="Source\SoundManager.h" />
     <ClInclude Include="Source\System\Audio.h" />
     <ClInclude Include="Source\System\AudioResource.h" />
     <ClInclude Include="Source\System\AudioSource.h" />
@@ -184,6 +189,7 @@
     <ClCompile Include="Source\Game\EnemySlime.cpp" />
     <ClCompile Include="Source\Game\Grid.cpp" />
     <ClCompile Include="Source\Game\GridManager.cpp" />
+    <ClCompile Include="Source\Game\item.cpp" />
     <ClCompile Include="Source\Game\player.cpp" />
     <ClCompile Include="Source\Game\PlayerManager.cpp" />
     <ClCompile Include="Source\Game\Stage.cpp" />
@@ -198,6 +204,7 @@
     <ClCompile Include="Source\Scene\SceneResult.cpp" />
     <ClCompile Include="Source\Scene\SceneTitle.cpp" />
     <ClCompile Include="Source\Scene\SceneTutorial.cpp" />
+    <ClCompile Include="Source\SoundManager.cpp" />
     <ClCompile Include="Source\System\Audio.cpp" />
     <ClCompile Include="Source\System\AudioResource.cpp" />
     <ClCompile Include="Source\System\AudioSource.cpp" />

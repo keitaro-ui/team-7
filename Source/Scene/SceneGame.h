@@ -8,6 +8,7 @@
 #include "Scene.h"
 #include "../Game/Box.h"
 #include "../Game/Grid.h"
+#include "SoundManager.h"
 
 // ゲームシーン
 class SceneGame : public Scene
@@ -56,10 +57,9 @@ private:
 	bool up = false;
 
 	//mapの1マスの間隔
-	float tileSize = 4.4f;
-
+	float tileSize;
 	//map[0][0]の位置
-	DirectX::XMFLOAT3 startPos = { -8.8f, 0.0f, -10.8f };
+	DirectX::XMFLOAT3 startPos;
 
 	void UpdateCursorToggle();
 };
