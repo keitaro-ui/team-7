@@ -1,6 +1,9 @@
 #include "Grid.h"
 #include "Player.h"
 #include "./Game/PlayerManager.h"
+#include "Scene/SceneManager.h"
+#include"Scene/SceneLoading.h"
+#include"Scene/SceneGame.h"
 
 //方向キーでBox動かす関数
 bool Grid::MoveRight()
@@ -23,6 +26,7 @@ bool Grid::MoveRight()
 						map[y][cx + 1] = map[y][cx];
 						map[y][cx] = 0;
 						cx++;
+						PlayerDie(cx, y);
 						moved = true;
 					}
 					//一個右と一緒なら合体
@@ -64,6 +68,7 @@ bool Grid::MoveLeft()
 						map[y][cx - 1] = map[y][cx];
 						map[y][cx] = 0;
 						cx--;
+						PlayerDie(cx, y);
 						moved = true;
 					}
 					//一個左と一緒なら合体
@@ -105,6 +110,7 @@ bool Grid::MoveUp()
 						map[cy - 1][x] = map[cy][x];
 						map[cy][x] = 0;
 						cy--;
+						PlayerDie(x, cy);
 						moved = true;
 					}
 					//一個上と一緒なら合体
@@ -140,12 +146,14 @@ bool Grid::MoveDown()
 				int cy = y;
 				while (cy < GRID_MAX - 1)
 				{
+					//PlayerDie(x, y);
 					//一個下が0なら移動させる
 					if (map[cy + 1][x] == 0)
 					{
 						map[cy + 1][x] = map[cy][x];
 						map[cy][x] = 0;
 						cy++;
+						PlayerDie(x, cy);
 						moved = true;
 					}
 					//一個下と一緒なら合体
@@ -195,9 +203,6 @@ void Grid::Spawn()
 
 bool Grid::IsGameOver()
 {
-	//
-	if (PlayerDie())
-		return true;
 
 	// 空きマスがあればまだ終わらない
 	if (HasEmptyCell())
@@ -211,21 +216,14 @@ bool Grid::IsGameOver()
 	return true;
 }
 
-bool Grid::PlayerDie()
+void Grid::PlayerDie(int x, int y)
 {
 	int playerX = PlayerManager::Instance().GetPlayer()->GetPlayerX();
 	int playerY = PlayerManager::Instance().GetPlayer()->GetPlayerY();
-	for (int y = 0; y < GRID_MAX; y++)
+	if (playerY == y && playerX == x)
 	{
-		for (int x = 0; x < GRID_MAX; x++)
-		{
-			if (playerY == y && playerX == x)
-			{
-				return false;
-			}
-		}
+		SceneManager::Instance().ChangeScene(new SceneLoading(new SceneGame));
 	}
-	return true;
 }
 
 bool Grid::HasEmptyCell()
@@ -256,4 +254,21 @@ bool Grid::CanMerge()
 		}
 	}
 	return false;
+}
+
+void Grid::CanSlide()
+{
+	IsW = false; // 初期化
+
+	for (int y = 1; y < GRID_MAX; y++)
+	{
+		for (int x = 0; x < GRID_MAX; x++)
+		{
+			if (map[y][x] == 1 && map[y - 1][x] == 0)
+			{
+				IsW = true;
+				return; // 1個でも動けたらOK
+			}
+		}
+	}
 }

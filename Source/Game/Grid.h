@@ -4,6 +4,10 @@
 class Grid
 {
 private:
+    bool IsW = false;
+    bool IsS = false;
+    bool IsA = false;
+    bool IsD = false;
 public:
     //マス目の数
     enum { GRID_MAX = 5 };
@@ -24,7 +28,7 @@ public:
     void Spawn();
     bool IsGameOver();
 
-    bool PlayerDie();
+    void PlayerDie(int x,int y);
 
     //空きマスチェック
     bool HasEmptyCell();
@@ -32,4 +36,10 @@ public:
     //合体できるかチェック
     bool CanMerge();
 
+    void CanSlide();
+
+    bool GetIsW() { return IsW; }
+    bool GetIsS() { return IsS; }
+    bool GetIsA() { return IsA; }
+    bool GetIsD() { return IsD; }
 };

@@ -88,32 +88,6 @@ private:
     float tileSize = 4.4f;
     DirectX::XMFLOAT3 startPos = { -8.8f, 0.0f, -10.8f };
     
-   /* int grid1 = 0;
-    int grid2 = 0;
-    int grid3 = 0;
-    int grid4 = 0;
-    int grid5 = 0;
-    int grid6 = 0;
-    int grid7 = 0;
-    int grid8 = 0;
-    int grid9 = 0;
-    int grid10 = 0;
-    int grid11 = 0;
-    int grid12 = 0;
-    int grid13 = 0;
-    int grid14 = 0;
-    int grid15 = 0;
-    int grid16 = 0;
-    int grid17 = 0;
-    int grid18 = 0;
-    int grid19 = 0;
-    int grid20 = 0;
-    int grid21 = 0;
-    int grid22 = 0;
-    int grid23 = 0;
-    int grid24 = 0;
-    int grid25 = 0;
-    */
 
 public:
     CameraController* cameraController = nullptr;

@@ -126,6 +126,8 @@ void SceneGame::Update(float elapsedTime)
 
 	game_timer += elapsedTime;
 
+	//grid.CanSlide();
+
 	//•ûŒüƒL[‚ÅBox“®‚©‚·ŠÖ”
 	if (game_timer > coolTime)
 	{

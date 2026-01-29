@@ -186,6 +186,9 @@
     <ClInclude Include="Source\Game\PlayerManager.h">
       <Filter>Source\Game</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\GridManager.h">
+      <Filter>Source\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="External\imgui-docking\imgui.cpp">
@@ -327,6 +330,9 @@
       <Filter>Source\Game</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\PlayerManager.cpp">
+      <Filter>Source\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GridManager.cpp">
       <Filter>Source\Game</Filter>
     </ClCompile>
   </ItemGroup>

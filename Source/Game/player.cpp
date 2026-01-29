@@ -11,6 +11,8 @@
 #include "Camera.h"
 #include "System/Audio.h"
 #include "random"
+#include "GridManager.h"
+#include "Grid.h"
 //#include "PlayerManager.h"
 
 int answer = -1, count_1, count_2, count_3, count_4;
@@ -23,6 +25,7 @@ Player::Player()
 	//モデルが大きいのでスケーリング
 	scale.x = scale.y = scale.z = 0.01f;
 	
+	angle = { 0,0,0 };
 }
 
 //デストラクタ
@@ -45,8 +48,8 @@ void Player::Update(float elapsedTime)
 	////ジャンプ入力処理
 	//InputJump();
 
-	angle.x = -cameraController->getAngle().x;
-	angle.y = cameraController->getAngle().y - DirectX::XM_PIDIV2;
+	//angle.x = -cameraController->getAngle().x;
+	//angle.y = cameraController->getAngle().y - DirectX::XM_PIDIV2;
 
 
 	//速力処理更新
@@ -128,15 +131,15 @@ void Player::DrawDebugGUI()
 			angleDeg.y = DirectX::XMConvertToDegrees(angle.y);
 			angleDeg.z = DirectX::XMConvertToDegrees(angle.z);
 
-			if (ImGui::DragFloat3(
+			if (ImGui::DragFloat(
 				"Rotation",
-				&angleDeg.x,
+				&angle.y,
 				0.5f     // 回転量（度）
 			))
 			{
-				angle.x = DirectX::XMConvertToRadians(angleDeg.x);
+				/*angle.x = DirectX::XMConvertToRadians(angleDeg.x);
 				angle.y = DirectX::XMConvertToRadians(angleDeg.y);
-				angle.z = DirectX::XMConvertToRadians(angleDeg.z);
+				angle.z = DirectX::XMConvertToRadians(angleDeg.z);*/
 			}
 
 			// スケール
@@ -266,14 +269,20 @@ void Player::MoveGrid()
 {
 	if (GetAsyncKeyState('W') & 0x8000)
 	{
-		if (!isWPush && playerY > 0)
-			playerY--;
+		angle.y = 6.3f;
+		//if (GridManager::Instance().GetGrid()->GetIsW() == true)
+		{
+			if (!isWPush && playerY > 0)
+				playerY--;
+		}
+			
 		isWPush = true;
 	}
 	else isWPush = false;
 
 	if (GetAsyncKeyState('S') & 0x8000)
 	{
+		angle.y = 3.15f;
 		if (!isSPush && playerY < MAP_H - 1)
 			playerY++;
 		isSPush = true;
@@ -282,6 +291,7 @@ void Player::MoveGrid()
 
 	if (GetAsyncKeyState('A') & 0x8000)
 	{
+		angle.y = 4.75f;
 		if (!isAPush && playerX > 0)
 			playerX--;
 		isAPush = true;
@@ -290,6 +300,7 @@ void Player::MoveGrid()
 
 	if (GetAsyncKeyState('D') & 0x8000)
 	{
+		angle.y = 1.65f;
 		if (!isDPush && playerX < MAP_W - 1)
 			playerX++;
 		isDPush = true;
