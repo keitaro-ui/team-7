@@ -11,8 +11,8 @@
 class GridManager
 {
 private:
-	GridManager() {}
-	~GridManager() {}
+	GridManager();
+	~GridManager() { }
 
 public:
 	//唯一のインスタンス取得
@@ -33,10 +33,18 @@ public:
 
 	int GetData(int x, int y);
 
+	void Null()
+	{
+		grid = nullptr;
+	}
+
 	void Register(Grid* g) { grid = g; }
 
 	Grid* GetGrid() { return grid; }
+
 	
 private:
-	Grid* grid;
+	//std::unique_ptr<Grid>grid = nullptr;
+	//Grid* grid;
+	Grid* grid = nullptr;
 };

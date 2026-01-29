@@ -99,6 +99,8 @@ bool Grid::MoveUp()
 	{
 		for (int y = 1; y < GRID_MAX; y++)
 		{
+
+
 			if (map[y][x] != 0)
 			{
 				int cy = y;

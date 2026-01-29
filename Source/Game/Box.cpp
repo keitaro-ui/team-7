@@ -46,6 +46,11 @@ void Box::Update(float elapsedTime)
 	//無敵時間更新
 	UpdateInvincibleTimer(elapsedTime);
 
+	
+}
+
+void Box::DrawGUI()
+{
 	ImGui::Begin("Model Scale");
 
 	// 等方スケール用の1変数
@@ -68,5 +73,7 @@ void Box::Update(float elapsedTime)
 //描画処理
 void Box::Render(const RenderContext& rc, ModelRenderer* renderer)
 {
+	DrawGUI();
+
 	renderer->Render(rc, transform, model, ShaderId::Lambert);
 }
