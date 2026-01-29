@@ -26,6 +26,8 @@ void SceneGame::Initialize()
 	//ƒvƒŒƒCƒ„[‰Šú‰»
 	player = std::make_unique<Player>();
 
+	GridManager::Instance().Register(&grid);
+
 	PlayerManager::Instance().Register(player.get());
 	//GridManager::Instance().Register(grid.)
 	
@@ -197,26 +199,34 @@ void SceneGame::Render()
 		player->RenderDebugPrimitive(rc, shapeRenderer);
 
 		// box
-		for (int y = 0; y < grid.GRID_MAX; y++)
+		if (isMoving)
 		{
-			for (int x = 0; x < grid.GRID_MAX; x++)
+
+
+		}
+		else
+		{
+			for (int y = 0; y < grid.GRID_MAX; y++)
 			{
-				int v = grid.map[y][x];
-				if (v == 0) continue;
-
-				int modelIndex = v - 1;
-				if (modelIndex < 0 || modelIndex >= 11) continue;
-
-				DirectX::XMFLOAT3 pos =
+				for (int x = 0; x < grid.GRID_MAX; x++)
 				{
-					startPos.x + x * tileSize,
-					startPos.y,
-					-(startPos.z + y * tileSize)
-				};
+					int v = grid.map[y][x];
+					if (v == 0) continue;
 
-				boxes[modelIndex]->SetPosition(pos);
-				boxes[modelIndex]->UpdateTransform();
-				boxes[modelIndex]->Render(rc, modelRenderer);
+					int modelIndex = v - 1;
+					if (modelIndex < 0 || modelIndex >= 11) continue;
+
+					DirectX::XMFLOAT3 pos =
+					{
+						startPos.x + x * tileSize,
+						startPos.y,
+						-(startPos.z + y * tileSize)
+					};
+
+					boxes[modelIndex]->SetPosition(pos);
+					boxes[modelIndex]->UpdateTransform();
+					boxes[modelIndex]->Render(rc, modelRenderer);
+				}
 			}
 		}
 

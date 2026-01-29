@@ -35,6 +35,8 @@ public:
 private:
 	Grid grid;
 
+	//std::unique_ptr<Grid>grid = nullptr;
+
 	float game_timer;
 	const float coolTime = 1.0f;
 
@@ -60,6 +62,8 @@ private:
 	float tileSize;
 	//map[0][0]�̈ʒu
 	DirectX::XMFLOAT3 startPos;
+
+	bool isMoving = false;
 
 	void UpdateCursorToggle();
 };
