@@ -87,6 +87,8 @@ private:
     
     float tileSize = 4.4f;
     DirectX::XMFLOAT3 startPos = { -8.8f, 0.0f, -11.8f };
+
+    int dataW = 0;
     
 
 public:

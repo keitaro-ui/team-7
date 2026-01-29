@@ -20,7 +20,7 @@ int answer = -1, count_1, count_2, count_3, count_4;
 //コンストラクタ
 Player::Player()
 {
-	model = new Model("Data/Model/Slime/Slime.mdl");
+	model = new Model("Data/Model/Player/Player.mdl");
 
 	//モデルが大きいのでスケーリング
 	scale.x = scale.y = scale.z = 0.01f;
@@ -167,6 +167,8 @@ void Player::DrawDebugGUI()
 
 			ImGui::Text("playerX : %d", playerX);
 			ImGui::Text("playerY : %d", playerY);
+
+			ImGui::Text("data : %d", dataW);
 		}
 	}
 	ImGui::End();
@@ -270,12 +272,13 @@ void Player::MoveGrid()
 {
 	if (GetAsyncKeyState('W') & 0x8000)
 	{
+
 		angle.y = 6.3f;
 
 		//Grid* g = GridManager::Instance().GetGrid();
-		//int data = GridManager::Instance().GetData(playerX, playerY-1);
+		dataW = GridManager::Instance().GetData(playerX, playerY-1);
 
-		//if (data==0)
+		if (dataW==0)
 		{
 			if (!isWPush && playerY > 0)
 				playerY--;
@@ -288,8 +291,12 @@ void Player::MoveGrid()
 	if (GetAsyncKeyState('S') & 0x8000)
 	{
 		angle.y = 3.15f;
-		if (!isSPush && playerY < MAP_H - 1)
-			playerY++;
+		int dataS = GridManager::Instance().GetData(playerX, playerY + 1);
+		if (dataS == 0)
+		{
+			if (!isSPush && playerY < MAP_H - 1)
+				playerY++;
+		}
 		isSPush = true;
 	}
 	else isSPush = false;
@@ -297,8 +304,13 @@ void Player::MoveGrid()
 	if (GetAsyncKeyState('A') & 0x8000)
 	{
 		angle.y = 4.75f;
-		if (!isAPush && playerX > 0)
-			playerX--;
+
+		int dataA = GridManager::Instance().GetData(playerX - 1, playerY);
+		if (dataA == 0)
+		{
+			if (!isAPush && playerX > 0)
+				playerX--;
+		}
 		isAPush = true;
 	}
 	else isAPush = false;
@@ -306,8 +318,12 @@ void Player::MoveGrid()
 	if (GetAsyncKeyState('D') & 0x8000)
 	{
 		angle.y = 1.65f;
-		if (!isDPush && playerX < MAP_W - 1)
-			playerX++;
+		int dataD = GridManager::Instance().GetData(playerX + 1, playerY);
+		if (dataD == 0)
+		{
+			if (!isDPush && playerX < MAP_W - 1)
+				playerX++;
+		}
 		isDPush = true;
 	}
 	else isDPush = false;
