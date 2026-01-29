@@ -1,13 +1,10 @@
 #pragma once
 #include <random>
+#include<memory>
 
 class Grid
 {
 private:
-    bool IsW = false;
-    bool IsS = false;
-    bool IsA = false;
-    bool IsD = false;
 public:
     //マス目の数
     enum { GRID_MAX = 5 };
@@ -36,10 +33,5 @@ public:
     //合体できるかチェック
     bool CanMerge();
 
-    void CanSlide();
-
-    bool GetIsW() { return IsW; }
-    bool GetIsS() { return IsS; }
-    bool GetIsA() { return IsA; }
-    bool GetIsD() { return IsD; }
+    void CanSlideW();
 };

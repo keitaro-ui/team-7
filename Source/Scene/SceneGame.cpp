@@ -10,6 +10,7 @@
 #include "SceneTitle.h"
 #include "SceneLoading.h"
 #include"../Game/PlayerManager.h"
+#include "../Game/GridManager.h"
 #include <imgui.h>
 
 // 初期化
@@ -26,7 +27,8 @@ void SceneGame::Initialize()
 	player = std::make_unique<Player>();
 
 	PlayerManager::Instance().Register(player.get());
-
+	//GridManager::Instance().Register(grid.)
+	
 	//レティクル関数
 	sprite = new Sprite("Data/Sprite/レティクル.png");
 	sprite_number = new Sprite("Data/Sprite/number.png");
@@ -133,7 +135,7 @@ void SceneGame::Update(float elapsedTime)
 	const GamePadButton anyButton = GamePad::BTN_START;
 
 
-	//grid.CanSlide();
+	//grid.CanSlideW();
 
 	//方向キーでBox動かす関数
 	if (game_timer > coolTime)

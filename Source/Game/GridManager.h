@@ -5,6 +5,8 @@
 #include"./Game/Grid.h"
 #include <ProjectileManager.h>
 
+
+
 //エネミーマネージャー
 class GridManager
 {
@@ -28,6 +30,8 @@ public:
 
 	//デバッグプリミティブ描画
 	void RenderDebugPrimitive(const RenderContext& rc, ShapeRenderer* renderer);
+
+	int GetData(int x, int y);
 
 	void Register(Grid* g) { grid = g; }
 

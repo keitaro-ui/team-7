@@ -256,19 +256,21 @@ bool Grid::CanMerge()
 	return false;
 }
 
-void Grid::CanSlide()
+void Grid::CanSlideW()
 {
-	IsW = false; // ‰Šú‰»
 
-	for (int y = 1; y < GRID_MAX; y++)
-	{
-		for (int x = 0; x < GRID_MAX; x++)
-		{
-			if (map[y][x] == 1 && map[y - 1][x] == 0)
-			{
-				IsW = true;
-				return; // 1ŒÂ‚Å‚à“®‚¯‚½‚çOK
-			}
-		}
-	}
+	//for (int y = 1; y < GRID_MAX; y++)
+	//{
+	//	for (int x = 0; x < GRID_MAX; x++)
+	//	{
+	//		//if (map[y][x] == 1 && map[y - 1][x] == 0)
+	//		if (map[y - 1][x] == 1)
+	//		{
+	//			IsW = true;
+	//			return; // 1ŒÂ‚Å‚à“®‚¯‚½‚çOK
+	//		}
+	//		else
+	//			IsW = false;
+	//	}
+	//}
 }

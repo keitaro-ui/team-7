@@ -26,6 +26,7 @@ Player::Player()
 	scale.x = scale.y = scale.z = 0.01f;
 	
 	angle = { 0,0,0 };
+
 }
 
 //デストラクタ
@@ -270,7 +271,11 @@ void Player::MoveGrid()
 	if (GetAsyncKeyState('W') & 0x8000)
 	{
 		angle.y = 6.3f;
-		//if (GridManager::Instance().GetGrid()->GetIsW() == true)
+
+		//Grid* g = GridManager::Instance().GetGrid();
+		//int data = GridManager::Instance().GetData(playerX, playerY-1);
+
+		//if (data==0)
 		{
 			if (!isWPush && playerY > 0)
 				playerY--;
