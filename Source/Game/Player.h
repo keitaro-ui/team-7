@@ -86,13 +86,20 @@ private:
     int playerY = 2;    
     
     float tileSize = 4.4f;
-    DirectX::XMFLOAT3 startPos = { -8.8f, 0.0f, -11.8f };
+    DirectX::XMFLOAT3 startPos = { -8.7f, 0.0f, -11.8f };
 
     int dataW = 0;
     
 
 public:
     CameraController* cameraController = nullptr;
+
+    // アニメーション
+    enum class PlayerAnimation
+    {
+        walk,
+        
+    };
 
     int GetPlayerX()const { return playerX; }
     int GetPlayerY()const { return playerY; }

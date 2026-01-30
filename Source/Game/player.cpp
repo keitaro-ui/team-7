@@ -20,10 +20,12 @@ int answer = -1, count_1, count_2, count_3, count_4;
 //コンストラクタ
 Player::Player()
 {
-	model = new Model("Data/Model/Player/Player.mdl");
+	model = new Model("Data/Model/Player/player_robot.mdl");
+
+	model->PlayAnimation(0, true);
 
 	//モデルが大きいのでスケーリング
-	scale.x = scale.y = scale.z = 0.01f;
+	scale.x = scale.y = scale.z = 0.041f;
 	
 	angle = { 0,0,0 };
 
@@ -61,6 +63,7 @@ void Player::Update(float elapsedTime)
 
 	//オブジェクト行列を更新
 	UpdateTransform();
+	model->UpdateAnimation(elapsedTime);
 	model->UpdateTransform();
 
 	game_timer += elapsedTime;
