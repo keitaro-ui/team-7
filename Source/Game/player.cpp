@@ -13,6 +13,7 @@
 #include "random"
 #include "GridManager.h"
 #include "Grid.h"
+#include "SoundManager.h"
 #include "Scene/SceneTitle.h"
 //#include "PlayerManager.h"
 
@@ -94,6 +95,8 @@ void Player::Update(float elapsedTime)
 		{
 			if (currentAnim != 3)
 			{
+				//BGM
+				SoundManager::Instance().GetSound(SoundList::playerSE)->Stop();
 				model->PlayAnimation(3, true, 0.3f);
 				currentAnim = 3;
 			}
@@ -309,7 +312,7 @@ void Player::MoveGrid()
 	{
 
 		angle.y = 6.3f;
-
+		SoundManager::Instance().GetSound(SoundList::playerSE)->Play(true, 0.2f);
 		//Grid* g = GridManager::Instance().GetGrid();
 		dataW = GridManager::Instance().GetData(playerX, playerY-1);
 
@@ -320,6 +323,7 @@ void Player::MoveGrid()
 		}
 			
 		isWPush = true;
+		
 		//WalkAnimation = true;
 	}
 	else isWPush = false;
@@ -328,6 +332,7 @@ void Player::MoveGrid()
 	if (GetAsyncKeyState('S') & 0x8000)
 	{
 		angle.y = 3.15f;
+		SoundManager::Instance().GetSound(SoundList::playerSE)->Play(true, 0.2f);
 		int dataS = GridManager::Instance().GetData(playerX, playerY + 1);
 		if (dataS == 0)
 		{
@@ -341,7 +346,7 @@ void Player::MoveGrid()
 	if (GetAsyncKeyState('A') & 0x8000)
 	{
 		angle.y = 4.75f;
-
+		SoundManager::Instance().GetSound(SoundList::playerSE)->Play(true, 0.2f);
 		int dataA = GridManager::Instance().GetData(playerX - 1, playerY);
 		if (dataA == 0)
 		{
@@ -355,6 +360,7 @@ void Player::MoveGrid()
 	if (GetAsyncKeyState('D') & 0x8000)
 	{
 		angle.y = 1.65f;
+		SoundManager::Instance().GetSound(SoundList::playerSE)->Play(true, 0.2f);
 		int dataD = GridManager::Instance().GetData(playerX + 1, playerY);
 		if (dataD == 0)
 		{
@@ -364,6 +370,8 @@ void Player::MoveGrid()
 		isDPush = true;
 	}
 	else isDPush = false;
+
+	
 
 	//map[playerY][playerX];
 }

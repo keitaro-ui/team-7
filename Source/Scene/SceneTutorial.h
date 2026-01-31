@@ -29,6 +29,8 @@ public:
 
 	// GUI•`‰æ
 	void DrawGUI() override;
-	
+
+private:
+	std::unique_ptr<Sprite> spr;
 
 };

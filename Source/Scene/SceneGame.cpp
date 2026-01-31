@@ -33,7 +33,7 @@ void SceneGame::Initialize()
 	//GridManager::Instance().Register(Grid::Instance().)
 	
 	//レティクル関数
-	sprite = new Sprite("Data/Sprite/レティクル.png");
+	sprite = new Sprite("Data/Sprite/rzSprite.png");
 	sprite_number = new Sprite("Data/Sprite/number.png");
 	sprite_text = new Sprite("Data/Sprite/残り時間.png");
 
@@ -88,13 +88,16 @@ void SceneGame::Initialize()
 	}
 
 	//BGM
-	//SoundManager::Instance().GetSound(SoundList::gameBGM)->Play(true, 0.02f);
+	SoundManager::Instance().GetSound(SoundList::gameBGM)->Play(true, 0.02f);
 }
 
 // 終了化
 void SceneGame::Finalize()
 {
 	//BGM
+	SoundManager::Instance().GetSound(SoundList::gameBGM)->Stop();
+	SoundManager::Instance().GetSound(SoundList::playerSE)->Stop();
+
 	//SoundManager::Instance().GetSound(SoundList::gameBGM)->Stop();
 	
 	//カメラコントローラー終了化
@@ -145,11 +148,43 @@ void SceneGame::Update(float elapsedTime)
 	{
 		if (Grid::Instance().boxAnimeData.size() == 0)
 		{
-			if (GetAsyncKeyState('I') & 0x8000) Grid::Instance().moved = Grid::Instance().MoveUp();
-			if (GetAsyncKeyState('K') & 0x8000) Grid::Instance().moved = Grid::Instance().MoveDown();
-			if (GetAsyncKeyState('J') & 0x8000) Grid::Instance().moved = Grid::Instance().MoveLeft();
-			if (GetAsyncKeyState('L') & 0x8000) Grid::Instance().moved = Grid::Instance().MoveRight();
-		}
+			if (GetAsyncKeyState('I') & 0x8000)
+			{
+				Grid::Instance().moved = Grid::Instance().MoveUp();
+				//BGM
+				SoundManager::Instance().GetSound(SoundList::SlideSE)->Play(false, 0.2f);
+			}
+			//else
+			//	//BGM
+			//	SoundManager::Instance().GetSound(SoundList::SlideSE)->Stop();
+			if (GetAsyncKeyState('K') & 0x8000)
+			{
+				Grid::Instance().moved = Grid::Instance().MoveDown();
+				//BGM
+				SoundManager::Instance().GetSound(SoundList::SlideSE)->Play(false, 0.2f);
+			}
+			//else
+			//	//BGM
+			//	SoundManager::Instance().GetSound(SoundList::SlideSE)->Stop();
+			if (GetAsyncKeyState('J') & 0x8000)
+			{
+				Grid::Instance().moved = Grid::Instance().MoveLeft();
+				//BGM
+				SoundManager::Instance().GetSound(SoundList::SlideSE)->Play(false, 0.2f);
+			}
+			//else
+			//	//BGM
+			//	SoundManager::Instance().GetSound(SoundList::SlideSE)->Stop();
+			if (GetAsyncKeyState('L') & 0x8000)
+			{
+				Grid::Instance().moved = Grid::Instance().MoveRight();
+				//BGM
+				SoundManager::Instance().GetSound(SoundList::SlideSE)->Play(false, 0.2f);
+			}
+			//else
+			//	//BGM
+			//	SoundManager::Instance().GetSound(SoundList::SlideSE)->Stop();
+		}			
 
 		if (Grid::Instance().moved)
 		{
@@ -160,12 +195,12 @@ void SceneGame::Update(float elapsedTime)
 	}
 
 	//タイトル、リセットへの処理
-	if (GetAsyncKeyState('7') & 0x8000)
+	if (GetAsyncKeyState('R') & 0x8000)
 	{
 		SceneManager::Instance().ChangeScene(new SceneLoading(new SceneTitle));
 	}
 
-	if (GetAsyncKeyState('6') & 0x8000)
+	if (GetAsyncKeyState('Z') & 0x8000)
 	{
 		SceneManager::Instance().ChangeScene(new SceneLoading(new SceneGame));
 	}
@@ -295,12 +330,13 @@ void SceneGame::Render()
 
 		// 2Dスプライト描画
 		{
-			/*sprite->Render(rc,
-				610, 335, 0, 64.0f, 64.0f,
+			sprite->Render(rc,
+				0, 0, 0, 
+				1280, 720,
 				0,
 				1, 1, 1, 1);
 
-			sprite_text->Render(rc,
+			/*sprite_text->Render(rc,
 				950, 0, 0, 120, 80, 0, 1, 1, 1, 1);*/
 
 			//int n[2]{};
