@@ -15,7 +15,7 @@
 void SceneTitle::Initialize()
 {
 	//スプライト初期化
-	//sprite = new Sprite("Data/Sprite/title.png");
+	sprite = new Sprite("Data/Sprite/flow.png");
     sprite2 = new Sprite("Data/Sprite/start.png");
     sprite3 = new Sprite("Data/Sprite/tutorial.png");
 
@@ -37,6 +37,7 @@ void SceneTitle::Initialize()
 
     PlayerManager::Instance().Register(player.get());
     PlayerManager::Instance().GetPlayer()->SetProv(true);
+	PlayerManager::Instance().GetPlayer()->SetPosition({ 0.0f, -3.0f, 6.8f });
 
     //カメラ初期設定
     Graphics& graphics = Graphics::Instance();
@@ -60,7 +61,7 @@ void SceneTitle::Initialize()
 void SceneTitle::Finalize()
 {
 	//スプライト終了化
-    //delete sprite;
+    delete sprite;
     delete sprite2;
     delete sprite3;
     ShowCursor(false);
@@ -173,10 +174,10 @@ void SceneTitle::Render()
     {
         float screenWidth = static_cast<float>(graphics.GetScreenWidth());
         float screenHeight = static_cast<float>(graphics.GetScreenHeight());
-        /*sprite->Render(rc,
-            0, 0, 0, screenWidth, screenHeight,
+        sprite->Render(rc,
+            0, -300, 0, screenWidth, screenHeight+200,
             0,
-            1, 1, 1, 1);*/
+            1, 1, 1, 1);
             //スタートとチュートリアルの描画と拡大
         if (state == 1)
         {
