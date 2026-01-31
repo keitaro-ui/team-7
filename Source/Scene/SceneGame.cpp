@@ -191,11 +191,6 @@ void SceneGame::Render()
 	rc.lightDirection = { 0.0f, -1.0f, 0.0f };	// ライト方向（下方向）
 	rc.renderState = graphics.GetRenderState();
 
-	//描画処理
-	//RenderContext rc;
-	rc.renderState = graphics.GetRenderState();
-	rc.lightDirection = { 0.0f , -1.0f , 0.0f };	//ライト方向（下方向）
-
 	//カメラパラメータ設定
 	Camera& camera = Camera::Instance();
 	rc.view = camera.GetView();
