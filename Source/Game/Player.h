@@ -30,7 +30,11 @@ public:
     int GetMap(int y, int x) const { return map[y][x]; }
 
     bool GetProv() { return provAnimation; }
-    bool SetProv(bool a) { provAnimation = a; }
+    bool SetProv(bool a)
+    {
+        provAnimation = a;
+        return provAnimation;
+    }
 
 private:
     Model* model = nullptr;

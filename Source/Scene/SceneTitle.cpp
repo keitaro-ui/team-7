@@ -7,7 +7,7 @@
 #include "System/Mouse.h"
 #include "../Game/Player.h"
 #include "../Scene/SceneTutorial.h"
-
+#include "Game/PlayerManager.h"
 #include "../Game/EnemyManager.h"
 #include"Camera.h"
 
@@ -34,6 +34,9 @@ void SceneTitle::Initialize()
     //player->cameraController = cameraController;
     DirectX::XMFLOAT3 target = titlestage->GetPosition();
     cameraController->SetTarget(target);
+
+    PlayerManager::Instance().Register(player.get());
+    PlayerManager::Instance().GetPlayer()->SetProv(true);
 
     //カメラ初期設定
     Graphics& graphics = Graphics::Instance();
@@ -70,7 +73,7 @@ void SceneTitle::Update(float elapsedTime)
 	//ステージ更新処理
     titlestage->Update(elapsedTime);
     //プレイヤー更新処理
-    //player->Update(elapsedTime);
+    player->Update(elapsedTime);
 
     titlestage->SetPosition({ 0.0f, -3.0f, 3.8f });
 

@@ -64,7 +64,11 @@ void Player::Update(float elapsedTime)
 
 	if (provAnimation == true)
 	{
-		model->PlayAnimation(2, true);
+		if (currentAnim != 2)
+		{
+			model->PlayAnimation(2, true);
+			currentAnim = 2;
+		}
 	}
 
 
@@ -78,7 +82,7 @@ void Player::Update(float elapsedTime)
 			currentAnim = 0;
 		}
 	}
-	else
+	else if(!moved&&provAnimation==false)
 	{
 		staytimer += elapsedTime;
 
@@ -192,6 +196,8 @@ void Player::DrawDebugGUI()
 			ImGui::Text("data : %d", dataW);
 
 			ImGui::Text("stayTimer:%f", staytimer);
+
+			ImGui::Text("provAnimation : %s", provAnimation ? "TRUE" : "FALSE");
 
 			//ImGui::Text("WalkAnimation: %s", WalkAnimation ? "TRUE" : "FALSE");
 		}

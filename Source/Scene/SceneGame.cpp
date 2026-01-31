@@ -79,6 +79,8 @@ void SceneGame::Initialize()
 	Grid::Instance().Spawn();
 	Grid::Instance().Spawn();
 
+	PlayerManager::Instance().GetPlayer()->SetProv(false);
+
 	//debug
 	{
 		//Grid::Instance().map[4][3] = 1;
