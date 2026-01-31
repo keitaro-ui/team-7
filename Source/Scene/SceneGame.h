@@ -9,6 +9,7 @@
 #include "../Game/Box.h"
 #include "../Game/Grid.h"
 #include "SoundManager.h"
+#include "SceneResult.h"
 
 // ƒQ[ƒ€ƒV[ƒ“
 class SceneGame : public Scene
