@@ -30,5 +30,5 @@ private:
 	Sprite* sprite2 = nullptr;
 	Sprite* sprite3 = nullptr;
 	POINT cursorPos;
-	
+	float state = 0;
 };

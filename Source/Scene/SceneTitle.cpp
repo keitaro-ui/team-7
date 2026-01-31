@@ -47,6 +47,29 @@ void SceneTitle::Update(float elapsedTime)
 
 
     //左クリックで画面遷移
+    if (GetAsyncKeyState('w') || GetAsyncKeyState(VK_UP))
+    {
+        state = 1;
+    }
+
+    if (GetAsyncKeyState('s') || GetAsyncKeyState(VK_DOWN))
+    {
+        state = 2;
+	}
+
+    if (GetAsyncKeyState(VK_RETURN))
+    {
+        if (state == 1)
+        {
+            SceneManager::Instance().ChangeScene(new SceneLoading(new SceneGame));
+        }
+        if (state == 2)
+        {
+            SceneManager::Instance().ChangeScene(new SceneLoading(new SceneTutorial));
+        }
+    }
+
+
     //スタート
     if (mouse.GetButtonDown() & Mouse::BTN_LEFT)
     {
@@ -92,55 +115,86 @@ void SceneTitle::Render()
             0,
             1, 1, 1, 1);
             //スタートとチュートリアルの描画と拡大
-            if (cursorPos.x >= 505 && cursorPos.x <= 765)
-            {
-                //スタート
-                if (cursorPos.y >= 520 && cursorPos.y <= 585)
-                {
-                    //拡大
-                    sprite2->Render(rc,
-                        60, 25, 0, 1200, 700,
-                        0,
-                        1, 1, 1, 1);
-                }
-                else
-                {
-                    sprite2->Render(rc,
-                        150, 100, 0, 1000, 600,
-                        0,
-                        1, 1, 1, 1);
-                }
+        if (state == 1)
+        {
+            //拡大
+            sprite2->Render(rc,
+                60, 25, 0, 1200, 700,
+                0,
+                1, 1, 1, 1);
+        }
+        else
+        {
+            sprite2->Render(rc,
+                150, 100, 0, 1000, 600,
+                0,
+                1, 1, 1, 1);
+        }
+        if (state == 2)
+        {
+            //拡大
+            sprite3->Render(rc,
+                60, 20, 0, 1200, 700,
+                0,
+                1, 1, 1, 1);
+        }
+        else
+        {
+            sprite3->Render(rc,
+                150, 100, 0, 1000, 600,
+                0,
+                1, 1, 1, 1);
+        }
+            //if (cursorPos.x >= 505 && cursorPos.x <= 765)
+            //{
 
-                //チュートリアル
-                if (cursorPos.y >= 600 && cursorPos.y <= 670)
-                {
-                    //拡大
-                    sprite3->Render(rc,
-                        60, 20, 0, 1200, 700,
-                        0,
-                        1, 1, 1, 1);
-                }
-                else
-                {
-                    sprite3->Render(rc,
-                        150, 100, 0, 1000, 600,
-                        0,
-                        1, 1, 1, 1);
-                }
-            }
-            else
-            {
-                //通常時の描画
-                sprite2->Render(rc,
-                    150, 100, 0, 1000, 600,
-                    0,
-                    1, 1, 1, 1);
+            //    //スタート
+            //    if (cursorPos.y >= 520 && cursorPos.y <= 585 )
+            //    {
+            //        //拡大
+            //        sprite2->Render(rc,
+            //            60, 25, 0, 1200, 700,
+            //            0,
+            //            1, 1, 1, 1);
+            //    }
+            //    else
+            //    {
+            //        sprite2->Render(rc,
+            //            150, 100, 0, 1000, 600,
+            //            0,
+            //            1, 1, 1, 1);
+            //    }
 
-                sprite3->Render(rc,
-                    150, 100, 0, 1000, 600,
-                    0,
-                    1, 1, 1, 1);
-            }
+            //    //チュートリアル
+            //    if (cursorPos.y >= 600 && cursorPos.y <= 670 )
+            //    {
+            //        //拡大
+            //        sprite3->Render(rc,
+            //            60, 20, 0, 1200, 700,
+            //            0,
+            //            1, 1, 1, 1);
+            //    }
+            //    else
+            //    {
+            //        sprite3->Render(rc,
+            //            150, 100, 0, 1000, 600,
+            //            0,
+            //            1, 1, 1, 1);
+            //    }
+            //}
+            //else
+            //{
+            //    //通常時の描画
+            //    sprite2->Render(rc,
+            //        150, 100, 0, 1000, 600,
+            //        0,
+            //        1, 1, 1, 1);
+
+            //    sprite3->Render(rc,
+            //        150, 100, 0, 1000, 600,
+            //        0,
+            //        1, 1, 1, 1);
+            //}
 
 
 	}
