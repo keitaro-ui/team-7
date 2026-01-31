@@ -10,6 +10,12 @@
 //初期化
 void SceneResult::Initialize()
 {
+	beforeScore = Grid::Instance().GetScore();
+	if (Grid::Instance().bestScore < beforeScore)
+	{
+		Grid::Instance().bestScore = beforeScore;
+	}
+
 	//スプライト初期化
 	sprite = std::make_unique<Sprite>("Data/Sprite/result.png");
 	sprite_number = std::make_unique<Sprite>("Data/Sprite/number.png");
@@ -19,6 +25,7 @@ void SceneResult::Initialize()
 void SceneResult::Finalize()
 {
 	ShowCursor(true);
+	Grid::Instance().SetScore(0);
 }
 
 //更新処理
@@ -59,7 +66,7 @@ void SceneResult::Render()
 
 		//今回のスコアの表示
 		{
-			int temp = grid.score;
+			int temp = beforeScore;
 			int digits[10];
 			int digitCount = 0;
 
@@ -93,11 +100,52 @@ void SceneResult::Render()
 					1, 1, 1, 1);
 			}
 		}
+
+		//最高スコアの表示
+		{
+			int temp = Grid::Instance().bestScore;
+			int digits[10];
+			int digitCount = 0;
+
+			if (temp == 0)
+			{
+				digits[digitCount++] = 0;
+			}
+			else
+			{
+				while (temp > 0)
+				{
+					digits[digitCount++] = temp % 10;
+					temp /= 10;
+				}
+			}
+
+			float startX = 100.0f;
+			float startY = 10.0f;
+
+			for (int i = 0; i < digitCount; i++)
+			{
+				int num = digits[i];
+				sprite_number->Render(rc,
+					startX - (24 * 2 * i),
+					startY,
+					0,
+					32 * 2, 32 * 2,
+					372.5f * num, 0,
+					372.5f, 514,
+					0,
+					1, 1, 1, 1);
+			}
+		}
 	}
 }
 
 //GUI描画
 void SceneResult::DrawGUI()
 {
-	
+	ImGui::Begin("Score");
+	ImGui::Text("GetScore : %d", Grid::Instance().GetScore());
+	ImGui::Text("beforeScore : %d", beforeScore);
+	ImGui::Text("bestScore : %d", Grid::Instance().bestScore);
+	ImGui::End();
 }

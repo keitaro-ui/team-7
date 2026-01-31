@@ -27,10 +27,10 @@ void SceneGame::Initialize()
 	//プレイヤー初期化
 	player = std::make_unique<Player>();
 
-	GridManager::Instance().Register(&grid);
+	GridManager::Instance().Register(&Grid::Instance());
 
 	PlayerManager::Instance().Register(player.get());
-	//GridManager::Instance().Register(grid.)
+	//GridManager::Instance().Register(Grid::Instance().)
 	
 	//レティクル関数
 	sprite = new Sprite("Data/Sprite/レティクル.png");
@@ -72,16 +72,16 @@ void SceneGame::Initialize()
 	tileSize = 4.45f;
 	startPos = { -8.9f, 0.0f, -12.4f };
 
-	std::memset(grid.map, 0, sizeof(grid.map));
-	std::memset(grid.merged, false, sizeof(grid.merged));
-	grid.moved = false;
+	std::memset(Grid::Instance().map, 0, sizeof(Grid::Instance().map));
+	std::memset(Grid::Instance().merged, false, sizeof(Grid::Instance().merged));
+	Grid::Instance().moved = false;
 
-	/*grid.Spawn();
-	grid.Spawn();*/
+	Grid::Instance().Spawn();
+	Grid::Instance().Spawn();
 
 	//debug
 	{
-		grid.map[4][2] = 1;
+		//Grid::Instance().map[4][3] = 1;
 		//map[0][1] = 1;
 	}
 
@@ -94,7 +94,7 @@ void SceneGame::Finalize()
 {
 	//BGM
 	//SoundManager::Instance().GetSound(SoundList::gameBGM)->Stop();
-
+	
 	//カメラコントローラー終了化
 	if (cameraController != nullptr)
 	{
@@ -105,6 +105,9 @@ void SceneGame::Finalize()
 	delete sprite;
 	delete sprite_number;
 	delete sprite_text;
+
+	Grid::Instance().deleteMap();
+	Grid::Instance().boxAnimeData.clear();
 
 	//エネミー終了化
 	EnemyManager::Instance().Clear();
@@ -138,19 +141,19 @@ void SceneGame::Update(float elapsedTime)
 	//方向キーでBox動かす関数
 	if (game_timer > coolTime)
 	{
-		if (grid.boxAnimeData.size() == 0)
+		if (Grid::Instance().boxAnimeData.size() == 0)
 		{
-			if (GetAsyncKeyState('I') & 0x8000) grid.moved = grid.MoveUp();
-			if (GetAsyncKeyState('K') & 0x8000) grid.moved = grid.MoveDown();
-			if (GetAsyncKeyState('J') & 0x8000) grid.moved = grid.MoveLeft();
-			if (GetAsyncKeyState('L') & 0x8000) grid.moved = grid.MoveRight();
+			if (GetAsyncKeyState('I') & 0x8000) Grid::Instance().moved = Grid::Instance().MoveUp();
+			if (GetAsyncKeyState('K') & 0x8000) Grid::Instance().moved = Grid::Instance().MoveDown();
+			if (GetAsyncKeyState('J') & 0x8000) Grid::Instance().moved = Grid::Instance().MoveLeft();
+			if (GetAsyncKeyState('L') & 0x8000) Grid::Instance().moved = Grid::Instance().MoveRight();
 		}
 
-		if (grid.moved)
+		if (Grid::Instance().moved)
 		{
-			grid.Spawn();
+			Grid::Instance().Spawn();
 			game_timer = 0.0f;
-			grid.moved = false;
+			Grid::Instance().moved = false;
 		}
 	}
 
@@ -166,7 +169,7 @@ void SceneGame::Update(float elapsedTime)
 	}
 
 	//ゲームオーバー処理
-	if (grid.IsGameOver())
+	if (Grid::Instance().IsGameOver())
 	{
 		SceneManager::Instance().ChangeScene(new SceneLoading(new SceneResult));
 	}
@@ -187,11 +190,6 @@ void SceneGame::Render()
 	rc.deviceContext = dc;
 	rc.lightDirection = { 0.0f, -1.0f, 0.0f };	// ライト方向（下方向）
 	rc.renderState = graphics.GetRenderState();
-
-	//描画処理
-	//RenderContext rc;
-	rc.renderState = graphics.GetRenderState();
-	rc.lightDirection = { 0.0f , -1.0f , 0.0f };	//ライト方向（下方向）
 
 	//カメラパラメータ設定
 	Camera& camera = Camera::Instance();
@@ -215,9 +213,9 @@ void SceneGame::Render()
 		const float fromToTime = 0.4f;
 
 		// box
-		if (grid.boxAnimeData.size() > 0)
+		if (Grid::Instance().boxAnimeData.size() > 0)
 		{
-			for (auto& bad : grid.boxAnimeData)
+			for (auto& bad : Grid::Instance().boxAnimeData)
 			{
 				int modelIndex = bad.num - 1;
 
@@ -253,16 +251,16 @@ void SceneGame::Render()
 			// もし移動アニメーションが終了すれば
 			if (game_timer > coolTime)
 			{
-				grid.boxAnimeData.clear();
+				Grid::Instance().boxAnimeData.clear();
 			}
 		}
 		else
 		{
-			for (int y = 0; y < grid.GRID_MAX; y++)
+			for (int y = 0; y < Grid::Instance().GRID_MAX; y++)
 			{
-				for (int x = 0; x < grid.GRID_MAX; x++)
+				for (int x = 0; x < Grid::Instance().GRID_MAX; x++)
 				{
-					int v = grid.map[y][x];
+					int v = Grid::Instance().map[y][x];
 					if (v == 0) continue;
 
 					int modelIndex = v - 1;
@@ -308,7 +306,7 @@ void SceneGame::Render()
 			//n[0] = static_cast<int>(game_timer) / 10 % 10;
 			//n[1] = static_cast<int>(game_timer) % 10;
 
-			int temp = grid.score;
+			int temp = Grid::Instance().GetScore();
 			int digits[10];
 			int digitCount = 0;
 
@@ -398,9 +396,10 @@ void SceneGame::DrawGUI()
 		ImGui::End();
 	}
 
+	//score
 	{
 		ImGui::Begin("Score");
-		ImGui::Text("Score : %d", grid.score);
+		ImGui::Text("Score : %d", Grid::Instance().GetScore());
 		ImGui::End();
 	}
 
@@ -414,9 +413,9 @@ void SceneGame::DrawGUI()
 		ImDrawList* drawList = ImGui::GetWindowDrawList();
 
 		// ===== グリッド描画 =====
-		for (int y = 0; y < grid.GRID_MAX; y++)
+		for (int y = 0; y < Grid::Instance().GRID_MAX; y++)
 		{
-			for (int x = 0; x < grid.GRID_MAX; x++)
+			for (int x = 0; x < Grid::Instance().GRID_MAX; x++)
 			{
 				ImVec2 pMin = {
 					origin.x + x * cellSize,
@@ -427,7 +426,7 @@ void SceneGame::DrawGUI()
 					pMin.y + cellSize
 				};
 
-				int v = grid.map[y][x];
+				int v = Grid::Instance().map[y][x];
 
 				// 背景色
 				ImU32 bgColor = (v == 0)
@@ -455,22 +454,22 @@ void SceneGame::DrawGUI()
 		}
 
 		// グリッド分カーソルを進める
-		ImGui::Dummy(ImVec2(cellSize * grid.GRID_MAX, cellSize * grid.GRID_MAX));
+		ImGui::Dummy(ImVec2(cellSize * Grid::Instance().GRID_MAX, cellSize * Grid::Instance().GRID_MAX));
 
 		ImGui::Separator();
 		ImGui::Text("Edit Values");
 
 		// ===== 数値編集 =====
-		for (int y = 0; y < grid.GRID_MAX; y++)
+		for (int y = 0; y < Grid::Instance().GRID_MAX; y++)
 		{
-			for (int x = 0; x < grid.GRID_MAX; x++)
+			for (int x = 0; x < Grid::Instance().GRID_MAX; x++)
 			{
-				ImGui::PushID(y * grid.GRID_MAX + x);
+				ImGui::PushID(y * Grid::Instance().GRID_MAX + x);
 				ImGui::SetNextItemWidth(40.0f);
-				ImGui::InputInt("", &grid.map[y][x]);
+				ImGui::InputInt("", &Grid::Instance().map[y][x]);
 				ImGui::PopID();
 
-				if (x < grid.GRID_MAX - 1)
+				if (x < Grid::Instance().GRID_MAX - 1)
 					ImGui::SameLine();
 			}
 		}
