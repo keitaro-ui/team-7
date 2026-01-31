@@ -79,8 +79,6 @@ void SceneGame::Initialize()
 	Grid::Instance().Spawn();
 	Grid::Instance().Spawn();
 
-	PlayerManager::Instance().GetPlayer()->SetProv(false);
-
 	//debug
 	{
 		//Grid::Instance().map[4][3] = 1;
@@ -88,16 +86,13 @@ void SceneGame::Initialize()
 	}
 
 	//BGM
-	SoundManager::Instance().GetSound(SoundList::gameBGM)->Play(true, 0.02f);
+	//SoundManager::Instance().GetSound(SoundList::gameBGM)->Play(true, 0.02f);
 }
 
 // 終了化
 void SceneGame::Finalize()
 {
 	//BGM
-	SoundManager::Instance().GetSound(SoundList::gameBGM)->Stop();
-	SoundManager::Instance().GetSound(SoundList::playerSE)->Stop();
-
 	//SoundManager::Instance().GetSound(SoundList::gameBGM)->Stop();
 	
 	//カメラコントローラー終了化
@@ -148,43 +143,11 @@ void SceneGame::Update(float elapsedTime)
 	{
 		if (Grid::Instance().boxAnimeData.size() == 0)
 		{
-			if (GetAsyncKeyState('I') & 0x8000)
-			{
-				Grid::Instance().moved = Grid::Instance().MoveUp();
-				//BGM
-				SoundManager::Instance().GetSound(SoundList::SlideSE)->Play(false, 0.2f);
-			}
-			//else
-			//	//BGM
-			//	SoundManager::Instance().GetSound(SoundList::SlideSE)->Stop();
-			if (GetAsyncKeyState('K') & 0x8000)
-			{
-				Grid::Instance().moved = Grid::Instance().MoveDown();
-				//BGM
-				SoundManager::Instance().GetSound(SoundList::SlideSE)->Play(false, 0.2f);
-			}
-			//else
-			//	//BGM
-			//	SoundManager::Instance().GetSound(SoundList::SlideSE)->Stop();
-			if (GetAsyncKeyState('J') & 0x8000)
-			{
-				Grid::Instance().moved = Grid::Instance().MoveLeft();
-				//BGM
-				SoundManager::Instance().GetSound(SoundList::SlideSE)->Play(false, 0.2f);
-			}
-			//else
-			//	//BGM
-			//	SoundManager::Instance().GetSound(SoundList::SlideSE)->Stop();
-			if (GetAsyncKeyState('L') & 0x8000)
-			{
-				Grid::Instance().moved = Grid::Instance().MoveRight();
-				//BGM
-				SoundManager::Instance().GetSound(SoundList::SlideSE)->Play(false, 0.2f);
-			}
-			//else
-			//	//BGM
-			//	SoundManager::Instance().GetSound(SoundList::SlideSE)->Stop();
-		}			
+			if (GetAsyncKeyState('I') & 0x8000) Grid::Instance().moved = Grid::Instance().MoveUp();
+			if (GetAsyncKeyState('K') & 0x8000) Grid::Instance().moved = Grid::Instance().MoveDown();
+			if (GetAsyncKeyState('J') & 0x8000) Grid::Instance().moved = Grid::Instance().MoveLeft();
+			if (GetAsyncKeyState('L') & 0x8000) Grid::Instance().moved = Grid::Instance().MoveRight();
+		}
 
 		if (Grid::Instance().moved)
 		{
@@ -227,6 +190,11 @@ void SceneGame::Render()
 	rc.deviceContext = dc;
 	rc.lightDirection = { 0.0f, -1.0f, 0.0f };	// ライト方向（下方向）
 	rc.renderState = graphics.GetRenderState();
+
+	//描画処理
+	//RenderContext rc;
+	rc.renderState = graphics.GetRenderState();
+	rc.lightDirection = { 0.0f , -1.0f , 0.0f };	//ライト方向（下方向）
 
 	//カメラパラメータ設定
 	Camera& camera = Camera::Instance();

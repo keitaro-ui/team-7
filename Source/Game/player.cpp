@@ -14,6 +14,7 @@
 #include "GridManager.h"
 #include "Grid.h"
 #include "SoundManager.h"
+#include "Scene/SceneTitle.h"
 //#include "PlayerManager.h"
 
 int answer = -1, count_1, count_2, count_3, count_4;
@@ -62,7 +63,17 @@ void Player::Update(float elapsedTime)
 
 	bool moved = (playerX != IdleX) || (playerY != IdleY);
 
-	if (moved)
+	if (provAnimation == true)
+	{
+		if (currentAnim != 2)
+		{
+			model->PlayAnimation(2, true);
+			currentAnim = 2;
+		}
+	}
+
+
+	if (moved&&provAnimation==false)
 	{
 		//タイマーリセット
 		staytimer = 0.0f;
@@ -72,7 +83,7 @@ void Player::Update(float elapsedTime)
 			currentAnim = 0;
 		}
 	}
-	else
+	else if(!moved&&provAnimation==false)
 	{
 		staytimer += elapsedTime;
 
@@ -188,6 +199,8 @@ void Player::DrawDebugGUI()
 			ImGui::Text("data : %d", dataW);
 
 			ImGui::Text("stayTimer:%f", staytimer);
+
+			ImGui::Text("provAnimation : %s", provAnimation ? "TRUE" : "FALSE");
 
 			//ImGui::Text("WalkAnimation: %s", WalkAnimation ? "TRUE" : "FALSE");
 		}
