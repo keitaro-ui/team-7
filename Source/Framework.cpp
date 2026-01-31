@@ -19,6 +19,8 @@ static const int syncInterval = 1;
 Framework::Framework(HWND hWnd)
 	: hWnd(hWnd)
 {
+	HighResolutionTimer::Instance().Initalize();
+
 	//オーディオ初期化
 	Audio::Instance().Initialize();
 
@@ -104,6 +106,8 @@ void Framework::CalculateFrameStats()
 
 	frames++;
 
+	auto& timer = HighResolutionTimer::Instance();
+
 	// Compute averages over one second period.
 	if ((timer.TimeStamp() - time_tlapsed) >= 1.0f)
 	{
@@ -124,6 +128,7 @@ void Framework::CalculateFrameStats()
 int Framework::Run()
 {
 	MSG msg = {};
+	auto& timer = HighResolutionTimer::Instance();
 
 	while (WM_QUIT != msg.message)
 	{
@@ -153,6 +158,8 @@ LRESULT CALLBACK Framework::HandleMessage(HWND hWnd, UINT msg, WPARAM wParam, LP
 {
 	if (ImGuiRenderer::HandleMessage(hWnd, msg, wParam, lParam))
 		return true;
+
+	auto& timer = HighResolutionTimer::Instance();
 
 	switch (msg)
 	{

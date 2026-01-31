@@ -12,6 +12,7 @@
 #include"../Game/PlayerManager.h"
 #include "../Game/GridManager.h"
 #include <imgui.h>
+#include "System/HighResolutionTimer.h"
 
 // 初期化
 void SceneGame::Initialize()
@@ -75,15 +76,13 @@ void SceneGame::Initialize()
 	std::memset(grid.merged, false, sizeof(grid.merged));
 	grid.moved = false;
 
-	grid.Spawn();
-	grid.Spawn();
+	/*grid.Spawn();
+	grid.Spawn();*/
 
 	//debug
 	{
-		/*map[0][0] = 1;
-		map[0][1] = 1;
-		map[0][2] = 1;
-		map[0][3] = 1;*/
+		grid.map[4][2] = 1;
+		//map[0][1] = 1;
 	}
 
 	//BGM
@@ -118,8 +117,8 @@ void SceneGame::Update(float elapsedTime)
 	cameraController->Update(elapsedTime);
 	
 	//ゲームタイマー更新処理
-	game_timer += elapsedTime;
-
+	game_timer += elapsedTime * 2;
+	
 	//ステージ更新処理
 	stage->Update(elapsedTime);
 
@@ -136,16 +135,16 @@ void SceneGame::Update(float elapsedTime)
 	GamePad& gamePad = Input::Instance().GetGamePad();
 	const GamePadButton anyButton = GamePad::BTN_START;
 
-
-	//grid.CanSlideW();
-
 	//方向キーでBox動かす関数
 	if (game_timer > coolTime)
 	{
-		if (GetAsyncKeyState('I') & 0x8000) grid.moved = grid.MoveUp();
-		if (GetAsyncKeyState('K') & 0x8000) grid.moved = grid.MoveDown();
-		if (GetAsyncKeyState('J') & 0x8000) grid.moved = grid.MoveLeft();
-		if (GetAsyncKeyState('L') & 0x8000) grid.moved = grid.MoveRight();
+		if (grid.boxAnimeData.size() == 0)
+		{
+			if (GetAsyncKeyState('I') & 0x8000) grid.moved = grid.MoveUp();
+			if (GetAsyncKeyState('K') & 0x8000) grid.moved = grid.MoveDown();
+			if (GetAsyncKeyState('J') & 0x8000) grid.moved = grid.MoveLeft();
+			if (GetAsyncKeyState('L') & 0x8000) grid.moved = grid.MoveRight();
+		}
 
 		if (grid.moved)
 		{
@@ -165,6 +164,8 @@ void SceneGame::Update(float elapsedTime)
 // 描画処理
 void SceneGame::Render()
 {
+	auto& timer = HighResolutionTimer::Instance();
+
 	Graphics& graphics = Graphics::Instance();
 	ID3D11DeviceContext* dc = graphics.GetDeviceContext();
 	ShapeRenderer* shapeRenderer = graphics.GetShapeRenderer();
@@ -198,11 +199,51 @@ void SceneGame::Render()
 
 		player->RenderDebugPrimitive(rc, shapeRenderer);
 
+		// 開始地点から終了地点まで移動にかかる時間
+		static float timer = 0;
+		const float fromToTime = 0.4f;
+
 		// box
-		if (isMoving)
+		if (grid.boxAnimeData.size() > 0)
 		{
+			for (auto& bad : grid.boxAnimeData)
+			{
+				int modelIndex = bad.num - 1;
 
+				DirectX::XMFLOAT3 from =
+				{
+					startPos.x + bad.oldX * tileSize,
+					startPos.y,
+					-(startPos.z + bad.oldY * tileSize)
+				};
 
+				DirectX::XMFLOAT3 to =
+				{
+					startPos.x + bad.x * tileSize,
+					startPos.y,
+					-(startPos.z + bad.y * tileSize)
+				};
+
+				DirectX::XMVECTOR vFrom = DirectX::XMLoadFloat3(&from);
+				DirectX::XMVECTOR vTo = DirectX::XMLoadFloat3(&to);
+
+				DirectX::XMFLOAT3 pos = boxes[modelIndex]->GetPosition();
+				DirectX::XMVECTOR vPos = DirectX::XMLoadFloat3(&pos);
+
+				DirectX::XMVECTOR BoxPos = DirectX::XMVectorLerp(vFrom, vTo, game_timer);
+				DirectX::XMStoreFloat3(&pos, BoxPos);
+
+				boxes[modelIndex]->SetPosition(pos);
+				boxes[modelIndex]->UpdateTransform();
+				boxes[modelIndex]->Render(rc, modelRenderer);
+			}
+			timer = 0;
+
+			// もし移動アニメーションが終了すれば
+			if (game_timer > coolTime)
+			{
+				grid.boxAnimeData.clear();
+			}
 		}
 		else
 		{

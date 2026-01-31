@@ -63,7 +63,7 @@ private:
 	//map[0][0]�̈ʒu
 	DirectX::XMFLOAT3 startPos;
 
-	bool isMoving = false;
+	int count;
 
 	void UpdateCursorToggle();
 };
