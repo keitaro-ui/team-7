@@ -29,7 +29,8 @@ public:
 	//void answerCheck();
 
 private:
-	Grid grid;
+	int beforeScore = 0;
+	int temp = 0;
 
 	std::unique_ptr<Sprite> sprite = nullptr;
 	std::unique_ptr<Sprite> sprite_number = nullptr;

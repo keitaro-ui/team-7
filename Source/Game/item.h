@@ -24,6 +24,5 @@ public:
 	void deleteSmallNumber();
 
 private:
-	Grid grid;
 	std::unique_ptr<Model> model = nullptr;
 };

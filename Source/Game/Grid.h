@@ -5,11 +5,20 @@
 class Grid
 {
 private:
+    int score = 0;
 
+    Grid();
 
 public:
-    Grid();
-    //bool isMoving = false;
+    static Grid& Instance()
+    {
+        static Grid instance;
+        return instance;
+    }
+
+    Grid(const Grid&) = delete;
+    Grid& operator=(const Grid&) = delete;
+
     struct BoxAnimeData
     {
         int num;
@@ -18,7 +27,12 @@ public:
     };
     std::vector<BoxAnimeData> boxAnimeData;
 
-    int score = 0;
+    // セッター
+    void SetScore(int s) { score = s; }
+    // ゲッター
+    int GetScore() const { return score; }
+
+    void deleteMap();
 
     //マス目の数
     enum { GRID_MAX = 5 };
@@ -42,6 +56,7 @@ public:
     void PlayerDie(int x,int y);
 
     int Score(int c);
+    int bestScore = 0;
 
     //空きマスチェック
     bool HasEmptyCell();
