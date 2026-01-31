@@ -34,10 +34,7 @@ public:
 	void DrawGUI() override;
 
 private:
-	Grid grid;
-
-	//std::unique_ptr<Grid>grid = nullptr;
-
+	
 	float game_timer;
 	const float coolTime = 1.0f;
 

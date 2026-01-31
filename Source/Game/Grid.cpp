@@ -12,6 +12,19 @@ Grid::Grid()
 	std::memset(pmap, 0, sizeof(pmap));
 }
 
+void Grid::deleteMap()
+{
+	for (int x = 0; x < GRID_MAX; x++)
+	{
+		for (int y = 0; y < GRID_MAX; y++)
+		{
+			map[x][y] = 0;
+			merged[x][y] = 0;
+			pmap[x][y] = 0;
+		}
+	}
+}
+
 //•ûŒüƒL[‚ÅBox“®‚©‚·ŠÖ”
 bool Grid::MoveRight()
 {
@@ -238,7 +251,8 @@ void Grid::Spawn()
 			int playerX = PlayerManager::Instance().GetPlayer()->GetPlayerX();
 			int playerY = PlayerManager::Instance().GetPlayer()->GetPlayerY();
 			//if (pmap[playerY][playerX] != map[y][x])
-			if (playerY != y&& playerX!=x)
+			if (playerY != y || playerX!=x)
+			//if (map[y][x] == 0 && pmap[y][x] != 1)
 			{
 				//2‚Ì” ‚¾‚·
 				map[y][x] = 1;
@@ -269,7 +283,7 @@ void Grid::PlayerDie(int x, int y)
 	int playerY = PlayerManager::Instance().GetPlayer()->GetPlayerY();
 	if (playerY == y && playerX == x)
 	{
-		SceneManager::Instance().ChangeScene(new SceneLoading(new SceneGame));
+		SceneManager::Instance().ChangeScene(new SceneLoading(new SceneResult));
 	}
 }
 
