@@ -22,6 +22,6 @@ public:
 private:
 	const HWND				hWnd;
 	HDC						hDC;
-	HighResolutionTimer		timer;
+	//HighResolutionTimer		timer;
 };
 

@@ -5,7 +5,19 @@
 class Grid
 {
 private:
+
+
 public:
+    Grid();
+    //bool isMoving = false;
+    struct BoxAnimeData
+    {
+        int num;
+        int x, y;
+        int oldX, oldY;
+    };
+    std::vector<BoxAnimeData> boxAnimeData;
+
     //ƒ}ƒX–Ú‚Ì”
     enum { GRID_MAX = 5 };
 

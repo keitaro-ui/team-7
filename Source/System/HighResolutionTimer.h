@@ -5,8 +5,18 @@
 class HighResolutionTimer
 {
 public:
-	HighResolutionTimer() : delta_time(-1.0), paused_time(0), stopped(false)
+	static HighResolutionTimer& Instance()
 	{
+		static HighResolutionTimer instance;
+		return instance;
+	}
+
+	void Initalize()
+	{
+		delta_time = -1.0f;
+		paused_time = 0;
+		stopped = false;
+
 		LONGLONG counts_per_sec;
 		QueryPerformanceFrequency(reinterpret_cast<LARGE_INTEGER*>(&counts_per_sec));
 		seconds_per_count = 1.0 / static_cast<double>(counts_per_sec);
@@ -15,6 +25,17 @@ public:
 		base_time = this_time;
 		last_time = this_time;
 	}
+
+	//HighResolutionTimer() : delta_time(-1.0), paused_time(0), stopped(false)
+	//{
+	//	LONGLONG counts_per_sec;
+	//	QueryPerformanceFrequency(reinterpret_cast<LARGE_INTEGER*>(&counts_per_sec));
+	//	seconds_per_count = 1.0 / static_cast<double>(counts_per_sec);
+
+	//	QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER*>(&this_time));
+	//	base_time = this_time;
+	//	last_time = this_time;
+	//}
 
 	// Returns the total time elapsed since Reset() was called, NOT counting any
 	// time when the clock is stopped.
@@ -116,7 +137,17 @@ public:
 		}
 	}
 
+	float GetDeltaTime() {
+		float elapsedTime = 
+			 TimeInterval()
+			;
+		return elapsedTime;
+	}
+
 private:
+	HighResolutionTimer() = default;
+	~HighResolutionTimer() = default;
+
 	double seconds_per_count;
 	double delta_time;
 

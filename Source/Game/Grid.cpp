@@ -5,6 +5,13 @@
 #include"Scene/SceneLoading.h"
 #include"Scene/SceneGame.h"
 
+Grid::Grid()
+{
+	std::memset(map, 0, sizeof(map));
+	std::memset(merged, false, sizeof(merged));
+	std::memset(pmap, 0, sizeof(pmap));
+}
+
 //方向キーでBox動かす関数
 bool Grid::MoveRight()
 {
@@ -13,10 +20,15 @@ bool Grid::MoveRight()
 
 	for (int y = 0; y < GRID_MAX; y++)
 	{
-		for (int x = GRID_MAX - 2; x >= 0; x--)
+		for (int x = GRID_MAX - 1; x >= 0; x--)
 		{
 			if (map[y][x] != 0)
 			{
+				BoxAnimeData bad;
+				bad.x = bad.oldX = x;
+				bad.y = bad.oldY = y;
+				bad.num = map[y][x];
+
 				int cx = x;
 				while (cx < GRID_MAX - 1)
 				{
@@ -28,6 +40,7 @@ bool Grid::MoveRight()
 						cx++;
 						PlayerDie(cx, y);
 						moved = true;
+						bad.x++;
 					}
 					//一個右と一緒なら合体
 					else if (map[y][cx + 1] == map[y][cx]
@@ -37,11 +50,14 @@ bool Grid::MoveRight()
 						map[y][cx] = 0;
 						merged[y][cx + 1] = true;
 						moved = true;
+						bad.x++;
 						break;
 					}
 					// 一個右が0じゃなくて、違う数字ならそのまま
 					else break;
 				}
+				//push_back
+				boxAnimeData.push_back(bad);
 			}
 		}
 	}
@@ -55,10 +71,15 @@ bool Grid::MoveLeft()
 
 	for (int y = 0; y < GRID_MAX; y++)
 	{
-		for (int x = 1; x < GRID_MAX; x++)
+		for (int x = 0; x < GRID_MAX; x++)
 		{
 			if (map[y][x] != 0)
 			{
+				BoxAnimeData bad;
+				bad.x = bad.oldX = x;
+				bad.y = bad.oldY = y;
+				bad.num = map[y][x];
+
 				int cx = x;
 				while (cx > 0)
 				{
@@ -70,6 +91,7 @@ bool Grid::MoveLeft()
 						cx--;
 						PlayerDie(cx, y);
 						moved = true;
+						bad.x--;
 					}
 					//一個左と一緒なら合体
 					else if (map[y][cx - 1] == map[y][cx]
@@ -79,11 +101,14 @@ bool Grid::MoveLeft()
 						map[y][cx] = 0;
 						merged[y][cx - 1] = true;
 						moved = true;
+						bad.x--;
 						break;
 					}
 					// 一個左が0じゃなくて、違う数字ならそのまま
 					else break;
 				}
+				//push_back
+				boxAnimeData.push_back(bad);
 			}
 		}
 	}
@@ -97,12 +122,15 @@ bool Grid::MoveUp()
 
 	for (int x = 0; x < GRID_MAX; x++)
 	{
-		for (int y = 1; y < GRID_MAX; y++)
+		for (int y = 0; y < GRID_MAX; y++)
 		{
-
-
 			if (map[y][x] != 0)
 			{
+				BoxAnimeData bad;
+				bad.x = bad.oldX = x;
+				bad.y = bad.oldY = y;
+				bad.num = map[y][x];
+
 				int cy = y;
 				while (cy > 0)
 				{
@@ -114,6 +142,7 @@ bool Grid::MoveUp()
 						cy--;
 						PlayerDie(x, cy);
 						moved = true;
+						bad.y--;
 					}
 					//一個上と一緒なら合体
 					else if (map[cy - 1][x] == map[cy][x]
@@ -123,11 +152,14 @@ bool Grid::MoveUp()
 						map[cy][x] = 0;
 						merged[cy - 1][x] = true;
 						moved = true;
+						bad.y--;
 						break;
 					}
 					// 一個上が0じゃなくて、違う数字ならそのまま
 					else break;
 				}
+				//push_back
+				boxAnimeData.push_back(bad);
 			}
 		}
 	}
@@ -141,10 +173,15 @@ bool Grid::MoveDown()
 
 	for (int x = 0; x < GRID_MAX; x++)
 	{
-		for (int y = GRID_MAX - 2; y >= 0; y--)
+		for (int y = GRID_MAX - 1; y >= 0; y--)
 		{
 			if (map[y][x] != 0)
 			{
+				BoxAnimeData bad;
+				bad.x = bad.oldX = x;
+				bad.y = bad.oldY = y;
+				bad.num = map[y][x];
+
 				int cy = y;
 				while (cy < GRID_MAX - 1)
 				{
@@ -157,6 +194,7 @@ bool Grid::MoveDown()
 						cy++;
 						PlayerDie(x, cy);
 						moved = true;
+						bad.y++;
 					}
 					//一個下と一緒なら合体
 					else if (map[cy + 1][x] == map[cy][x]
@@ -166,11 +204,14 @@ bool Grid::MoveDown()
 						map[cy][x] = 0;
 						merged[cy + 1][x] = true;
 						moved = true;
+						bad.y++;
 						break;
 					}
 					// 一個下が0じゃなくて、違う数字ならそのまま
 					else break;
 				}
+				//push_back
+				boxAnimeData.push_back(bad);
 			}
 		}
 	}
