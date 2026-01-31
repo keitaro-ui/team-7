@@ -92,6 +92,13 @@ private:
     
     float animtimer = 0.0f;
 
+    float staytimer = 2.0f;
+
+    int currentAnim = 0;
+
+    int IdleX;
+    int IdleY;
+
 public:
     CameraController* cameraController = nullptr;
 
@@ -100,7 +107,8 @@ public:
     {
         walk = 0,
         idle,
-        prov
+        prov,
+        idle_new
     };
 
     int GetPlayerX()const { return playerX; }
