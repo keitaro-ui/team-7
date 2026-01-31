@@ -20,10 +20,13 @@ int answer = -1, count_1, count_2, count_3, count_4;
 //コンストラクタ
 Player::Player()
 {
-	model = new Model("Data/Model/Player/Player.mdl");
+	model = new Model("Data/Model/Player/player_robot.mdl");
+
+	//Idle
+	model->PlayAnimation(3, true, 0.2f);
 
 	//モデルが大きいのでスケーリング
-	scale.x = scale.y = scale.z = 0.01f;
+	scale.x = scale.y = scale.z = 0.041f;
 	
 	angle = { 0,0,0 };
 
@@ -35,22 +38,12 @@ Player::~Player()
 	delete model;
 }
 
-//マウス操作用の変数
-//POINT cursorPos;
-//DirectX::XMFLOAT3 ndc = {};
 
 //更新処理
 void Player::Update(float elapsedTime)
 {
-	//Mouse& mouse = Input::Instance().GetMouse();
-	////移動入力処理
+	//移動入力処理
 	InputMove(elapsedTime);
-
-	////ジャンプ入力処理
-	//InputJump();
-
-	//angle.x = -cameraController->getAngle().x;
-	//angle.y = cameraController->getAngle().y - DirectX::XM_PIDIV2;
 
 
 	//速力処理更新
@@ -61,12 +54,38 @@ void Player::Update(float elapsedTime)
 
 	//オブジェクト行列を更新
 	UpdateTransform();
+	model->UpdateAnimation(elapsedTime);
 	model->UpdateTransform();
 
 	game_timer += elapsedTime;
 
+	bool moved = (playerX != IdleX) || (playerY != IdleY);
 
-	//mouse.Update();
+	if (moved)
+	{
+		//タイマーリセット
+		staytimer = 0.0f;
+		if (currentAnim != 0)
+		{
+			model->PlayAnimation(0, true, 0.2f);
+			currentAnim = 0;
+		}
+	}
+	else
+	{
+		staytimer += elapsedTime;
+
+		if (staytimer >= 0.5f)
+		{
+			if (currentAnim != 3)
+			{
+				model->PlayAnimation(3, true, 0.3f);
+				currentAnim = 3;
+			}
+		}
+	}
+	IdleX = playerX;
+	IdleY = playerY;
 }
 
 //移動入力処理
@@ -76,12 +95,6 @@ void Player::InputMove(float elapsedTime)
 	DirectX::XMFLOAT3 moveVec = GetMoveVec();
 
 	float speed = 2.9f;
-
-
-	/*DirectX::XMVECTOR v = DirectX::XMLoadFloat3(&moveVec);
-	if (DirectX::XMVectorGetX(DirectX::XMVector3LengthSq(v)) > 0.0f)
-		v = DirectX::XMVector3Normalize(v);
-	DirectX::XMStoreFloat3(&moveVec, v);*/
 
 	DirectX::XMFLOAT3 pos =
 	{
@@ -96,8 +109,7 @@ void Player::InputMove(float elapsedTime)
 
 	//scale.x=scale.y=scale.z= 1.0f,1.0f,1.0f ;
 	//model->UpdateTransform();
-
-
+	
 	//旋回処理
 	Turn(elapsedTime, moveVec.x, moveVec.z, turnSpeed);
 
@@ -168,7 +180,13 @@ void Player::DrawDebugGUI()
 			ImGui::Text("playerX : %d", playerX);
 			ImGui::Text("playerY : %d", playerY);
 
+			//ImGui::Text("animtimer : &d", &animtimer);
+
 			ImGui::Text("data : %d", dataW);
+
+			ImGui::Text("stayTimer:%f", staytimer);
+
+			//ImGui::Text("WalkAnimation: %s", WalkAnimation ? "TRUE" : "FALSE");
 		}
 	}
 	ImGui::End();
@@ -285,8 +303,10 @@ void Player::MoveGrid()
 		}
 			
 		isWPush = true;
+		//WalkAnimation = true;
 	}
 	else isWPush = false;
+
 
 	if (GetAsyncKeyState('S') & 0x8000)
 	{

@@ -86,16 +86,34 @@ private:
     int playerY = 2;    
     
     float tileSize = 4.4f;
-    DirectX::XMFLOAT3 startPos = { -8.8f, 0.0f, -11.8f };
+    DirectX::XMFLOAT3 startPos = { -8.7f, 0.0f, -11.8f };
 
     int dataW = 0;
     
+    float animtimer = 0.0f;
+
+    float staytimer = 2.0f;
+
+    int currentAnim = 0;
+
+    int IdleX;
+    int IdleY;
 
 public:
     CameraController* cameraController = nullptr;
 
+    // アニメーション
+    enum class PlayerAnimation
+    {
+        walk = 0,
+        idle,
+        prov,
+        idle_new
+    };
+
     int GetPlayerX()const { return playerX; }
     int GetPlayerY()const { return playerY; }
+    
 
     bool finish = false;
     //std::chrono::system_clock::time_point minutes;
