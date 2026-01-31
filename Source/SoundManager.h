@@ -4,15 +4,18 @@
 
 enum SoundList
 {
-	titleBGM = 0,
+	//titleBGM = 0,
 	gameBGM,
-	resultOverBGM,
+	/*resultOverBGM,
 	resultClearBGM,
 	walkSE,
 	numSE,
 	flagSE,
 	startSE,
-	heartSE,
+	heartSE,*/
+	SlideSE,
+	playerSE,
+
 
 	SoundCount
 };

@@ -86,14 +86,14 @@ void SceneGame::Initialize()
 	}
 
 	//BGM
-	//SoundManager::Instance().GetSound(SoundList::gameBGM)->Play(true, 0.02f);
+	SoundManager::Instance().GetSound(SoundList::gameBGM)->Play(true, 0.02f);
 }
 
 // 終了化
 void SceneGame::Finalize()
 {
 	//BGM
-	//SoundManager::Instance().GetSound(SoundList::gameBGM)->Stop();
+	SoundManager::Instance().GetSound(SoundList::gameBGM)->Stop();
 
 	//カメラコントローラー終了化
 	if (cameraController != nullptr)
