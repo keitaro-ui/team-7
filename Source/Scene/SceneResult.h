@@ -2,6 +2,7 @@
 
 #include "System/Sprite.h"
 #include "Scene.h"
+#include "../Game/Grid.h"
 
 //タイトルシーン
 class SceneResult :public Scene
@@ -28,6 +29,8 @@ public:
 	//void answerCheck();
 
 private:
-	Sprite* sprite = nullptr;
-	Sprite* sprite_number = nullptr;
+	Grid grid;
+
+	std::unique_ptr<Sprite> sprite = nullptr;
+	std::unique_ptr<Sprite> sprite_number = nullptr;
 };

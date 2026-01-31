@@ -26,12 +26,9 @@ void SceneTitle::Initialize()
 void SceneTitle::Finalize()
 {
 	//スプライト終了化
-	if (sprite != nullptr)
-	{
-		delete sprite;
-		sprite = nullptr;
-	}
-
+    delete sprite;
+    delete sprite2;
+    delete sprite3;
     ShowCursor(false);
 	
 }

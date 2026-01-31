@@ -154,10 +154,21 @@ void SceneGame::Update(float elapsedTime)
 		}
 	}
 
+	//タイトル、リセットへの処理
+	if (GetAsyncKeyState('7') & 0x8000)
+	{
+		SceneManager::Instance().ChangeScene(new SceneLoading(new SceneTitle));
+	}
+
+	if (GetAsyncKeyState('6') & 0x8000)
+	{
+		SceneManager::Instance().ChangeScene(new SceneLoading(new SceneGame));
+	}
+
 	//ゲームオーバー処理
 	if (grid.IsGameOver())
 	{
-		SceneManager::Instance().ChangeScene(new SceneLoading(new SceneGame));
+		SceneManager::Instance().ChangeScene(new SceneLoading(new SceneResult));
 	}
 }
 
@@ -297,17 +308,39 @@ void SceneGame::Render()
 			//n[0] = static_cast<int>(game_timer) / 10 % 10;
 			//n[1] = static_cast<int>(game_timer) % 10;
 
-			/*for (int i = 0; i < 2; i++)
+			int temp = grid.score;
+			int digits[10];
+			int digitCount = 0;
+
+			if (temp == 0)
 			{
+				digits[digitCount++] = 0;
+			}
+			else
+			{
+				while (temp > 0)
+				{
+					digits[digitCount++] = temp % 10;
+					temp /= 10;
+				}
+			}
+
+			float startX = 1100.0f;
+			float startY = 10.0f;
+
+			for (int i = 0; i < digitCount; i++)
+			{
+				int num = digits[i];
 				sprite_number->Render(rc,
-					32 * 2 * i + 1100, 10,
-					0,
-					32 * 2, 32 * 2,
-					372.5 * n[i], 0,
-					372.5, 514,
-					0,
-					1, 1, 1, 1);
-			}*/
+				startX - (24 * 2 * i),
+				startY,
+				0,
+				32 * 2, 32 * 2,
+				372.5f * num, 0,
+				372.5f, 514,
+				0,
+				1, 1, 1, 1);
+			}
 		}
 	}
 }
@@ -362,6 +395,12 @@ void SceneGame::DrawGUI()
 		//ImGui::Text("player ptr : %p", player);
 		ImGui::Text("X %d", PlayerManager::Instance().GetPlayer()->GetPlayerX());
 
+		ImGui::End();
+	}
+
+	{
+		ImGui::Begin("Score");
+		ImGui::Text("Score : %d", grid.score);
 		ImGui::End();
 	}
 

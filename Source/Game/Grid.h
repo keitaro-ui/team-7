@@ -18,6 +18,8 @@ public:
     };
     std::vector<BoxAnimeData> boxAnimeData;
 
+    int score = 0;
+
     //マス目の数
     enum { GRID_MAX = 5 };
 
@@ -38,6 +40,8 @@ public:
     bool IsGameOver();
 
     void PlayerDie(int x,int y);
+
+    int Score(int c);
 
     //空きマスチェック
     bool HasEmptyCell();

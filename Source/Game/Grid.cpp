@@ -47,6 +47,7 @@ bool Grid::MoveRight()
 						&& !merged[y][cx + 1])
 					{
 						map[y][cx + 1]++;
+						Score(map[y][cx + 1]);
 						map[y][cx] = 0;
 						merged[y][cx + 1] = true;
 						moved = true;
@@ -98,6 +99,7 @@ bool Grid::MoveLeft()
 						&& !merged[y][cx - 1])
 					{
 						map[y][cx - 1]++;
+						Score(map[y][cx - 1]);
 						map[y][cx] = 0;
 						merged[y][cx - 1] = true;
 						moved = true;
@@ -149,6 +151,7 @@ bool Grid::MoveUp()
 						&& !merged[cy - 1][x])
 					{
 						map[cy - 1][x]++;
+						Score(map[cy - 1][x]);
 						map[cy][x] = 0;
 						merged[cy - 1][x] = true;
 						moved = true;
@@ -201,6 +204,7 @@ bool Grid::MoveDown()
 						&& !merged[cy + 1][x])
 					{
 						map[cy + 1][x]++;
+						Score(map[cy + 1][x]);
 						map[cy][x] = 0;
 						merged[cy + 1][x] = true;
 						moved = true;
@@ -267,6 +271,17 @@ void Grid::PlayerDie(int x, int y)
 	{
 		SceneManager::Instance().ChangeScene(new SceneLoading(new SceneGame));
 	}
+}
+
+int Grid::Score(int c)
+{
+	int num = 4;
+	for (int i = 0; i < c - 2; i++)
+	{
+		num *= 2;
+	}
+	score += num;
+	return score;
 }
 
 bool Grid::HasEmptyCell()
