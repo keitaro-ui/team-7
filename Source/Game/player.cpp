@@ -13,6 +13,7 @@
 #include "random"
 #include "GridManager.h"
 #include "Grid.h"
+#include "Scene/SceneTitle.h"
 //#include "PlayerManager.h"
 
 int answer = -1, count_1, count_2, count_3, count_4;
@@ -61,7 +62,13 @@ void Player::Update(float elapsedTime)
 
 	bool moved = (playerX != IdleX) || (playerY != IdleY);
 
-	if (moved)
+	if (provAnimation == true)
+	{
+		model->PlayAnimation(2, true);
+	}
+
+
+	if (moved&&provAnimation==false)
 	{
 		//タイマーリセット
 		staytimer = 0.0f;

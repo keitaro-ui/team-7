@@ -208,3 +208,4 @@ bool Model::IsPlayAnimation() const
 	if (currentAnimationIndex >= resource->GetAnimations().size()) return false;
 	return true;
 }
+

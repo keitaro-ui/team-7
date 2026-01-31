@@ -29,6 +29,9 @@ public:
 
     int GetMap(int y, int x) const { return map[y][x]; }
 
+    bool GetProv() { return provAnimation; }
+    bool SetProv(bool a) { provAnimation = a; }
+
 private:
     Model* model = nullptr;
 
@@ -98,6 +101,9 @@ private:
 
     int IdleX;
     int IdleY;
+
+
+    bool provAnimation = true;
 
 public:
     CameraController* cameraController = nullptr;
