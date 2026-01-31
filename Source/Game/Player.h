@@ -90,6 +90,7 @@ private:
 
     int dataW = 0;
     
+    float animtimer = 0.0f;
 
 public:
     CameraController* cameraController = nullptr;
@@ -97,12 +98,14 @@ public:
     // アニメーション
     enum class PlayerAnimation
     {
-        walk,
-        
+        walk = 0,
+        idle,
+        prov
     };
 
     int GetPlayerX()const { return playerX; }
     int GetPlayerY()const { return playerY; }
+    
 
     bool finish = false;
     //std::chrono::system_clock::time_point minutes;

@@ -22,7 +22,10 @@ Player::Player()
 {
 	model = new Model("Data/Model/Player/player_robot.mdl");
 
-	model->PlayAnimation(0, true);
+	//model->PlayAnimation(1, true);
+
+	//Idle
+	model->PlayAnimation(1, true, 0.2f);
 
 	//モデルが大きいのでスケーリング
 	scale.x = scale.y = scale.z = 0.041f;
@@ -68,6 +71,9 @@ void Player::Update(float elapsedTime)
 
 	game_timer += elapsedTime;
 
+	//if(animtimer<=2.0f)
+
+
 
 	//mouse.Update();
 }
@@ -99,8 +105,7 @@ void Player::InputMove(float elapsedTime)
 
 	//scale.x=scale.y=scale.z= 1.0f,1.0f,1.0f ;
 	//model->UpdateTransform();
-
-
+	
 	//旋回処理
 	Turn(elapsedTime, moveVec.x, moveVec.z, turnSpeed);
 
@@ -170,6 +175,8 @@ void Player::DrawDebugGUI()
 
 			ImGui::Text("playerX : %d", playerX);
 			ImGui::Text("playerY : %d", playerY);
+
+			//ImGui::Text("animtimer : &d", &animtimer);
 
 			ImGui::Text("data : %d", dataW);
 		}
@@ -277,6 +284,9 @@ void Player::MoveGrid()
 	{
 
 		angle.y = 6.3f;
+
+		model->PlayAnimation(0, true);
+		animtimer++;
 
 		//Grid* g = GridManager::Instance().GetGrid();
 		dataW = GridManager::Instance().GetData(playerX, playerY-1);

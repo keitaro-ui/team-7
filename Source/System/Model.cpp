@@ -90,7 +90,7 @@ void Model::UpdateAnimation(float elapsedTime)
 			animationBlendTime = animationBlendSeconds;
 		}
 		blendRate = animationBlendTime / animationBlendSeconds;
-		blendRate *= blendRate;
+		//blendRate *= blendRate;
 	}
 
 
