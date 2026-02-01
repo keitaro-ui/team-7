@@ -38,6 +38,7 @@ private:
 
 	std::unique_ptr<Sprite> sprite = nullptr;
 	std::unique_ptr<Sprite> sprite_number = nullptr;
+	std::unique_ptr<Sprite> sprite_txt = nullptr;
 	std::unique_ptr<Player2>player = nullptr;
 	std::unique_ptr<Player2>player2 = nullptr;
 

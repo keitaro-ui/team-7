@@ -20,6 +20,7 @@ void SceneResult::Initialize()
 	//スプライト初期化
 	sprite = std::make_unique<Sprite>("Data/Sprite/bestScore.png");
 	sprite_number = std::make_unique<Sprite>("Data/Sprite/number.png");
+	sprite_txt = std::make_unique<Sprite>("Data/Sprite/backTitle.png");
 	//プレイヤー初期化
 	player = std::make_unique<Player2>();
 	player2 = std::make_unique<Player2>();
@@ -107,6 +108,10 @@ void SceneResult::Render()
 			0, 0, 0, screenWidth, screenHeight,
 			0,
 			1, 1, 1, 1);
+		sprite_txt->Render(rc,
+			0, 0, 0, screenWidth, screenHeight,
+			0,
+			1, 1, 1, 1);
 
 		//今回のスコアの表示
 		{
@@ -139,7 +144,8 @@ void SceneResult::Render()
 
 			for (int i = 0; i < digitCount; i++)
 			{
-				int num = digits[i];
+				//int num = digits[i];
+				int num = digits[digitCount - 1 - i];
 				sprite_number->Render(rc,
 					startDrawX + spacing * i,  // ← ここ重要
 					startY,
@@ -182,7 +188,7 @@ void SceneResult::Render()
 
 			for (int i = 0; i < digitCount; i++)
 			{
-				int num = digits[i];
+				int num = digits[digitCount - 1 - i];
 				sprite_number->Render(rc,
 					startDrawX + spacing * i,
 					startY,

@@ -152,7 +152,8 @@ void SceneGame::Update(float elapsedTime)
 			{
 				Grid::Instance().moved = Grid::Instance().MoveUp();
 				//BGM
-				SoundManager::Instance().GetSound(SoundList::SlideSE)->Play(false, 0.2f);
+				if (Grid::Instance().moved)
+					SoundManager::Instance().GetSound(SoundList::SlideSE)->Play(false, 0.2f);
 			}
 			//else
 			//	//BGM
@@ -161,7 +162,8 @@ void SceneGame::Update(float elapsedTime)
 			{
 				Grid::Instance().moved = Grid::Instance().MoveDown();
 				//BGM
-				SoundManager::Instance().GetSound(SoundList::SlideSE)->Play(false, 0.2f);
+				if (Grid::Instance().moved)
+					SoundManager::Instance().GetSound(SoundList::SlideSE)->Play(false, 0.2f);
 			}
 			//else
 			//	//BGM
@@ -170,7 +172,8 @@ void SceneGame::Update(float elapsedTime)
 			{
 				Grid::Instance().moved = Grid::Instance().MoveLeft();
 				//BGM
-				SoundManager::Instance().GetSound(SoundList::SlideSE)->Play(false, 0.2f);
+				if (Grid::Instance().moved)
+					SoundManager::Instance().GetSound(SoundList::SlideSE)->Play(false, 0.2f);
 			}
 			//else
 			//	//BGM
@@ -179,7 +182,8 @@ void SceneGame::Update(float elapsedTime)
 			{
 				Grid::Instance().moved = Grid::Instance().MoveRight();
 				//BGM
-				SoundManager::Instance().GetSound(SoundList::SlideSE)->Play(false, 0.2f);
+				if (Grid::Instance().moved)
+					SoundManager::Instance().GetSound(SoundList::SlideSE)->Play(false, 0.2f);
 			}
 			//else
 			//	//BGM
@@ -195,13 +199,15 @@ void SceneGame::Update(float elapsedTime)
 	}
 
 	//タイトル、リセットへの処理
-	if (GetAsyncKeyState('R') & 0x8000)
+	if (GetAsyncKeyState('Z') & 0x8000)
 	{
+		Grid::Instance().SetScore(0);
 		SceneManager::Instance().ChangeScene(new SceneLoading(new SceneTitle));
 	}
 
-	if (GetAsyncKeyState('Z') & 0x8000)
+	if (GetAsyncKeyState('R') & 0x8000)
 	{
+		Grid::Instance().SetScore(0);
 		SceneManager::Instance().ChangeScene(new SceneLoading(new SceneGame));
 	}
 

@@ -99,7 +99,7 @@ void SceneTitle::Update(float elapsedTime)
 
     if (GetAsyncKeyState(VK_RETURN))
     {
-        if (state == 1)
+        if (state == 1 || state==0)
         {
             SceneManager::Instance().ChangeScene(new SceneLoading(new SceneGame));
         }
@@ -179,13 +179,43 @@ void SceneTitle::Render()
             0,
             1, 1, 1, 1);
             //ƒXƒ^[ƒg‚Æƒ`ƒ…[ƒgƒŠƒAƒ‹‚Ì•`‰æ‚ÆŠg‘å
-        if (state == 1)
+        if (state == 0)
         {
             //Šg‘å
             sprite2->Render(rc,
                 60, 25, 0, 1200, 700,
                 0,
                 1, 1, 1, 1);
+            sprite3->Render(rc,
+                150, 100, 0, 1000, 600,
+                0,
+                1, 1, 1, 1);
+        }
+        
+        else if (state == 1)
+        {
+            //Šg‘å
+            sprite2->Render(rc,
+                60, 25, 0, 1200, 700,
+                0,
+                1, 1, 1, 1);
+            sprite3->Render(rc,
+                150, 100, 0, 1000, 600,
+                0,
+                1, 1, 1, 1);
+        }
+       
+        else if (state == 2)
+        {
+            //Šg‘å
+            sprite3->Render(rc,
+                60, 20, 0, 1200, 700,
+                0,
+                1, 1, 1, 1);
+            sprite2->Render(rc,
+                150, 100, 0, 1000, 600,
+                0,
+                1, 1, 1, 1);
         }
         else
         {
@@ -193,22 +223,12 @@ void SceneTitle::Render()
                 150, 100, 0, 1000, 600,
                 0,
                 1, 1, 1, 1);
-        }
-        if (state == 2)
-        {
-            //Šg‘å
-            sprite3->Render(rc,
-                60, 20, 0, 1200, 700,
-                0,
-                1, 1, 1, 1);
-        }
-        else
-        {
             sprite3->Render(rc,
                 150, 100, 0, 1000, 600,
                 0,
                 1, 1, 1, 1);
         }
+        
         //if (cursorPos.x >= 505 && cursorPos.x <= 765)
         //{
 
