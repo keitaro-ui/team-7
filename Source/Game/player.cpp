@@ -44,6 +44,9 @@ Player::~Player()
 //更新処理
 void Player::Update(float elapsedTime)
 {
+	if (provAnimation == false)
+	{
+	
 	//移動入力処理
 	InputMove(elapsedTime);
 
@@ -53,6 +56,7 @@ void Player::Update(float elapsedTime)
 
 	//プレイヤーとエネミーとの衝突処理
 	CollisionPlayerVsEnemies();
+	}
 
 	//オブジェクト行列を更新
 	UpdateTransform();
