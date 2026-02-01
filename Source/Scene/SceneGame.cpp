@@ -26,7 +26,7 @@ void SceneGame::Initialize()
 
 	//プレイヤー初期化
 	player = std::make_unique<Player>();
-
+	living = true;
 	GridManager::Instance().Register(&Grid::Instance());
 
 	PlayerManager::Instance().Register(player.get());
@@ -212,7 +212,7 @@ void SceneGame::Update(float elapsedTime)
 	}
 
 	//ゲームオーバー処理
-	if (Grid::Instance().IsGameOver())
+	if (Grid::Instance().IsGameOver() || !living)
 	{
 		SceneManager::Instance().ChangeScene(new SceneLoading(new SceneResult));
 	}
@@ -284,6 +284,26 @@ void SceneGame::Render()
 
 				DirectX::XMVECTOR BoxPos = DirectX::XMVectorLerp(vFrom, vTo, game_timer);
 				DirectX::XMStoreFloat3(&pos, BoxPos);
+
+				// ★ ここに追加 ★
+				{
+					using namespace DirectX;
+
+					XMFLOAT3 playerPos = player->GetPosition();
+
+					XMVECTOR vBox = XMLoadFloat3(&pos);
+					XMVECTOR vPlayer = XMLoadFloat3(&playerPos);
+
+					XMVECTOR vDiff = XMVectorSubtract(vBox, vPlayer);
+					float distSq = XMVectorGetX(XMVector3LengthSq(vDiff));
+
+					const float hitR = 1.5f; // 調整
+					if (distSq < hitR * hitR)
+					{
+						// 死亡処理
+						living = false;
+					}
+				}
 
 				boxes[modelIndex]->SetPosition(pos);
 				boxes[modelIndex]->UpdateTransform();

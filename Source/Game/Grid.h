@@ -53,7 +53,7 @@ public:
     void Spawn();
     bool IsGameOver();
 
-    void PlayerDie(int x,int y);
+    //bool PlayerDie();
 
     int Score(int c);
     int bestScore = 0;
