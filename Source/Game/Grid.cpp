@@ -59,8 +59,11 @@ bool Grid::MoveRight()
 					else if (map[y][cx + 1] == map[y][cx]
 						&& !merged[y][cx + 1])
 					{
-						map[y][cx + 1]++;
 						Score(map[y][cx + 1]);
+						if (map[y][cx + 1] >= 11)
+							map[y][cx + 1] = 1;
+						else
+							map[y][cx + 1]++;
 						map[y][cx] = 0;
 						merged[y][cx + 1] = true;
 						moved = true;
@@ -111,8 +114,11 @@ bool Grid::MoveLeft()
 					else if (map[y][cx - 1] == map[y][cx]
 						&& !merged[y][cx - 1])
 					{
-						map[y][cx - 1]++;
 						Score(map[y][cx - 1]);
+						if (map[y][cx - 1] >= 11)
+							map[y][cx - 1] = 1;
+						else
+							map[y][cx - 1]++;
 						map[y][cx] = 0;
 						merged[y][cx - 1] = true;
 						moved = true;
@@ -163,8 +169,11 @@ bool Grid::MoveUp()
 					else if (map[cy - 1][x] == map[cy][x]
 						&& !merged[cy - 1][x])
 					{
-						map[cy - 1][x]++;
 						Score(map[cy - 1][x]);
+						if (map[cy - 1][x] >= 11)
+							map[cy - 1][x] = 1;
+						else
+							map[cy - 1][x]++;
 						map[cy][x] = 0;
 						merged[cy - 1][x] = true;
 						moved = true;
@@ -216,8 +225,11 @@ bool Grid::MoveDown()
 					else if (map[cy + 1][x] == map[cy][x]
 						&& !merged[cy + 1][x])
 					{
-						map[cy + 1][x]++;
 						Score(map[cy + 1][x]);
+						if (map[cy + 1][x] >= 11)
+							map[cy + 1][x] = 1;
+						else
+							map[cy + 1][x]++;
 						map[cy][x] = 0;
 						merged[cy + 1][x] = true;
 						moved = true;
