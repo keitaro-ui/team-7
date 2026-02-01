@@ -51,7 +51,7 @@ bool Grid::MoveRight()
 						map[y][cx + 1] = map[y][cx];
 						map[y][cx] = 0;
 						cx++;
-						PlayerDie(cx, y);
+						//PlayerDie(cx, y);
 						moved = true;
 						bad.x++;
 					}
@@ -106,7 +106,7 @@ bool Grid::MoveLeft()
 						map[y][cx - 1] = map[y][cx];
 						map[y][cx] = 0;
 						cx--;
-						PlayerDie(cx, y);
+						//PlayerDie(cx, y);
 						moved = true;
 						bad.x--;
 					}
@@ -161,7 +161,7 @@ bool Grid::MoveUp()
 						map[cy - 1][x] = map[cy][x];
 						map[cy][x] = 0;
 						cy--;
-						PlayerDie(x, cy);
+						//PlayerDie(x, cy);
 						moved = true;
 						bad.y--;
 					}
@@ -217,7 +217,7 @@ bool Grid::MoveDown()
 						map[cy + 1][x] = map[cy][x];
 						map[cy][x] = 0;
 						cy++;
-						PlayerDie(x, cy);
+						//PlayerDie(x, cy);
 						moved = true;
 						bad.y++;
 					}
@@ -276,7 +276,6 @@ void Grid::Spawn()
 
 bool Grid::IsGameOver()
 {
-
 	// ‹ó‚«ƒ}ƒX‚ª‚ ‚ê‚Î‚Ü‚¾I‚í‚ç‚È‚¢
 	if (HasEmptyCell())
 		return false;
@@ -289,15 +288,15 @@ bool Grid::IsGameOver()
 	return true;
 }
 
-void Grid::PlayerDie(int x, int y)
-{
-	int playerX = PlayerManager::Instance().GetPlayer()->GetPlayerX();
-	int playerY = PlayerManager::Instance().GetPlayer()->GetPlayerY();
-	if (playerY == y && playerX == x)
-	{
-		SceneManager::Instance().ChangeScene(new SceneLoading(new SceneResult));
-	}
-}
+//bool Grid::PlayerDie()
+//{
+//	int playerX = PlayerManager::Instance().GetPlayer()->GetPlayerX();
+//	int playerY = PlayerManager::Instance().GetPlayer()->GetPlayerY();
+//	if (playerY == y && playerX == x)
+//	{
+//		SceneManager::Instance().ChangeScene(new SceneLoading(new SceneResult));
+//	}
+//}
 
 int Grid::Score(int c)
 {

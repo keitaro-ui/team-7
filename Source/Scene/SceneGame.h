@@ -53,7 +53,6 @@ private:
 
 	//èdÇ»Ç¡ÇΩÇÁtrue
 	bool overlap = false;
-
 	bool up = false;
 
 	//mapÇÃ1É}ÉXÇÃä‘äu
@@ -62,6 +61,8 @@ private:
 	DirectX::XMFLOAT3 startPos;
 
 	int count;
+
+	bool living;
 
 	void UpdateCursorToggle();
 };
