@@ -57,7 +57,7 @@ void SceneGame::Initialize()
 	Graphics& graphics = Graphics::Instance();
 	Camera& camera = Camera::Instance();
 	camera.SetLookAt(
-		DirectX::XMFLOAT3(0, 15, -5),//‹“_
+		DirectX::XMFLOAT3(0, 20, -5),//‹“_
 		DirectX::XMFLOAT3(0, 0, 0),//’‹“_
 		DirectX::XMFLOAT3(0, 1, 0)//ã•ûŒü
 		);

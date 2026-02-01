@@ -129,12 +129,10 @@
     <ClInclude Include="Source\Game\EnemyManager.h" />
     <ClInclude Include="Source\Game\EnemySlime.h" />
     <ClInclude Include="Source\Game\Grid.h" />
-
     <ClInclude Include="Source\Game\GridManager.h" />
-
     <ClInclude Include="Source\Game\item.h" />
-
     <ClInclude Include="Source\Game\Player.h" />
+    <ClInclude Include="Source\Game\player2.h" />
     <ClInclude Include="Source\Game\PlayerManager.h" />
     <ClInclude Include="Source\Game\Stage.h" />
     <ClInclude Include="Source\ProjectHoming.h" />
@@ -191,6 +189,7 @@
     <ClCompile Include="Source\Game\GridManager.cpp" />
     <ClCompile Include="Source\Game\item.cpp" />
     <ClCompile Include="Source\Game\player.cpp" />
+    <ClCompile Include="Source\Game\player2.cpp" />
     <ClCompile Include="Source\Game\PlayerManager.cpp" />
     <ClCompile Include="Source\Game\Stage.cpp" />
     <ClCompile Include="Source\ProjectHoming.cpp" />
