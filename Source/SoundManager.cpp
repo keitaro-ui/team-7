@@ -3,11 +3,11 @@
 
 void SoundManager::Initialize()
 {
-	/*sounds[SoundList::titleBGM] = Audio::Instance().LoadAudioSource("Data/Sound/TitleBGM.wav");
-	sounds[SoundList::titleBGM] = Audio::Instance().LoadAudioSource("Data/Sound/TitleBGM.wav");*/
+	//sounds[SoundList::titleBGM] = Audio::Instance().LoadAudioSource("Data/Sound/TitleBGM.wav");
+	sounds[SoundList::titleBGM] = Audio::Instance().LoadAudioSource("Data/Sound/TitleBGM.wav");
 	sounds[SoundList::gameBGM] = Audio::Instance().LoadAudioSource("Data/Sound/BGM.wav");
-	/*sounds[SoundList::resultOverBGM] = Audio::Instance().LoadAudioSource("Data/Sound/gameOver.wav");
-	sounds[SoundList::resultClearBGM] = Audio::Instance().LoadAudioSource("Data/Sound/gameClear.wav");
+	sounds[SoundList::resultOverBGM] = Audio::Instance().LoadAudioSource("Data/Sound/ResultBGM.wav");
+	/*sounds[SoundList::resultClearBGM] = Audio::Instance().LoadAudioSource("Data/Sound/gameClear.wav");
 	sounds[SoundList::walkSE] = Audio::Instance().LoadAudioSource("Data/Sound/walk.wav");
 	sounds[SoundList::numSE] = Audio::Instance().LoadAudioSource("Data/Sound/selectNum.wav");
 	sounds[SoundList::flagSE] = Audio::Instance().LoadAudioSource("Data/Sound/flag.wav");

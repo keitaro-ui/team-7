@@ -33,6 +33,8 @@ void SceneResult::Initialize()
 		DirectX::XMFLOAT3(0, 0, 0),//注視点
 		DirectX::XMFLOAT3(0, 1, 0)//上方向
 	);
+	//BGM
+	SoundManager::Instance().GetSound(SoundList::resultOverBGM)->Play(true, 0.02f);
 }
 
 //終了化
@@ -40,6 +42,8 @@ void SceneResult::Finalize()
 {
 	ShowCursor(true);
 	Grid::Instance().SetScore(0);
+	//BGM
+	SoundManager::Instance().GetSound(SoundList::resultOverBGM)->Stop();
 }
 
 //更新処理

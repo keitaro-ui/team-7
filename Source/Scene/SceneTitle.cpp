@@ -53,6 +53,8 @@ void SceneTitle::Initialize()
         0.1f,//クリップ距離（近）
         1000.0f//クリップ距離（遠）
     );
+    //BGM
+    SoundManager::Instance().GetSound(SoundList::titleBGM)->Play(true, 0.02f);
 }
 
 
@@ -65,7 +67,8 @@ void SceneTitle::Finalize()
     delete sprite2;
     delete sprite3;
     ShowCursor(false);
-	
+    //BGM
+    SoundManager::Instance().GetSound(SoundList::titleBGM)->Stop();
 }
 
 //更新処理
