@@ -6,7 +6,9 @@
 
 void CameraController::Initialize()
 {
-
+	target = { 0.4f,-2.6f,3.0f };
+	distance = 30.2f;
+	//angle = { 1.361f,0 };
 }
 
 void CameraController::Update(float elapsedTime)
@@ -66,6 +68,21 @@ void CameraController::Update(float elapsedTime)
 		target,
 		DirectX::XMFLOAT3(0, 1, 0)
 	);
+
+	ImGui::Begin("Camera Position");
+
+	// カメラの中心（これを動かすと位置が変わる）
+	ImGui::DragFloat3("Target", &target.x, 0.1f, -100.0f, 100.0f);
+
+	// 距離（ズーム）
+	ImGui::DragFloat("Distance", &distance, 0.1f, 1.0f, 200.0f);
+
+	// 回転も触れるように
+	ImGui::DragFloat2("Angle", &angle.x, 0.01f, -DirectX::XM_PI, DirectX::XM_PI);
+
+	ImGui::End();
+	target = { 0.4f,-2.6f,3.0f };
+	distance = 30.2f;
 }
 
 
