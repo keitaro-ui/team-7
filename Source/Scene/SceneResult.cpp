@@ -213,7 +213,7 @@ void SceneResult::Render()
 //GUI•`‰æ
 void SceneResult::DrawGUI()
 {
-	ImGui::Begin("Score");
+	/*ImGui::Begin("Score");
 	ImGui::Text("GetScore : %d", Grid::Instance().GetScore());
 	ImGui::Text("beforeScore : %d", beforeScore);
 	ImGui::Text("bestScore : %d", Grid::Instance().bestScore);
@@ -228,7 +228,7 @@ void SceneResult::DrawGUI()
 	ImGui::Begin("Player Y Control");
 	ImGui::DragFloat("Y Position", &playerY, 0.1f, -50.0f, 50.0f, "%.2f");
 	ImGui::End();
-	ImGui::End();
+	ImGui::End();*/
 }
 
 void SceneResult::UpdateCursorToggle()

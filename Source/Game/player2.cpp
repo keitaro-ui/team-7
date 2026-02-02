@@ -68,63 +68,63 @@ void Player2::Update(float elapsedTime)
 //デバッグ用GUI描画
 void Player2::DrawDebugGUI()
 {
-	if (ImGui::Begin("Player2"))
-	{
-		// トランスフォーム
-		if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen))
-		{
-			// 位置
-			ImGui::DragFloat3(
-				"Position",
-				&position.x,
-				0.01f,          // 移動量
-				-1000.0f,       // 最小値
-				1000.0f,        // 最大値
-				"%.3f"
-			);
+	//if (ImGui::Begin("Player2"))
+	//{
+	//	// トランスフォーム
+	//	if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen))
+	//	{
+	//		// 位置
+	//		ImGui::DragFloat3(
+	//			"Position",
+	//			&position.x,
+	//			0.01f,          // 移動量
+	//			-1000.0f,       // 最小値
+	//			1000.0f,        // 最大値
+	//			"%.3f"
+	//		);
 
-			// 回転（ラジアン ⇔ 度）
-			static DirectX::XMFLOAT3 angleDeg = { 0,0,0 };
-			angleDeg.x = DirectX::XMConvertToDegrees(angle.x);
-			angleDeg.y = DirectX::XMConvertToDegrees(angle.y);
-			angleDeg.z = DirectX::XMConvertToDegrees(angle.z);
+	//		// 回転（ラジアン ⇔ 度）
+	//		static DirectX::XMFLOAT3 angleDeg = { 0,0,0 };
+	//		angleDeg.x = DirectX::XMConvertToDegrees(angle.x);
+	//		angleDeg.y = DirectX::XMConvertToDegrees(angle.y);
+	//		angleDeg.z = DirectX::XMConvertToDegrees(angle.z);
 
-			if (ImGui::DragFloat(
-				"Rotation",
-				&angle.y,
-				0.5f     // 回転量（度）
-			))
-			{
-				/*angle.x = DirectX::XMConvertToRadians(angleDeg.x);
-				angle.y = DirectX::XMConvertToRadians(angleDeg.y);
-				angle.z = DirectX::XMConvertToRadians(angleDeg.z);*/
-			}
+	//		if (ImGui::DragFloat(
+	//			"Rotation",
+	//			&angle.y,
+	//			0.5f     // 回転量（度）
+	//		))
+	//		{
+	//			/*angle.x = DirectX::XMConvertToRadians(angleDeg.x);
+	//			angle.y = DirectX::XMConvertToRadians(angleDeg.y);
+	//			angle.z = DirectX::XMConvertToRadians(angleDeg.z);*/
+	//		}
 
-			// スケール
-			ImGui::DragFloat3(
-				"Scale",
-				&scale.x,
-				0.01f,
-				0.001f,  // 最小値（0禁止）
-				100.0f
-			);
+	//		// スケール
+	//		ImGui::DragFloat3(
+	//			"Scale",
+	//			&scale.x,
+	//			0.01f,
+	//			0.001f,  // 最小値（0禁止）
+	//			100.0f
+	//		);
 
-			// 等方スケール（便利）
-			static float uniformScale = 1.0f;
-			if (ImGui::DragFloat(
-				"Uniform Scale",
-				&uniformScale,
-				0.01f,
-				0.001f,
-				100.0f
-			))
-			{
-				scale.x = scale.y = scale.z = uniformScale;
-			}
+	//		// 等方スケール（便利）
+	//		static float uniformScale = 1.0f;
+	//		if (ImGui::DragFloat(
+	//			"Uniform Scale",
+	//			&uniformScale,
+	//			0.01f,
+	//			0.001f,
+	//			100.0f
+	//		))
+	//		{
+	//			scale.x = scale.y = scale.z = uniformScale;
+	//		}
 
-		}
-	}
-	ImGui::End();
+	//	}
+	//}
+	//ImGui::End();
 
 }
 

@@ -410,136 +410,136 @@ void SceneGame::Render()
 //GUI描画
 void SceneGame::DrawGUI()
 {
-	//プレーヤーデバッグ処理
-	player->DrawDebugGUI();
+	////プレーヤーデバッグ処理
+	//player->DrawDebugGUI();
 
-	ImGui::Begin("Camera");
+	//ImGui::Begin("Camera");
 
-	float yaw = DirectX::XMConvertToDegrees(cameraController->angle.y);
-	float pitch = DirectX::XMConvertToDegrees(cameraController->angle.x);
+	//float yaw = DirectX::XMConvertToDegrees(cameraController->angle.y);
+	//float pitch = DirectX::XMConvertToDegrees(cameraController->angle.x);
 
-	if (ImGui::SliderFloat("Yaw", &yaw, -180, 180))
-		cameraController->angle.y = DirectX::XMConvertToRadians(yaw);
+	//if (ImGui::SliderFloat("Yaw", &yaw, -180, 180))
+	//	cameraController->angle.y = DirectX::XMConvertToRadians(yaw);
 
-	if (ImGui::SliderFloat("Pitch", &pitch, -360, 360))
-		cameraController->angle.x = DirectX::XMConvertToRadians(pitch);
+	//if (ImGui::SliderFloat("Pitch", &pitch, -360, 360))
+	//	cameraController->angle.x = DirectX::XMConvertToRadians(pitch);
 
-	ImGui::SliderFloat(
-		"Distance",
-		&cameraController->distance,
-		5.0f,
-		40.0f
-	);
+	//ImGui::SliderFloat(
+	//	"Distance",
+	//	&cameraController->distance,
+	//	5.0f,
+	//	40.0f
+	//);
 
-	ImGui::End();
+	//ImGui::End();
 
 
-	//マス目に関するgui
-	{
-		ImGui::Begin("Map Settings");
+	////マス目に関するgui
+	//{
+	//	ImGui::Begin("Map Settings");
 
-		// mapの1マスの間隔
-		ImGui::DragFloat(
-			"Tile Size",
-			&tileSize,
-			0.1f,   // 変化量
-			0.1f,   // 最小
-			10.0f   // 最大
-		);
+	//	// mapの1マスの間隔
+	//	ImGui::DragFloat(
+	//		"Tile Size",
+	//		&tileSize,
+	//		0.1f,   // 変化量
+	//		0.1f,   // 最小
+	//		10.0f   // 最大
+	//	);
 
-		// map[0][0]の位置
-		ImGui::DragFloat3(
-			"Start Position",
-			&startPos.x,
-			0.1f    // 変化量
-		);
+	//	// map[0][0]の位置
+	//	ImGui::DragFloat3(
+	//		"Start Position",
+	//		&startPos.x,
+	//		0.1f    // 変化量
+	//	);
 
-		//ImGui::Text("player ptr : %p", player);
-		ImGui::Text("X %d", PlayerManager::Instance().GetPlayer()->GetPlayerX());
+	//	//ImGui::Text("player ptr : %p", player);
+	//	ImGui::Text("X %d", PlayerManager::Instance().GetPlayer()->GetPlayerX());
 
-		ImGui::End();
-	}
+	//	ImGui::End();
+	//}
 
-	//score
-	{
-		ImGui::Begin("Score");
-		ImGui::Text("Score : %d", Grid::Instance().GetScore());
-		ImGui::End();
-	}
+	////score
+	//{
+	//	ImGui::Begin("Score");
+	//	ImGui::Text("Score : %d", Grid::Instance().GetScore());
+	//	ImGui::End();
+	//}
 
-	//数字を自由に変更する
-	{
-		ImGui::Begin("Map Editor");
+	////数字を自由に変更する
+	//{
+	//	ImGui::Begin("Map Editor");
 
-		// ===== 設定 =====
-		const float cellSize = 50.0f;
-		ImVec2 origin = ImGui::GetCursorScreenPos();
-		ImDrawList* drawList = ImGui::GetWindowDrawList();
+	//	// ===== 設定 =====
+	//	const float cellSize = 50.0f;
+	//	ImVec2 origin = ImGui::GetCursorScreenPos();
+	//	ImDrawList* drawList = ImGui::GetWindowDrawList();
 
-		// ===== グリッド描画 =====
-		for (int y = 0; y < Grid::Instance().GRID_MAX; y++)
-		{
-			for (int x = 0; x < Grid::Instance().GRID_MAX; x++)
-			{
-				ImVec2 pMin = {
-					origin.x + x * cellSize,
-					origin.y + y * cellSize
-				};
-				ImVec2 pMax = {
-					pMin.x + cellSize,
-					pMin.y + cellSize
-				};
+	//	// ===== グリッド描画 =====
+	//	for (int y = 0; y < Grid::Instance().GRID_MAX; y++)
+	//	{
+	//		for (int x = 0; x < Grid::Instance().GRID_MAX; x++)
+	//		{
+	//			ImVec2 pMin = {
+	//				origin.x + x * cellSize,
+	//				origin.y + y * cellSize
+	//			};
+	//			ImVec2 pMax = {
+	//				pMin.x + cellSize,
+	//				pMin.y + cellSize
+	//			};
 
-				int v = Grid::Instance().map[y][x];
+	//			int v = Grid::Instance().map[y][x];
 
-				// 背景色
-				ImU32 bgColor = (v == 0)
-					? IM_COL32(60, 60, 60, 255)
-					: IM_COL32(180, 160, 120, 255);
+	//			// 背景色
+	//			ImU32 bgColor = (v == 0)
+	//				? IM_COL32(60, 60, 60, 255)
+	//				: IM_COL32(180, 160, 120, 255);
 
-				// マス描画
-				drawList->AddRectFilled(pMin, pMax, bgColor, 6.0f);
-				drawList->AddRect(pMin, pMax, IM_COL32(255, 255, 255, 255));
+	//			// マス描画
+	//			drawList->AddRectFilled(pMin, pMax, bgColor, 6.0f);
+	//			drawList->AddRect(pMin, pMax, IM_COL32(255, 255, 255, 255));
 
-				// 数字描画
-				if (v > 0)
-				{
-					std::string text = std::to_string(1 << v);
-					ImVec2 textSize = ImGui::CalcTextSize(text.c_str());
+	//			// 数字描画
+	//			if (v > 0)
+	//			{
+	//				std::string text = std::to_string(1 << v);
+	//				ImVec2 textSize = ImGui::CalcTextSize(text.c_str());
 
-					ImVec2 textPos = {
-						pMin.x + (cellSize - textSize.x) * 0.5f,
-						pMin.y + (cellSize - textSize.y) * 0.5f
-					};
+	//				ImVec2 textPos = {
+	//					pMin.x + (cellSize - textSize.x) * 0.5f,
+	//					pMin.y + (cellSize - textSize.y) * 0.5f
+	//				};
 
-					drawList->AddText(textPos, IM_COL32(0, 0, 0, 255), text.c_str());
-				}
-			}
-		}
+	//				drawList->AddText(textPos, IM_COL32(0, 0, 0, 255), text.c_str());
+	//			}
+	//		}
+	//	}
 
-		// グリッド分カーソルを進める
-		ImGui::Dummy(ImVec2(cellSize * Grid::Instance().GRID_MAX, cellSize * Grid::Instance().GRID_MAX));
+	//	// グリッド分カーソルを進める
+	//	ImGui::Dummy(ImVec2(cellSize * Grid::Instance().GRID_MAX, cellSize * Grid::Instance().GRID_MAX));
 
-		ImGui::Separator();
-		ImGui::Text("Edit Values");
+	//	ImGui::Separator();
+	//	ImGui::Text("Edit Values");
 
-		// ===== 数値編集 =====
-		for (int y = 0; y < Grid::Instance().GRID_MAX; y++)
-		{
-			for (int x = 0; x < Grid::Instance().GRID_MAX; x++)
-			{
-				ImGui::PushID(y * Grid::Instance().GRID_MAX + x);
-				ImGui::SetNextItemWidth(40.0f);
-				ImGui::InputInt("", &Grid::Instance().map[y][x]);
-				ImGui::PopID();
+	//	// ===== 数値編集 =====
+	//	for (int y = 0; y < Grid::Instance().GRID_MAX; y++)
+	//	{
+	//		for (int x = 0; x < Grid::Instance().GRID_MAX; x++)
+	//		{
+	//			ImGui::PushID(y * Grid::Instance().GRID_MAX + x);
+	//			ImGui::SetNextItemWidth(40.0f);
+	//			ImGui::InputInt("", &Grid::Instance().map[y][x]);
+	//			ImGui::PopID();
 
-				if (x < Grid::Instance().GRID_MAX - 1)
-					ImGui::SameLine();
-			}
-		}
+	//			if (x < Grid::Instance().GRID_MAX - 1)
+	//				ImGui::SameLine();
+	//		}
+	//	}
 
-		ImGui::End();
-	}
+	//	ImGui::End();
+	//}
 
 }
 

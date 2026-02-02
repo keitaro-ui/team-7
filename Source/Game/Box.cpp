@@ -51,23 +51,23 @@ void Box::Update(float elapsedTime)
 
 void Box::DrawGUI()
 {
-	ImGui::Begin("Model Scale");
-
-	// 等方スケール用の1変数
-	static float modelScale = 0.01f;
-
-	if (ImGui::DragFloat(
-		"Scale",
-		&modelScale,
-		0.001f,   // 変化量
-		0.0f,
-		1.0f,
-		"%.7f"))
-	{
-		scale.x = scale.y = scale.z = modelScale;
-	}
-
-	ImGui::End();
+//	ImGui::Begin("Model Scale");
+//
+//	// 等方スケール用の1変数
+//	static float modelScale = 0.01f;
+//
+//	if (ImGui::DragFloat(
+//		"Scale",
+//		&modelScale,
+//		0.001f,   // 変化量
+//		0.0f,
+//		1.0f,
+//		"%.7f"))
+//	{
+//		scale.x = scale.y = scale.z = modelScale;
+//	}
+//
+//	ImGui::End();
 }
 
 //描画処理
